@@ -1,32 +1,60 @@
 <template>
-  <div id="app">
-    <nav>
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </nav>
-    <router-view/>
+  <div class="app">
+    <MaskCanvas class="globle"></MaskCanvas>
+    <NavBar />
+    <div class="app-content">
+      <div class="app-content-left">
+        <LeftSider></LeftSider>
+      </div>
+      <div class="app-content-right">
+        <router-view></router-view>
+      </div>
+    </div>
   </div>
 </template>
 
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+<script>
+import NavBar from '@/components/NavBar.vue';
+import LeftSider from '@/components/HomeComponent/LeftSider.vue';
+import MaskCanvas from './components/MaskCanvas.vue';
+export default {
+    name: "App",
+    components: { NavBar, LeftSider, MaskCanvas }
 }
+</script>
 
-nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
+<style lang="scss">
+.app {
+  font-size: 16px;
+  &-content {
+    max-width: 1500px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: nowrap;
+    &-left {
+      width: 300px;
+      height: 100vh;
+      max-height: 1200px;
+      padding-right: 47px;
+      overflow-y: auto;
+      overflow-x: hidden;
+      box-shadow: 0 0 2px 1px #ccc;
+      margin-top: 50px;
+    }
+    &-right {
+      flex: 1;
+      height: 100vh;
+      max-height: 1200px;
+      z-index: 2;
+      overflow-y: auto;
+      margin-top: 50px;
+      box-shadow: 0 0 2px 1px #ccc;
     }
   }
 }
+.globle {
+  width: 100%;
+  height: 100%;
+}
 </style>
+
