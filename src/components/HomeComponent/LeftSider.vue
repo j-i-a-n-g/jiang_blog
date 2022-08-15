@@ -3,10 +3,8 @@
     <div class="left-avatar">
       <img class="left-avatar-img" src="@img/comImg/touxiang.png" alt="" />
     </div>
-    <div class="left-title">
-      不求与人相比，但求超越自己
-    </div>
-      <div class="box_trani" @click="changeTransition">{{ text_box }}</div>
+    <div class="left-title">不求与人相比，但求超越自己</div>
+    <div class="box_trani" @click="changeTransition">{{ text_box }}</div>
     <!-- 文章 -->
     <div class="left-article-text">
       <h3 class="border_left">热门文章</h3>
@@ -14,7 +12,8 @@
         <li
           class="left-article-text-list"
           v-for="(item, index) in article_Arr"
-          :key="index">
+          :key="index"
+        >
           <div class="article_bg">
             <img :src="item.imgSrc" alt="" draggable="false" />
           </div>
@@ -24,16 +23,17 @@
     </div>
     <!-- 博客 -->
     <div class="left-blog-message">
-        <h3 class="left-blog-message-title">博客信息</h3>
-        <ul>
-            <li class="left-blog-message-list"
-                v-for="(item, index) in blogText"
-                :key="index"
-            >
-                <i :class="item.iconClass"></i> 
-                <span>{{item.titleText}}</span>
-                <span class="count">{{item.changeNumber}}</span>
-            </li>
+      <h3 class="left-blog-message-title">博客信息</h3>
+      <ul>
+        <li
+          class="left-blog-message-list"
+          v-for="(item, index) in blogText"
+          :key="index"
+        >
+          <i :class="item.iconClass"></i>
+          <span>{{ item.titleText }}</span>
+          <span class="count">{{ item.changeNumber }}</span>
+        </li>
       </ul>
     </div>
   </div>
@@ -41,12 +41,12 @@
 
 <script>
 export default {
-  name: 'LeftSider',
+  name: "LeftSider",
   data() {
     return {
       textArr: [
         "我可不会碰你,除非忍不住🤪🤪🤪🤪",
-        "该睡觉了😪😪😪",
+        "你这个年龄段，你怎么睡得着的😪😪😪",
         "早上好,新的一天⏰⏰⏰",
         "学习再忙，也要注意休息",
         "下午好,努力吧少年💦💦💦",
@@ -101,15 +101,15 @@ export default {
           changeNumber: "4",
         },
       ],
-    }
+    };
   },
   methods: {
     changeTransition() {
       let timer = setTimeout(() => {
-        this.changeTransition()
-      },1000)
-      clearTimeout(timer)
-      let date = new Date().getHours()
+        this.changeTransition();
+      }, 1000);
+      clearTimeout(timer);
+      let date = new Date().getHours();
       switch (true) {
         case date >= 0 && date < 6:
           this.text_box = this.textArr[1];
@@ -123,16 +123,16 @@ export default {
         case date >= 14 && date < 17:
           this.text_box = this.textArr[4];
           break;
-        case date >= 17 && date < 23:
+        case date >= 17 && date < 24:
           this.text_box = this.textArr[5];
           break;
         default:
           this.text_box = this.textArr[0];
       }
-      setTimeout(timer)
+      setTimeout(timer);
     },
-  }
-}
+  },
+};
 </script>
 
 <style lang="scss" scoped>
@@ -170,7 +170,7 @@ export default {
       width: 0px;
       height: 0px;
       border: 6px solid black;
-      border-color: rgba(0, 0, 0, 0.5) transparent transparent  transparent;
+      border-color: rgba(0, 0, 0, 0.5) transparent transparent transparent;
     }
   }
   .box_trani {
@@ -198,32 +198,32 @@ export default {
   .left-article-text {
     margin-top: 50px;
 
-  &-list {
-    display: flex;
-    flex-direction: row;
-    height: 60px;
-    margin-top: 15px;
-    .article_bg {
-      float: left;
-      margin-right: 10px;
+    &-list {
+      display: flex;
+      flex-direction: row;
+      height: 60px;
+      margin-top: 15px;
+      .article_bg {
+        float: left;
+        margin-right: 10px;
+      }
+      span {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        // 谷歌
+        display: -webkit-box;
+        // 行数
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        font-size: 14px;
+        line-height: 20px;
+      }
     }
-    span {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      // 谷歌
-      display: -webkit-box;
-      // 行数
-      -webkit-line-clamp: 3;
-      -webkit-box-orient: vertical;
-      font-size: 14px;
-      line-height: 20px;
-    }
-  }
 
-  img {
-    width: 60px;
-    height: 60px;
-  }
+    img {
+      width: 60px;
+      height: 60px;
+    }
   }
   // 博客信息
   &-blog-message {
@@ -259,7 +259,7 @@ export default {
   }
 }
 .postscript-enter-active {
-  animation: enter .5s;
+  animation: enter 0.5s;
 }
 @keyframes enter {
   0% {
@@ -270,7 +270,7 @@ export default {
   }
 }
 .postscript-leave-active {
-  animation: leave .5s;
+  animation: leave 0.5s;
 }
 @keyframes leave {
   0% {

@@ -32,6 +32,14 @@ module.exports = {
         pathRewrite: {
           '^/api': ''
         }
+      },
+      '/node' : {
+        target: 'http://localhost:80',
+        ws:true,
+        changeOrigin: true,
+        pathRewrite: {
+          '^/node': ''
+        }
       }
     }
   }

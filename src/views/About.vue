@@ -41,6 +41,7 @@
 </template>
 
 <script>
+import { postEmailMessage } from '@/assets/api/index'
 export default {
   name: 'About',
   data() {
@@ -107,14 +108,17 @@ export default {
   },
   methods: {
     submitForm(formName) {
-      this.$refs[formName].validate((valid) => {
+      this.$refs[formName].validate(async (valid) => {
         if (valid) {
           this.$message({
-            message: '邮箱信息已发送，请留意稍后会主动联系您',
+            message: '发送成功！',
             type: 'success'
           })
+          // ajax请求
+          const data = await postEmailMessage(this.ruleForm)
+          console.log(data)
         } else {
-          this.$message.error('待发送信息有误，请按提示补充或修改')
+          this.$message.error('发送失败，待发送信息有误，请按提示补充或修改')
           return false;
         }
       });
