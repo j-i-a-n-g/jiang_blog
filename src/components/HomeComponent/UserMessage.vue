@@ -35,6 +35,7 @@ export default {
       this.$store.commit('deleteUserInfo')
       this.$emit('hideUsermessage')
       this.$message.success('退出登录成功')
+      this.$router.push('/')
     },
     // 修改个人信息
     reviseeMssage() {

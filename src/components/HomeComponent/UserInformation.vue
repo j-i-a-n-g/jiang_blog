@@ -3,22 +3,30 @@
     <h3 class="border-left">修改资料</h3>
     <div class="user-information-tab">
       <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
+      <!-- 修改用户名 -->
         <el-tab-pane label="用户名" name="first">
           <UserName></UserName>
         </el-tab-pane>
+        <!-- 修改密码 -->
         <el-tab-pane label="密码" name="second">
           <Password></Password>
         </el-tab-pane>
+        <!-- 修改头像 -->
         <el-tab-pane label="头像" name="third">
           <div class="user-information-tab-avatar">
-            <el-alert
-              title="点击上传图片修改头像"
-              type="warning"
-              show-icon>
+            <el-alert title="点击上传图片修改头像" type="warning" show-icon>
             </el-alert>
-            <div class="user-information-tab-avatar-box">
-              <i class="el-icon-plus"></i>
-            </div>
+            <el-upload
+              class="avatar-uploader"
+              action="/node/blog/changeAvatar"
+              :data='{"id": $store.state.userInfo._id}'
+              :show-file-list="false"
+              :on-success="handleAvatarSuccess"
+              :before-upload="beforeAvatarUpload"
+            >
+              <img v-if="imageUrl" :src="imageUrl" class="avatar" />
+              <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+            </el-upload>
           </div>
         </el-tab-pane>
       </el-tabs>
@@ -27,21 +35,38 @@
 </template>
 
 <script>
-import UserName from '../UserInformationTag/UserName.vue';
-import Password from '../UserInformationTag/Password.vue';
+import UserName from "../UserInformationTag/UserName.vue";
+import Password from "../UserInformationTag/Password.vue";
 export default {
-    name: "UserInformation",
-    data() {
-      return {
-      activeName: "first"
+  name: "UserInformation",
+  data() {
+    return {
+      activeName: "first",
+      imageUrl: "",
+    };
+  },
+  methods: {
+    handleClick(tab, event) {
+      // console.log(tab, event);
+    },
+    async handleAvatarSuccess(res, file) {
+      this.imageUrl = URL.createObjectURL(file.raw)
+      this.$store.commit('setUserInfo', res.data)
+    },
+    beforeAvatarUpload(file) {
+      const isJPG = file.type === "image/jpeg" || file.type === "image/png";
+      const isLt2M = file.size / 1024 / 1024 < 2;
+
+      if (!isJPG) {
+        this.$message.error("上传头像图片只能是 JPG或PNG 格式!");
       }
+      if (!isLt2M) {
+        this.$message.error("上传头像图片大小不能超过 2MB!");
+      }
+      return isJPG && isLt2M;
     },
-    methods: {
-        handleClick(tab, event) {
-            // console.log(tab, event);
-        },
-    },
-    components: { UserName, Password }
+  },
+  components: { UserName, Password },
 };
 </script>
 
@@ -49,17 +74,28 @@ export default {
 .user-information {
   width: 100%;
   padding: 20px;
-  &-tab-avatar-box {
-    margin-top: 20px;
-    width: 200px;
-    height: 200px;
-    font-size: 40px;
-    font-weight: 300;
-    color: #999;
-    border: 1px solid #999;
-    background-color: #fff;
-    text-align: center;
-    line-height: 200px;
-  }
+}
+.avatar-uploader .el-upload {
+  border: 1px dashed #d9d9d9;
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+.avatar-uploader .el-upload:hover {
+  border-color: #409eff;
+}
+.avatar-uploader-icon {
+  font-size: 28px;
+  color: #8c939d;
+  width: 178px;
+  height: 178px;
+  line-height: 178px;
+  text-align: center;
+}
+.avatar {
+  width: 178px;
+  height: 178px;
+  display: block;
 }
 </style>

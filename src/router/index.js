@@ -32,7 +32,20 @@ const routes = [
   {
     path: '/userInformation',
     name: 'UserInformation',
+    beforeEnter: (to, form, next) => {
+      let id = router.app.$store?.state.userInfo._id
+      if(id) {
+        next()
+      } else {
+        next({path: '/'})
+      }
+    },
     component: () => import('@c/HomeComponent/UserInformation.vue')
+  },
+  {
+    path: '/userLink',
+    name: 'Link',
+    component: () => require('@/views/Link.vue')
   }
 ]
 

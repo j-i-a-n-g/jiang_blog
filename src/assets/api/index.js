@@ -19,3 +19,11 @@ export const postUserLogout = () => axios.post('/node/blog/logout')
 
 // 更改用户名
 export const postChangeUsername = (data) => axios.post('/node/blog/changeUsername', data)
+
+// 更改密码
+export const postChangePassword = (data) => axios.post('/node/blog/changePassword', data)
+
+// -------------------------------
+
+// 申请友链
+export const postUserLink = (data) => axios.post('/node/user/userLink', data)

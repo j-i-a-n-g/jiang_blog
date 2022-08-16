@@ -10,7 +10,7 @@
         </li>
       </ul>
       <!-- 音乐播放器 -->
-      <NavMusic />
+      <!-- <NavMusic /> -->
       <div class="nav-bar-content-login">
         <i class="el-icon-key"  @click="showState"></i>
         <span>{{$store.state.userInfo.username ? $store.state.userInfo.username : '登录戳我'}}</span>

@@ -46,13 +46,13 @@ export default {
         return callback(new Error("验证码错误"));
       }
       callback();
-    };
+    }
     let username = (rule, value, callback) => {
       if (value === "") {
         return callback(new Error("账号不能为空"));
       }
       callback();
-    };
+    }
     let password = (rule, value, callback) => {
       let reg = /^[\w]{6,12}$/
       if (value === "") {
@@ -61,7 +61,7 @@ export default {
         return callback(new Error("请输入6-12个字符"));
       }
       callback();
-    };
+    }
     return {
       ruleForm: {
         username: "",
