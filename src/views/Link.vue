@@ -74,7 +74,7 @@
 </template>
 
 <script>
-import { postUserLink } from "@/assets/api/index";
+import { postUserLink, getLinkList } from "@/assets/api/index";
 export default {
   name: "Link",
   data() {
@@ -143,6 +143,9 @@ export default {
       hotLinks: [],
     };
   },
+  created() {
+    this.getAllLink()
+  },
   methods: {
     submitForm(formName) {
       this.$refs[formName].validate(async (valid) => {
@@ -166,6 +169,11 @@ export default {
     },
     toBlogLink(item) {
       window.open(item.blogOrigin)
+    },
+    // 获取所有的友链链接
+    async getAllLink() {
+      const {data} = await getLinkList()
+      console.log(data);
     }
   },
 };
