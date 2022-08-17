@@ -10,7 +10,8 @@
     type="warning">
   </el-alert>
   <div class="message-content-show">
-    <ul :class="['infinite-list', 'message-content-show-ul']" v-infinite-scroll="load" style="overflow:auto">
+    <div class="infinite-list-wrapper" style="overflow:auto">
+    <ul :class="['infinite-list', 'message-content-show-ul']" v-infinite-scroll="load" infinite-scroll-disabled="disabled">
       <li class="message-content-show-ul-list" v-for="item in publishMessage" :key="item._id">
         <div class="message-content-show-ul-list-content">
           <!-- 头像 -->
@@ -29,8 +30,9 @@
         </div>
       </li>
     </ul>
-    <p v-if="loading">加载中...</p>
-    <p v-if="noMore">没有更多了</p>
+    <p v-if="loading" class="tip">加载中...</p>
+    <p v-if="noMore" class="tip">没有更多了~</p>
+    </div>
   </div>
   <div class="message-content-write">
     <i class="el-icon-chat-dot-round"></i>
@@ -72,7 +74,7 @@ export default {
       inputMessage: '',
       activeName: 'first',
       publishMessage: [],
-      count: 10,
+      count: 0,
       loading: false
     }
   },
@@ -97,6 +99,7 @@ export default {
     // 发送留言事件
     async sendMessage() {
       if(!this.$store.state.userInfo._id) return this.$message.error('请先登录账号')
+      if(!this.inputMessage.trim()) return this.$message.warning('请输入留言内容')
       const {data} = await postMessage({
         id: this.$store.state.userInfo._id,
         message: this.inputMessage
@@ -116,8 +119,8 @@ export default {
     // 滚动加载数据
     load () {
         this.loading = true
-        this.showAllMessage(this.count)
         this.count += 10
+        this.showAllMessage(this.count)
       }
   },
   computed: {
@@ -125,7 +128,7 @@ export default {
     noMore () {
         return this.count >= this.publishMessage.length
       },
-      // 能否执行滚动加载
+      // 能否禁止执行滚动加载
     disabled () {
         return this.loading || this.noMore
       }
@@ -157,15 +160,15 @@ export default {
       border-top-left-radius: 30px;
       border-top-right-radius: 30px;
       background-color: #eee;
-      // opacity: .5;
       padding: 50px;
       box-sizing: border-box;
       overflow: hidden;
-      overflow-y: auto;
+        overflow-y: auto;
       // 留言框的样式
+      .infinite-list-wrapper {
+        height: 100%;
+      }
       &-ul {
-        display: flex;
-        flex-direction: column;
         &-list {
           border: 1px solid rgb(16, 16, 16);
           border-radius: 20px;
@@ -240,6 +243,12 @@ export default {
         margin: 20px;
       }
     }
+  }
+  .tip {
+    font-size: 14px;
+    text-align: center;
+    color: #999;
+    line-height: 20px;
   }
 }
 </style>

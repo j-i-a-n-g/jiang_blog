@@ -6,7 +6,7 @@
       </div>
       <div class="user-message-base-title">
         <p>昵称：<span>{{userInfo.username}}</span></p>
-        <p>登录时间：<span>{{userInfo.userDate | timer}}</span></p>
+        <p class="time">注册时间：<span>{{userInfo.userDate | timer}}</span></p>
       </div>
     </div>
     <!-- 按钮 -->
@@ -79,6 +79,9 @@ export default {
         font-size: 20px;
         line-height: 30px;
         color: #999;
+      }
+      .time {
+        font-size: 16px;
       }
     }
   }
