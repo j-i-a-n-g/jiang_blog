@@ -16,7 +16,10 @@ Vue.filter('timer', (val) => {
   const y = addZero(new Date(val).getFullYear())
   const m = addZero(new Date(val).getMonth() + 1)
   const d = addZero(new Date(val).getDate())
-  return `${y} : ${m} : ${d}`
+  const hh = addZero(new Date(val).getHours())
+  const mm = addZero(new Date(val).getMinutes())
+  const ss = addZero(new Date(val).getSeconds())
+  return `${y}-${m}-${d} ${hh}:${mm}:${ss}`
 })
 new Vue({
   router,

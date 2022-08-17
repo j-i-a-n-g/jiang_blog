@@ -3,7 +3,7 @@
     <div class="left-avatar">
       <img class="left-avatar-img" src="@img/comImg/touxiang.png" alt="" />
     </div>
-    <div class="left-title">不求与人相比，但求超越自己</div>
+    <div class="left-title">你指尖跃动的电光，是我此生不变的信仰</div>
     <div class="box_trani" @click="changeTransition">{{ text_box }}</div>
     <!-- 文章 -->
     <div class="left-article-text">

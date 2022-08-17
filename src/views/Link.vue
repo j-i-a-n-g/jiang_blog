@@ -89,7 +89,7 @@ export default {
       if (value.trim() === "") {
         callback(new Error("地址不能为空"));
       } else if (!value.startsWith("http")) {
-        callback(new Error("格式不正确"));
+        callback(new Error("格式不正确(开头需是http)"));
       } else {
         callback();
       }

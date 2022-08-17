@@ -27,3 +27,11 @@ export const postChangePassword = (data) => axios.post('/node/blog/changePasswor
 
 // 申请友链
 export const postUserLink = (data) => axios.post('/node/user/userLink', data)
+
+// 发送留言
+export const postMessage = (data) => axios.post('/node/message/message', data)
+
+// 获取所有留言数据
+export const getAllMessage = (val) => axios.get('/node/message/getAll', {params:{
+  skip: val
+}})
