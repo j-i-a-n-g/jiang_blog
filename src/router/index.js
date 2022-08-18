@@ -28,6 +28,19 @@ const routes = [
     path: '/link',
     name: 'Link',
     component: () => import('@/views/Link.vue')
+  }, 
+  {
+    path: '/admin',
+    name: 'Admin',
+    beforeEnter: (to, from, next) => {
+      let root = router.app.$store?.state.rootName
+      if(root) {
+        next()
+      } else {
+        next({path:'/'})
+      }
+    },
+    component: () => import('@/views/Admin.vue')
   },
   {
     path: '/userInformation',
@@ -41,11 +54,6 @@ const routes = [
       }
     },
     component: () => import('@c/HomeComponent/UserInformation.vue')
-  },
-  {
-    path: '/userLink',
-    name: 'Link',
-    component: () => require('@/views/Link.vue')
   }
 ]
 

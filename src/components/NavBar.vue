@@ -1,7 +1,7 @@
 <template>
   <div class="nav-bar">
     <div class="nav-bar-content">
-      <div class="nav-bar-content-logo">
+      <div :class="['nav-bar-content-logo','hidden-xs-only']">
         <img src="@img/logo.png" draggable="false" alt="">
       </div>
       <ul class="nav-bar-content-list">
@@ -114,7 +114,8 @@ a {
   cursor: pointer;
   &-content {
     height: 100%;
-    width: 1500px;
+    max-width: 1500px;
+    min-width: 375px;
     margin: 0 auto;
     display: flex;
     justify-content: space-between;
@@ -139,11 +140,13 @@ a {
     // 标题列表样式
     &-list {
       display: flex;
-      width: 800px;
+      max-width: 800px;
+      min-width: 600px;
       height: 50px;
       line-height: 50px;
       text-align: center;
       font-size: 16px;
+      // margin-left: 250px;
       li {
         width: 100px;
         border: 1px solid #C4F9FF;
@@ -154,6 +157,7 @@ a {
       position: relative;
       width: 100px;
       height: 40px;
+      right: 0;
       // border: 1px solid #C4F9FF;
       margin-right: 20px;
       display: flex;

@@ -446,6 +446,9 @@ export default new Vuex.Store({
           "🏨",
           "🏪",
         ],
+        rootName: '',
+        // 隐藏侧边栏
+        showLeftSider: true
   },
   getters: {
   },
@@ -453,6 +456,10 @@ export default new Vuex.Store({
     // 设置用户信息
     setUserInfo(state, val) {
       state.userInfo = val
+    },
+    // 设置管理账号
+    setRootName(state,val) {
+      state.rootName = val
     },
     // 删除用户信息
     deleteUserInfo(state) {
@@ -463,6 +470,10 @@ export default new Vuex.Store({
         username: "",
         _id: null,
       }
+    },
+    // 隐藏侧边栏
+    hideLeftSider(state,val) {
+      state.showLeftSider = val
     }
   },
   actions: {

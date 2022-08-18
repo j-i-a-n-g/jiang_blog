@@ -38,3 +38,13 @@ export const postMessage = (data) => axios.post('/node/message/message', data)
 export const getAllMessage = (val) => axios.get('/node/message/getAll', {params:{
   skip: val
 }})
+
+// -----------------------------------
+// 登录路由
+export const rootLogin = (data) => axios.post('/node/root/rootlogin',data)
+
+// 修改root密码
+export const postRootPassword = (rootPass) => axios.post('/node/root/rootPassword', rootPass)
+
+// 管理员将友链移入移出推荐友链列表
+export const changeHotLink = (data) => axios.post('/node/root/isHotLink', data)

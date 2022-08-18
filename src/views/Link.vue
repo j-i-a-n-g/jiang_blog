@@ -64,7 +64,17 @@
         </ul>
       </el-tab-pane>
       <el-tab-pane label="推荐友链" name="third">
-        <!-- <LinkChild :links="hotLinks" /> -->
+        <ul class="link-friend">
+          <li class="link-friend-list" v-for="(item, index) in hotLinks" :key="index" @click="toBlogLink(item)">
+            <div class="link-friend-list-avatar">
+              <img :src="item.blogLogo" alt="" />
+            </div>
+            <div class="link-friend-list-content">
+              <p class="link-friend-list-content-name">{{item.blogName}}</p>
+              <p class="link-friend-list-content-desc">{{item.blogMessage}}</p>
+            </div>
+          </li>
+        </ul>
       </el-tab-pane>
       <el-tab-pane label="个人友链" name="fourth">
         <button @click="activeName = 'first'">修改友链</button>
@@ -216,6 +226,9 @@ export default {
       ]
       const {data} = await getLinkList()
       this.links.unshift(...data.data)
+      this.hotLinks = data.data.filter(item => {
+        return item.blogHotLink === true
+      })
     }
   },
 };
