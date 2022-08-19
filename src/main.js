@@ -52,7 +52,7 @@ Vue.prototype.$message.warning = function (msg) {
 Vue.prototype.$message.error = function (msg) {
   return Message.error({
     message: msg,
-    duration: 1500,
+    duration: 1000,
     showClose: true,
     offset: 40
   })
