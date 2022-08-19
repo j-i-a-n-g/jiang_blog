@@ -140,7 +140,7 @@ export default {
     margin: 0 auto;
     margin-top: 10px;
     img {
-      height: 600px;
+      width: 80%;
       border-radius: 30px;
     }
   }
@@ -167,13 +167,14 @@ export default {
   }
   &-form {
     margin: 20px;
-    width: 90%;
+    width: 80%;
+    min-width:550px;
     border-radius: 30px;
     border: 1px solid #ccc;
-    .el-form {
+    ::v-deep .el-form {
       margin: 25px auto;
       .el-form-item__label {
-        font-size: 24px !important;
+        font-size: 18px !important;
       }
       .el-form-item__content {
         .el-input {

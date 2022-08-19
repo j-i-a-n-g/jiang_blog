@@ -115,7 +115,7 @@ a {
     height: 100%;
     max-width: 1500px;
     min-width: 375px;
-    margin: 0 auto;
+    // margin: 0 auto;
     display: flex;
     justify-content: space-between;
     align-items: center;
