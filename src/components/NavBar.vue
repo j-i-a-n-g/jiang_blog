@@ -12,8 +12,10 @@
       <!-- 音乐播放器 -->
       <!-- <NavMusic /> -->
       <div class="nav-bar-content-login">
-        <i class="el-icon-key"  @click="showState"></i>
-        <span>{{$store.state.userInfo.username ? $store.state.userInfo.username : '登录戳我'}}</span>
+        <div  @click="showState">
+          <i class="el-icon-key"></i>
+          <span>{{$store.state.userInfo.username ? $store.state.userInfo.username : '登录戳我'}}</span>
+        </div>
         <transition name="login">
         <Login v-if="isShowLogin" @changeLoginState="changeLoginState"></Login>
         <UserMessage v-if="isShowUserMessage" @hideUsermessage="hideUsermessage"></UserMessage>
