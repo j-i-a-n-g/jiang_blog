@@ -1,6 +1,24 @@
 const axios = require('axios')
 
 axios.default.baseURL = 'http://localhost:80'
+axios.default.headers = {
+  "Content-Type": "application/json;charset=utf-8"
+}
+// axios.interceptors.response.use(response => {
+//         response.responseType = 'blob'
+//         response.transformResponse = [function(data) {
+//           var reader = new FileReader()
+//           reader.readAsText(data, 'GBK')
+//           reader.onload = function(e) {
+//             var music = JSON.parse(reader.result)
+//             console.log(music)
+//             that.data = music
+//           }
+//           return data
+//         }]
+//         return response
+// })
+
 
 // 发送邮箱信息
 export const postEmailMessage = (data) => axios.post('/node/blog/email', { data: data })
@@ -48,3 +66,21 @@ export const postRootPassword = (rootPass) => axios.post('/node/root/rootPasswor
 
 // 管理员将友链移入移出推荐友链列表
 export const changeHotLink = (data) => axios.post('/node/root/isHotLink', data)
+
+// 获取文章详细内容
+// export const getFullText = (id) => axios.get(`/node/root/article/${id}`)
+
+// 删除选中上传的文件
+export const deleteFile = (data) => axios.post('/node/root/deleteFile', data)
+
+// 删除选中上传的图片
+export const deleteArticleImg = (data) => axios.post('/node/root/deleteImg', data)
+
+// 将所有文章信息传入到数据库中
+export const publishArticle = (data) => axios.post('/node/root/saveArticle',data)
+
+// 获取所有文章列表
+export const getArticleList = () => axios.get('/node/root/getArticlelist')
+
+// 获取文章详情
+export const getMdVal = (val) => axios.get(`/node${val}`)

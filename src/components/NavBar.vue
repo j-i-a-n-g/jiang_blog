@@ -88,7 +88,6 @@ export default {
       // 自动登录功能
       async autoLogin() {
         const {data} = await postAutoLogin()
-        console.log(data);
         if(data) {
           this.$store.commit('setUserInfo', data)
         }

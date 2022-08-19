@@ -54,6 +54,11 @@ const routes = [
       }
     },
     component: () => import('@c/HomeComponent/UserInformation.vue')
+  },
+  {
+    path: '/article/:id',
+    name: 'FullText',
+    component: () =>import('@/components/HomeComponent/FullText.vue')
   }
 ]
 

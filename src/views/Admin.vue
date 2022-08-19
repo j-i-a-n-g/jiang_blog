@@ -1,6 +1,6 @@
 <template>
   <div class="admin">
-    <el-tabs v-model="activeName" @tab-click="handleClick">
+    <el-tabs v-model="activeName">
       <el-tab-pane label="修改密码" name="first">
        <div class="admin-password">
          新密码：
@@ -11,7 +11,9 @@
       <el-tab-pane label="友链管理" name="second">
         <LinkBase />
       </el-tab-pane>
-      <el-tab-pane label="发表文章" name="third">发表文章</el-tab-pane>
+      <el-tab-pane label="发表文章" name="third">
+        <ArticleBase />
+      </el-tab-pane>
       <el-tab-pane label="文章管理" name="fourth">文章管理</el-tab-pane>
     </el-tabs>
   </div>
@@ -20,6 +22,7 @@
 <script>
 import { postRootPassword } from '@/assets/api/index'
 import LinkBase from '@/components/HomeComponent/Root/LinkBase.vue';
+import ArticleBase from '@/components/HomeComponent/Root/ArticleBase.vue';
 export default {
     name: "Admin",
     data() {
@@ -29,9 +32,6 @@ export default {
         };
     },
     methods: {
-        handleClick(tab, event) {
-            console.log(tab, event);
-        },
         // 修改密码
         async changeRootPassword() {
             const { data } = await postRootPassword({ rootPass: this.rootPass });
@@ -42,7 +42,7 @@ export default {
         this.$store.commit("hideLeftSider", true);
         next();
     },
-    components: { LinkBase }
+    components: { LinkBase, ArticleBase }
 }
 </script>
 

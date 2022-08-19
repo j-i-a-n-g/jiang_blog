@@ -112,7 +112,6 @@ export default {
     async showAllMessage(val=0) {
       if(!this.$store.state.userInfo._id) return this.$message.error('请先登录账号')
       const {data} = await getAllMessage(val)
-      console.log(data);
       this.publishMessage.push(...data.data)
       this.loading = false
     },

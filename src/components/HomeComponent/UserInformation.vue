@@ -46,9 +46,6 @@ export default {
     };
   },
   methods: {
-    handleClick(tab, event) {
-      // console.log(tab, event);
-    },
     async handleAvatarSuccess(res, file) {
       this.imageUrl = URL.createObjectURL(file.raw)
       this.$store.commit('setUserInfo', res.data)

@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    Legend Never Died
+    Legend Never Die
   </div>
 </template>
 
