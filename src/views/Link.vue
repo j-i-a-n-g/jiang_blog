@@ -124,6 +124,14 @@
               autocomplete="off"
             ></el-input>
           </el-form-item>
+          <el-form-item label="创建时间" prop="blogDate">
+            <el-input
+              type="text"
+              v-model="blogForm.blogDate"
+              disabled
+              autocomplete="off"
+            ></el-input>
+          </el-form-item>
           <el-form-item>
             <el-button type="primary" @click="activeName = 'first'">修改友链</el-button>
           </el-form-item>
@@ -134,7 +142,8 @@
 </template>
 
 <script>
-import { postUserLink, getLinkList } from "@/assets/api/index";
+import { DateFilter } from '@js/dateFilter.js'
+import { postUserLink, getLinkList, getLinkById } from "@/assets/api/index";
 export default {
   name: "Link",
   data() {
@@ -218,11 +227,13 @@ export default {
         blogOrigin: "",
         blogLogo: "",
         blogMessage: "",
+        blogDate: ""
       },
     };
   },
   created() {
-    this.getAllLink();
+    this.getAllLink()
+    this.getUserLink()
   },
   methods: {
     submitForm(formName) {
@@ -243,9 +254,9 @@ export default {
           console.log("error submit!!");
           return false;
         }
-      });
+      })
     },
-    // 请求当前账号的友链
+    // 打开博客链接
     toBlogLink(item) {
       window.open(item.blogOrigin);
     },
@@ -296,11 +307,21 @@ export default {
         },
       ];
       const { data } = await getLinkList();
+      console.log(data.data);
       this.links.unshift(...data.data);
       this.hotLinks = data.data.filter((item) => {
         return item.blogHotLink === true;
       });
     },
+    // 获取当前账号的友链信息
+    async getUserLink() {
+      const {data} = await getLinkById()
+      this.blogForm.blogName = data.data.blogName,
+      this.blogForm.blogOrigin = data.data.blogOrigin,
+      this.blogForm.blogLogo = data.data.blogLogo,
+      this.blogForm.blogMessage = data.data.blogMessage,
+      this.blogForm.blogDate = DateFilter(data.data.blogDate)
+    }
   },
 };
 </script>

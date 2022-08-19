@@ -49,6 +49,9 @@ export const postUserLink = (data) => axios.post('/node/user/userLink', data)
 // 获取所有友链列表
 export const getLinkList = () => axios.get('/node/user/getAllLink')
 
+// 获取当前账号的友链信息
+export const getLinkById = () =>axios.get('/node/user/getUserLink')
+
 // 发送留言
 export const postMessage = (data) => axios.post('/node/message/message', data)
 

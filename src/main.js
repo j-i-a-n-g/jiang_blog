@@ -3,6 +3,7 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import ElementUI from 'element-ui'
+import {Message} from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import '@css/reset.css'
 import 'element-ui/lib/theme-chalk/display.css';
@@ -22,6 +23,40 @@ Vue.filter('timer', (val) => {
   const ss = addZero(new Date(val).getSeconds())
   return `${y}-${m}-${d} ${hh}:${mm}:${ss}`
 })
+Vue.prototype.$message = function(msg){
+  return Message({
+    message:msg,
+    duration:1500,
+    showClose: true,
+    offset: 40
+  })
+}
+// 分别对success、warning和error等样式进行设置
+Vue.prototype.$message.success = function (msg) {
+  return Message.success({
+    message: msg,
+    duration: 1500,
+    showClose: true,
+    offset: 40
+
+  })
+}
+Vue.prototype.$message.warning = function (msg) {
+  return Message.warning({
+    message: msg,
+    duration: 1500,
+    showClose: true,
+    offset: 40
+  })
+}
+Vue.prototype.$message.error = function (msg) {
+  return Message.error({
+    message: msg,
+    duration: 1500,
+    showClose: true,
+    offset: 40
+  })
+}
 new Vue({
   router,
   store,

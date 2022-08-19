@@ -6,7 +6,7 @@
     <!-- 自述 -->
     <div class="about-text">
       <h3 class="border_left">自述</h3>
-      <span>毕业于广东技术师范大学</span>
+      <span>这个人很神秘，什么都没有写</span>
     </div>
     <!-- 技能 -->
     <div class="about-text">
