@@ -52,32 +52,82 @@
       <!--友链展示  -->
       <el-tab-pane label="友链展示" name="second">
         <ul class="link-friend">
-          <li class="link-friend-list" v-for="(item, index) in links" :key="index" @click="toBlogLink(item)">
+          <li
+            class="link-friend-list"
+            v-for="(item, index) in links"
+            :key="index"
+            @click="toBlogLink(item)"
+          >
             <div class="link-friend-list-avatar">
               <img :src="item.blogLogo" alt="" />
             </div>
             <div class="link-friend-list-content">
-              <p class="link-friend-list-content-name">{{item.blogName}}</p>
-              <p class="link-friend-list-content-desc">{{item.blogMessage}}</p>
+              <p class="link-friend-list-content-name">{{ item.blogName }}</p>
+              <p class="link-friend-list-content-desc">
+                {{ item.blogMessage }}
+              </p>
             </div>
           </li>
         </ul>
       </el-tab-pane>
       <el-tab-pane label="推荐友链" name="third">
         <ul class="link-friend">
-          <li class="link-friend-list" v-for="(item, index) in hotLinks" :key="index" @click="toBlogLink(item)">
+          <li
+            class="link-friend-list"
+            v-for="(item, index) in hotLinks"
+            :key="index"
+            @click="toBlogLink(item)"
+          >
             <div class="link-friend-list-avatar">
               <img :src="item.blogLogo" alt="" />
             </div>
             <div class="link-friend-list-content">
-              <p class="link-friend-list-content-name">{{item.blogName}}</p>
-              <p class="link-friend-list-content-desc">{{item.blogMessage}}</p>
+              <p class="link-friend-list-content-name">{{ item.blogName }}</p>
+              <p class="link-friend-list-content-desc">
+                {{ item.blogMessage }}
+              </p>
             </div>
           </li>
         </ul>
       </el-tab-pane>
       <el-tab-pane label="个人友链" name="fourth">
-        <button @click="activeName = 'first'">修改友链</button>
+        <el-form :model="blogForm" label-width="100px">
+          <el-form-item label="博客名称" prop="blogName">
+            <el-input
+              type="text"
+              v-model="blogForm.blogName"
+              disabled
+              autocomplete="off"
+            ></el-input>
+          </el-form-item>
+          <el-form-item label="博客地址" prop="blogOrigin">
+            <el-input
+              type="text"
+              v-model="blogForm.blogOrigin"
+              disabled
+              autocomplete="off"
+            ></el-input>
+          </el-form-item>
+          <el-form-item label="logo地址" prop="blogLogo">
+            <el-input
+              type="text"
+              v-model="blogForm.blogLogo"
+              disabled
+              autocomplete="off"
+            ></el-input>
+          </el-form-item>
+          <el-form-item label="博客描述" prop="blogMessage">
+            <el-input
+              type="text"
+              v-model="blogForm.blogMessage"
+              disabled
+              autocomplete="off"
+            ></el-input>
+          </el-form-item>
+          <el-form-item>
+            <el-button type="primary" @click="activeName = 'first'">修改友链</el-button>
+          </el-form-item>
+        </el-form>
       </el-tab-pane>
     </el-tabs>
   </div>
@@ -122,44 +172,57 @@ export default {
         {
           blogName: "网易云",
           blogOrigin: "https://music.163.com/",
-          blogLogo: "https://timg03.bdimg.com/timg?wapbaike&quality=60&size=b1024_1024&sec=1349839550&di=4c994b5556baf684a3a89ddfc59fc49c&src=http://imgsrc.baidu.com/baike/pic/item/838ba61ea8d3fd1fa92d29173d4e251f95ca5ff3.jpg",
-          blogMessage: "网易云音乐是一款专注于发现与分享的音乐产品，依托专业音乐人、DJ、好友推荐及社交功能，为用户打造全新的音乐生活",
-          blogHotLink: false
+          blogLogo:
+            "https://timg03.bdimg.com/timg?wapbaike&quality=60&size=b1024_1024&sec=1349839550&di=4c994b5556baf684a3a89ddfc59fc49c&src=http://imgsrc.baidu.com/baike/pic/item/838ba61ea8d3fd1fa92d29173d4e251f95ca5ff3.jpg",
+          blogMessage:
+            "网易云音乐是一款专注于发现与分享的音乐产品，依托专业音乐人、DJ、好友推荐及社交功能，为用户打造全新的音乐生活",
+          blogHotLink: false,
         },
         {
-        blogName: "QQ音乐",
-        blogOrigin: "https://y.qq.com/",
-        blogLogo: "https://img.zcool.cn/community/0117c85799fca90000012e7eab90ac.jpg@1280w_1l_2o_100sh.jpg",
-        blogMessage: "QQ音乐是腾讯公司推出的一款网络音乐服务产品",
-        blogHotLink: false
-      },
-      {
-        blogName: "酷狗音乐",
-        blogOrigin: "http://www.kugou.com/",
-        blogLogo: "https://www.lgstatic.com/thumbnail_300x300/i/image/M00/A0/B3/CgqKkVimoV-AaHn1AAA3fMbzZ2o402.jpg",
-        blogMessage: "酷狗音乐旗下最新最全的在线正版音乐网站",
-        blogHotLink: false
-      },
-      {
-        blogName: "CSS在线格式化工具- 功能强大的CSS编辑器",
-        blogOrigin: "https://lightly.teamcode.com",
-        blogLogo: "https://lightly.teamcode.com/assets/logo.3daf54a7.svg",
-        blogMessage: "来自百度Lightly CSS编辑器,支持在线格式化CSS代码,编辑运行CSS项目",
-        blogHotLink: false
-      },
-      {
-        blogName: "bilibili",
-        blogOrigin: "https://www.bilibili.com",
-        blogLogo: "https://is3-ssl.mzstatic.com/image/thumb/Purple128/v4/bd/0f/17/bd0f1731-eab9-978b-45ae-c46978dba494/AppIcon-0-1x_U007emarketing-0-0-85-220-6.png/1024x1024bb.jpeg",
-        blogMessage: "bilibili是国内知名的视频弹幕网站，这里有及时的动漫新番，活跃的ACG氛围，有创意的Up主。大家可以在这里找到许多欢乐。",
-        blogHotLink: false
-      }
+          blogName: "QQ音乐",
+          blogOrigin: "https://y.qq.com/",
+          blogLogo:
+            "https://img.zcool.cn/community/0117c85799fca90000012e7eab90ac.jpg@1280w_1l_2o_100sh.jpg",
+          blogMessage: "QQ音乐是腾讯公司推出的一款网络音乐服务产品",
+          blogHotLink: false,
+        },
+        {
+          blogName: "酷狗音乐",
+          blogOrigin: "http://www.kugou.com/",
+          blogLogo:
+            "https://www.lgstatic.com/thumbnail_300x300/i/image/M00/A0/B3/CgqKkVimoV-AaHn1AAA3fMbzZ2o402.jpg",
+          blogMessage: "酷狗音乐旗下最新最全的在线正版音乐网站",
+          blogHotLink: false,
+        },
+        {
+          blogName: "CSS在线格式化工具- 功能强大的CSS编辑器",
+          blogOrigin: "https://lightly.teamcode.com",
+          blogLogo: "https://lightly.teamcode.com/assets/logo.3daf54a7.svg",
+          blogMessage:
+            "来自百度Lightly CSS编辑器,支持在线格式化CSS代码,编辑运行CSS项目",
+          blogHotLink: false,
+        },
+        {
+          blogName: "bilibili",
+          blogOrigin: "https://www.bilibili.com",
+          blogLogo:
+            "https://is3-ssl.mzstatic.com/image/thumb/Purple128/v4/bd/0f/17/bd0f1731-eab9-978b-45ae-c46978dba494/AppIcon-0-1x_U007emarketing-0-0-85-220-6.png/1024x1024bb.jpeg",
+          blogMessage:
+            "bilibili是国内知名的视频弹幕网站，这里有及时的动漫新番，活跃的ACG氛围，有创意的Up主。大家可以在这里找到许多欢乐。",
+          blogHotLink: false,
+        },
       ],
       hotLinks: [],
+      blogForm: {
+        blogName: "",
+        blogOrigin: "",
+        blogLogo: "",
+        blogMessage: "",
+      },
     };
   },
   created() {
-    this.getAllLink()
+    this.getAllLink();
   },
   methods: {
     submitForm(formName) {
@@ -182,8 +245,9 @@ export default {
         }
       });
     },
+    // 请求当前账号的友链
     toBlogLink(item) {
-      window.open(item.blogOrigin)
+      window.open(item.blogOrigin);
     },
     // 获取所有的友链链接
     async getAllLink() {
@@ -191,45 +255,52 @@ export default {
         {
           blogName: "网易云",
           blogOrigin: "https://music.163.com/",
-          blogLogo: "https://timg03.bdimg.com/timg?wapbaike&quality=60&size=b1024_1024&sec=1349839550&di=4c994b5556baf684a3a89ddfc59fc49c&src=http://imgsrc.baidu.com/baike/pic/item/838ba61ea8d3fd1fa92d29173d4e251f95ca5ff3.jpg",
-          blogMessage: "网易云音乐是一款专注于发现与分享的音乐产品，依托专业音乐人、DJ、好友推荐及社交功能，为用户打造全新的音乐生活",
-          blogHotLink: false
+          blogLogo:
+            "https://timg03.bdimg.com/timg?wapbaike&quality=60&size=b1024_1024&sec=1349839550&di=4c994b5556baf684a3a89ddfc59fc49c&src=http://imgsrc.baidu.com/baike/pic/item/838ba61ea8d3fd1fa92d29173d4e251f95ca5ff3.jpg",
+          blogMessage:
+            "网易云音乐是一款专注于发现与分享的音乐产品，依托专业音乐人、DJ、好友推荐及社交功能，为用户打造全新的音乐生活",
+          blogHotLink: false,
         },
         {
-        blogName: "QQ音乐",
-        blogOrigin: "https://y.qq.com/",
-        blogLogo: "https://img.zcool.cn/community/0117c85799fca90000012e7eab90ac.jpg@1280w_1l_2o_100sh.jpg",
-        blogMessage: "QQ音乐是腾讯公司推出的一款网络音乐服务产品",
-        blogHotLink: false
-      },
-      {
-        blogName: "酷狗音乐",
-        blogOrigin: "http://www.kugou.com/",
-        blogLogo: "https://www.lgstatic.com/thumbnail_300x300/i/image/M00/A0/B3/CgqKkVimoV-AaHn1AAA3fMbzZ2o402.jpg",
-        blogMessage: "酷狗音乐旗下最新最全的在线正版音乐网站",
-        blogHotLink: false
-      },
-      {
-        blogName: "CSS在线格式化工具- 功能强大的CSS编辑器",
-        blogOrigin: "https://lightly.teamcode.com",
-        blogLogo: "https://lightly.teamcode.com/assets/logo.3daf54a7.svg",
-        blogMessage: "来自百度Lightly CSS编辑器,支持在线格式化CSS代码,编辑运行CSS项目",
-        blogHotLink: false
-      },
-      {
-        blogName: "bilibili",
-        blogOrigin: "https://www.bilibili.com",
-        blogLogo: "https://is3-ssl.mzstatic.com/image/thumb/Purple128/v4/bd/0f/17/bd0f1731-eab9-978b-45ae-c46978dba494/AppIcon-0-1x_U007emarketing-0-0-85-220-6.png/1024x1024bb.jpeg",
-        blogMessage: "bilibili是国内知名的视频弹幕网站，这里有及时的动漫新番，活跃的ACG氛围，有创意的Up主。大家可以在这里找到许多欢乐。",
-        blogHotLink: false
-      }
-      ]
-      const {data} = await getLinkList()
-      this.links.unshift(...data.data)
-      this.hotLinks = data.data.filter(item => {
-        return item.blogHotLink === true
-      })
-    }
+          blogName: "QQ音乐",
+          blogOrigin: "https://y.qq.com/",
+          blogLogo:
+            "https://img.zcool.cn/community/0117c85799fca90000012e7eab90ac.jpg@1280w_1l_2o_100sh.jpg",
+          blogMessage: "QQ音乐是腾讯公司推出的一款网络音乐服务产品",
+          blogHotLink: false,
+        },
+        {
+          blogName: "酷狗音乐",
+          blogOrigin: "http://www.kugou.com/",
+          blogLogo:
+            "https://www.lgstatic.com/thumbnail_300x300/i/image/M00/A0/B3/CgqKkVimoV-AaHn1AAA3fMbzZ2o402.jpg",
+          blogMessage: "酷狗音乐旗下最新最全的在线正版音乐网站",
+          blogHotLink: false,
+        },
+        {
+          blogName: "CSS在线格式化工具- 功能强大的CSS编辑器",
+          blogOrigin: "https://lightly.teamcode.com",
+          blogLogo: "https://lightly.teamcode.com/assets/logo.3daf54a7.svg",
+          blogMessage:
+            "来自百度Lightly CSS编辑器,支持在线格式化CSS代码,编辑运行CSS项目",
+          blogHotLink: false,
+        },
+        {
+          blogName: "bilibili",
+          blogOrigin: "https://www.bilibili.com",
+          blogLogo:
+            "https://is3-ssl.mzstatic.com/image/thumb/Purple128/v4/bd/0f/17/bd0f1731-eab9-978b-45ae-c46978dba494/AppIcon-0-1x_U007emarketing-0-0-85-220-6.png/1024x1024bb.jpeg",
+          blogMessage:
+            "bilibili是国内知名的视频弹幕网站，这里有及时的动漫新番，活跃的ACG氛围，有创意的Up主。大家可以在这里找到许多欢乐。",
+          blogHotLink: false,
+        },
+      ];
+      const { data } = await getLinkList();
+      this.links.unshift(...data.data);
+      this.hotLinks = data.data.filter((item) => {
+        return item.blogHotLink === true;
+      });
+    },
   },
 };
 </script>

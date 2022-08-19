@@ -2,7 +2,7 @@ const axios = require('axios')
 
 axios.default.baseURL = 'http://localhost:80'
 axios.default.headers = {
-  "Content-Type": "application/json;charset=utf-8"
+  "Content-Type": "text/html;charset=utf-8"
 }
 // axios.interceptors.response.use(response => {
 //         response.responseType = 'blob'

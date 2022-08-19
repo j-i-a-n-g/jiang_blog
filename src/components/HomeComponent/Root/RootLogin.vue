@@ -80,6 +80,7 @@ export default {
 
 <style lang="scss" scoped>
 .root-login {
+  z-index: 99;
   width: 400px;
   height: 300px;
   padding: 40px;
