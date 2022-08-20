@@ -79,9 +79,11 @@ export default {
         'ES6',
         'JQuery',
         'Nodejs',
-        'mongoose',
+        'mongodb数据库',
+        'MySQL数据库',
         'Vue2.0全家桶',
         'Github',
+        'Vue3.0',
         'PhotoShop'
       ],
        ruleForm: {

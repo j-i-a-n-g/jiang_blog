@@ -30,6 +30,7 @@
           <el-form-item label="logo地址" prop="blogLogo">
             <el-input
               type="text"
+              placeholder="不填则使用系统默认logo"
               v-model="ruleForm.blogLogo"
               autocomplete="off"
             ></el-input>
@@ -59,7 +60,7 @@
             @click="toBlogLink(item)"
           >
             <div class="link-friend-list-avatar">
-              <img :src="item.blogLogo" alt="" />
+              <img :src=" item.blogLogo || require('@img/logo.png')" alt="" />
             </div>
             <div class="link-friend-list-content">
               <p class="link-friend-list-content-name">{{ item.blogName }}</p>
@@ -174,12 +175,12 @@ export default {
       rules: {
         blogName: [{ validator: blogNameval, trigger: "blur" }],
         blogOrigin: [{ validator: blogOriginval, trigger: "blur" }],
-        blogLogo: [{ validator: blogOriginval, trigger: "blur" }],
+        // blogLogo: [{ validator: blogOriginval, trigger: "blur" }],
         blogMessage: [{ validator: blogNameval, trigger: "blur" }],
       },
       links: [
         {
-          blogName: "网易云",
+          blogName: "网易云（系统自带友链，无法删除）",
           blogOrigin: "https://music.163.com/",
           blogLogo:
             "https://timg03.bdimg.com/timg?wapbaike&quality=60&size=b1024_1024&sec=1349839550&di=4c994b5556baf684a3a89ddfc59fc49c&src=http://imgsrc.baidu.com/baike/pic/item/838ba61ea8d3fd1fa92d29173d4e251f95ca5ff3.jpg",
@@ -188,7 +189,7 @@ export default {
           blogHotLink: false,
         },
         {
-          blogName: "QQ音乐",
+          blogName: "QQ音乐（系统自带友链，无法删除）",
           blogOrigin: "https://y.qq.com/",
           blogLogo:
             "https://img.zcool.cn/community/0117c85799fca90000012e7eab90ac.jpg@1280w_1l_2o_100sh.jpg",
@@ -196,7 +197,7 @@ export default {
           blogHotLink: false,
         },
         {
-          blogName: "酷狗音乐",
+          blogName: "酷狗音乐（系统自带友链，无法删除）",
           blogOrigin: "http://www.kugou.com/",
           blogLogo:
             "https://www.lgstatic.com/thumbnail_300x300/i/image/M00/A0/B3/CgqKkVimoV-AaHn1AAA3fMbzZ2o402.jpg",
@@ -204,7 +205,7 @@ export default {
           blogHotLink: false,
         },
         {
-          blogName: "CSS在线格式化工具- 功能强大的CSS编辑器",
+          blogName: "CSS在线格式化工具- 功能强大的CSS编辑器（系统自带友链，无法删除）",
           blogOrigin: "https://lightly.teamcode.com",
           blogLogo: "https://lightly.teamcode.com/assets/logo.3daf54a7.svg",
           blogMessage:
@@ -212,7 +213,7 @@ export default {
           blogHotLink: false,
         },
         {
-          blogName: "bilibili",
+          blogName: "bilibili（系统自带友链，无法删除）",
           blogOrigin: "https://www.bilibili.com",
           blogLogo:
             "https://is3-ssl.mzstatic.com/image/thumb/Purple128/v4/bd/0f/17/bd0f1731-eab9-978b-45ae-c46978dba494/AppIcon-0-1x_U007emarketing-0-0-85-220-6.png/1024x1024bb.jpeg",
