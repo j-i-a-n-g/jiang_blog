@@ -32,7 +32,7 @@
           <el-button
             size="mini"
             type="danger"
-            @click="handleDelete(scope.$index, scope.row)"
+            @click="handleDelete(scope.row)"
             >删除</el-button>
         </template>
       </el-table-column>
@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import { getLinkList, changeHotLink } from '@/assets/api/index'
+import { getLinkList, changeHotLink, deleteLink } from '@/assets/api/index'
 export default {
   name: "LinkBase",
   data() {
@@ -62,8 +62,21 @@ export default {
       })
       console.log(result);
     },
-    handleDelete(index, row) {
-      console.log(index, row);
+    // 删除友链
+    async handleDelete(row) {
+      console.log(row);
+      const {data}  = await deleteLink({
+        params: {
+          id: row._id
+        }
+      })
+      if(!data.code) {
+       return this.$message.warning(data.message)
+      } 
+      this.$message.success(data.message)
+      this.tableData = this.tableData.filter(item => {
+        return item._id !== row._id
+      })
     },
     // 获取友链数据
     async getAllLinks() {

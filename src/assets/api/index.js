@@ -70,8 +70,8 @@ export const postRootPassword = (rootPass) => axios.post('/node/root/rootPasswor
 // 管理员将友链移入移出推荐友链列表
 export const changeHotLink = (data) => axios.post('/node/root/isHotLink', data)
 
-// 获取文章详细内容
-// export const getFullText = (id) => axios.get(`/node/root/article/${id}`)
+// 删除友链
+export const deleteLink = (data) => axios.delete(`/node/root/deleteLink`, data)
 
 // 删除选中上传的文件
 export const deleteFile = (data) => axios.post('/node/root/deleteFile', data)
