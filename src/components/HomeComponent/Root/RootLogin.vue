@@ -1,5 +1,5 @@
 <template>
-  <div class="root-login">
+  <div class="root-login" v-show="isShow" >
     <h4>管理员登录入口</h4>
     <el-form
       :model="ruleForm"
@@ -31,6 +31,7 @@
 import { rootLogin } from '@/assets/api/index'
 export default {
   name: "RootLogin",
+  props: ['isShow'],
   data() {
     var rootName = (rule, value, callback) => {
       if (!value) {
@@ -64,6 +65,7 @@ export default {
           this.$store.commit('setRootName', data.data.rootName)
           this.$message.success(data.message)
           this.$store.commit('hideLeftSider', false)
+          this.$emit('hideRootLogin')
           this.$router.push('/admin')
         } else {
           console.log("error submit!!");
