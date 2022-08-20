@@ -14,7 +14,7 @@
       <div class="nav-bar-content-login">
         <div  @click="showState">
           <i class="el-icon-key"></i>
-          <span>{{$store.state.userInfo.username ? $store.state.userInfo.username : '登录戳我'}}</span>
+          <span class="hidden-xs-only">{{$store.state.userInfo.username ? $store.state.userInfo.username : '登录戳我'}}</span>
         </div>
         <transition name="login">
         <Login v-if="isShowLogin" @changeLoginState="changeLoginState"></Login>
@@ -117,7 +117,7 @@ a {
     height: 100%;
     max-width: 1500px;
     min-width: 375px;
-    // margin: 0 auto;
+    margin: 0 auto;
     display: flex;
     justify-content: space-between;
     align-items: center;
