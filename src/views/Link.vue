@@ -30,7 +30,7 @@
           <el-form-item label="logo地址" prop="blogLogo">
             <el-input
               type="text"
-              placeholder="不填则使用系统默认logo"
+              placeholder="若该项不填，则使用系统默认logo"
               v-model="ruleForm.blogLogo"
               autocomplete="off"
             ></el-input>
@@ -80,7 +80,7 @@
             @click="toBlogLink(item)"
           >
             <div class="link-friend-list-avatar">
-              <img :src="item.blogLogo" alt="" />
+              <img :src=" item.blogLogo || require('@img/logo.png')" alt="" />
             </div>
             <div class="link-friend-list-content">
               <p class="link-friend-list-content-name">{{ item.blogName }}</p>
