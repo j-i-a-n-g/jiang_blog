@@ -42,7 +42,7 @@
       <i class="el-icon-s-cooperation"></i>
       管理
     </div>
-    <RootLogin v-if="isShow" class="root-login-form" />
+    <RootLogin :isShow="isShow" @hideRootLogin="isShow = false" class="root-login-form" />
   </div>
 </template>
 
