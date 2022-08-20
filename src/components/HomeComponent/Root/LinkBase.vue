@@ -73,7 +73,7 @@ export default {
       if(!data.code) {
        return this.$message.warning(data.message)
       } 
-      this.$message.success(data.message)
+      this.$message.success(data.message) 
       this.tableData = this.tableData.filter(item => {
         return item._id !== row._id
       })
