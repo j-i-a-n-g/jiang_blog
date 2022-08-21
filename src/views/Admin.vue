@@ -14,7 +14,9 @@
       <el-tab-pane label="发表文章" name="third">
         <ArticleBase />
       </el-tab-pane>
-      <el-tab-pane label="文章管理" name="fourth">文章管理</el-tab-pane>
+      <el-tab-pane label="文章管理" name="fourth">
+        <ArticleManager />
+      </el-tab-pane>
     </el-tabs>
   </div>
 </template>
@@ -23,6 +25,7 @@
 import { postRootPassword } from '@/assets/api/index'
 import LinkBase from '@/components/HomeComponent/Root/LinkBase.vue';
 import ArticleBase from '@/components/HomeComponent/Root/ArticleBase.vue';
+import ArticleManager from '@/components/HomeComponent/Root/ArticleManager.vue';
 export default {
     name: "Admin",
     data() {
@@ -42,7 +45,7 @@ export default {
         this.$store.commit("hideLeftSider", true);
         next();
     },
-    components: { LinkBase, ArticleBase }
+    components: { LinkBase, ArticleBase, ArticleManager }
 }
 </script>
 

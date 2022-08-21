@@ -48,7 +48,7 @@ export default {
     // 获取文章列表
     async getAllArticle() {
       const {data} = await getArticleList()
-      this.articleList = data.data
+      this.articleList = data.result
     }
   }
 };

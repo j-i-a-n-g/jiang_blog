@@ -83,7 +83,16 @@ export const deleteArticleImg = (data) => axios.post('/node/root/deleteImg', dat
 export const publishArticle = (data) => axios.post('/node/root/saveArticle',data)
 
 // 获取所有文章列表
-export const getArticleList = () => axios.get('/node/root/getArticlelist')
+export const getArticleList = (num) => axios.get('/node/root/getArticlelist',{params: {num: num}})
 
 // 获取文章详情
 export const getMdVal = (val) => axios.get(`/node${val}`)
+
+// 修改文章是否推荐的状态
+export const postChangeArticleHot = (row) => axios.post('/node/root/changeArticleHot', row)
+
+// 移除文章
+export const deleteArticle = (id) => axios.delete('/node/root/deleteArticle', {params: {id: id}})
+
+// 提交文章修改
+export const reviseArticleContent = (data) => axios.post('/node/root/reviseArticle', data)
