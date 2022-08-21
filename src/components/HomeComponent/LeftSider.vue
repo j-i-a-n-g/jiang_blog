@@ -126,8 +126,11 @@ export default {
     // 获取文章数据
     async getAllArticle() {
       const { data } = await getArticleList();
-      const articleList = data.data;
-      this.article_Arr = articleList.slice(1,5)
+      const articleList = data.result;
+    // 获取热门文章的数据
+    this.article_Arr = articleList.filter(item => {
+      return item.articleHot === true
+    })
     },
     // 查看文章详细内容
     watchFullText(url) {
@@ -143,7 +146,7 @@ export default {
   display: flex;
   flex-flow: column;
   align-items: center;
-  width: 300px;
+  width: 100%;
   // height: 600px;
   padding: 17px;
   background: transparent;

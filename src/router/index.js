@@ -59,6 +59,11 @@ const routes = [
     path: '/article/:id',
     name: 'FullText',
     component: () =>import('@/components/HomeComponent/FullText.vue')
+  },
+  {
+    path: '/articleContent/:id',
+    name: 'ArticleContent',
+    component: () =>import('@/components/HomeComponent/Root/ArticleContent.vue')
   }
 ]
 

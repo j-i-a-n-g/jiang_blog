@@ -42,7 +42,7 @@ export default {
     &-left {
       width: 300px;
       max-height: 900px;
-      padding-right: 40px;
+      padding-right: 35px;
       box-shadow: 0 0 2px 1px #ccc;
       margin-top: 50px;
       overflow-y: scroll;

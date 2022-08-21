@@ -118,6 +118,7 @@ export default {
     },
     // 删除文件
     async deleteChoosedFile() {
+      console.log(this.fileUrl.path);
         const {data} = await deleteFile({
           path: this.fileUrl.path
         })
