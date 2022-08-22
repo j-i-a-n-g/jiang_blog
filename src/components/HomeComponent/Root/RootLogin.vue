@@ -73,7 +73,7 @@ export default {
         }
       })
     },
-    resetForm(formName) {
+    async resetForm(formName) {
       this.$refs[formName].resetFields();
       await initializeAccount()
       this.$message.success('初始化账号成功')
