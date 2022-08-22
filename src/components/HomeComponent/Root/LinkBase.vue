@@ -82,7 +82,6 @@ export default {
     async getAllLinks() {
       const {data} = await getLinkList()
       this.tableData.push(...data.data)
-      console.log(this.tableData);
     }
   },
 };

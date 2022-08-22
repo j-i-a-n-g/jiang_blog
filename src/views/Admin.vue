@@ -30,9 +30,12 @@ export default {
     name: "Admin",
     data() {
         return {
-            activeName: "second",
+            activeName: "fourth",
             rootPass: ""
         };
+    },
+    created() {
+      this.$store.commit('hideLeftSider', false)
     },
     methods: {
         // 修改密码

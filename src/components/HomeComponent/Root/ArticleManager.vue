@@ -58,10 +58,10 @@
           />
           <el-upload
             class="upload-demo"
-            action="/node/root/uploadArticleImg" 
+            action="/node/root/reviseArticleImg" 
             :data="{articleImgUrl: scope.row.articleImgUrl, id:scope.row._id}"
-            :on-success="updateActicleImg"
-            :on-remove="deleteChoosedImg"
+            :on-success="function(response){updateActicleImg(response, scope.row)}"
+            :on-remove="function(file){deleteChoosedImg(file,scope.row)}"
             :limit="1">
             <el-button size="small" type="primary">点击上传</el-button>
             <div slot="tip" class="el-upload__tip">
@@ -139,12 +139,12 @@ export default {
       const bol = this.originData.find((item) => {
         return item._id === row._id;
       });
-      // if (
-      //   bol.articleTitle === row.articleTitle &&
-      //   bol.articleDesc === row.articleDesc 
-      // ) {
-      //   return this.$message("未对文章内容做修改");
-      // }
+      if (
+        bol.articleTitle === row.articleTitle &&
+        bol.articleDesc === row.articleDesc 
+      ) {
+        return this.$message("未对文章内容做修改");
+      }
       const { data } = await reviseArticleContent(row)
       this.$message.success(data.message);
     },
@@ -177,7 +177,9 @@ export default {
         });
     },
     // 上传图片成功后的事件
-    updateActicleImg(response, file, fileList) {
+    updateActicleImg(response, row) {
+      row.articleImgUrl = response.data.url
+      console.log(response, row);
       if (response.code) {
         this.$message.success(response.message);
       } else {
@@ -185,12 +187,13 @@ export default {
       }
     },
     // 删除图片
-    async deleteChoosedImg(file, fileList) {
-      console.log(file);
+    async deleteChoosedImg(file, row) {
+      console.log(row);
       const { data } = await deleteArticleImg({
         path: file.response.data.path,
       });
-      this.$message.success(data.message);
+      row.articleImgUrl = '/img/avatar.png'
+      this.$message.success('删除图片成功');
     },
     // 分页器
     handleCurrentChange(num) {
