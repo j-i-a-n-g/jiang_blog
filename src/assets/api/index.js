@@ -61,6 +61,10 @@ export const getAllMessage = (val) => axios.get('/node/message/getAll', {params:
 }})
 
 // -----------------------------------
+
+// 初始化路由
+export const initializeAccount = () => axios.get('/node/root/')
+
 // 登录路由
 export const rootLogin = (data) => axios.post('/node/root/rootlogin',data)
 
