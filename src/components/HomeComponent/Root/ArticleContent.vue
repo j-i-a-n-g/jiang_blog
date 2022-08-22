@@ -1,5 +1,9 @@
 <template>
   <div class="article-content">
+    <span class="article-content-back" @click="$router.go(-1)">
+      <i class="el-icon-arrow-left"></i>
+      返回
+    </span>
     <mavonEditor v-model="handbook" 
     @save="handlerSubmit" />
   </div>
@@ -49,5 +53,10 @@ components: {
 .article-content {
   margin-top: 50px;
   overflow-y: scroll;
+  &-back {
+    display: inline-block;
+    margin-bottom: 20px;
+    cursor: pointer;
+  }
 }
 </style>
