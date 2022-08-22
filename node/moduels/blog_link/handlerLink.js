@@ -55,9 +55,17 @@ const getUserLink = async function(id) {
   return {code:1, message: "获取用户友链信息成功", data:bol}
 }
 
+// 删除友链
+const deleteLink = async function(id) {
+  const bol = await link.deleteOne({_id: id})
+  if(bol.deletedCount) return { code:1, message: '删除友链成功' }
+  return { code:0, message: '删除友链失败，请稍后重试' }
+}
+
 module.exports = {
   addUserLink,
   getAllLink,
   changeHotLink,
-  getUserLink
+  getUserLink,
+  deleteLink
 }

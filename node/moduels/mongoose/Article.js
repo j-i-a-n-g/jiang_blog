@@ -10,6 +10,10 @@ module.exports = mongoose.model(
       type: String,
       default: '/img/avatar.png'
     },
+    articleHot: {
+      type:Boolean,
+      default: false
+    },
     articleDate: Date,
 
   },

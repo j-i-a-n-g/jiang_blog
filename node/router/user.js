@@ -19,7 +19,6 @@ router.get('/getAllLink', async(req, res) => {
 // 获取当前用户的友链信息
 router.get('/getUserLink', async (req, res) => {
   const {_id} = req.session.userSession
-  // console.log(_id);
   const result = await getUserLink(_id)
   res.send(result)
 })

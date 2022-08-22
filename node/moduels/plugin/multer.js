@@ -11,7 +11,6 @@ const storage = multer.diskStorage({
     }
   },
   filename: function (req, file, cb) { // 设置上传文件名称
-    console.log(file);
     cb(null, Date.now() + file.originalname)
   }
 })
