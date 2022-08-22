@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import { rootLogin } from '@/assets/api/index'
+import { rootLogin, initializeAccount } from '@/assets/api/index'
 export default {
   name: "RootLogin",
   data() {
@@ -61,6 +61,7 @@ export default {
       this.$refs[formName].validate(async (valid) => {
         if (valid) {
           const {data} = await rootLogin(this.ruleForm)
+          console.log(data);
           this.$store.commit('setRootName', data.data.rootName)
           this.$message.success(data.message)
           this.$store.commit('hideLeftSider', false)
@@ -71,8 +72,10 @@ export default {
         }
       })
     },
-    resetForm(formName) {
+    async resetForm(formName) {
       this.$refs[formName].resetFields();
+      await initializeAccount()
+      this.$message.success('初始化账号成功')
     },
   },
 };
