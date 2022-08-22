@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import { rootLogin } from '@/assets/api/index'
+import { rootLogin, initializeAccount } from '@/assets/api/index'
 export default {
   name: "RootLogin",
   props: ['isShow'],
@@ -75,6 +75,8 @@ export default {
     },
     resetForm(formName) {
       this.$refs[formName].resetFields();
+      await initializeAccount()
+      this.$message.success('初始化账号成功')
     },
   },
 };
