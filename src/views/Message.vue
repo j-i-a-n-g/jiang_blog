@@ -140,8 +140,9 @@ export default {
     },
     // 获取留言数据
     async showAllMessage(val = 0) {
-      if (!this.$store.state.userInfo._id)
-        return this.$message.error("未登录账号，无法查看");
+      if (!this.$store.state.userInfo._id) {
+        return this.tips = '登录账号才能查看'
+      }
       const { data } = await getAllMessage(val);
       this.publishMessage.push(...data.data);
       this.loading = false;

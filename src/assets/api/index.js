@@ -1,24 +1,9 @@
 const axios = require('axios')
 
-axios.default.baseURL = 'http://localhost:80'
-axios.default.headers = {
-  "Content-Type": "text/html;charset=utf-8"
-}
-// axios.interceptors.response.use(response => {
-//         response.responseType = 'blob'
-//         response.transformResponse = [function(data) {
-//           var reader = new FileReader()
-//           reader.readAsText(data, 'GBK')
-//           reader.onload = function(e) {
-//             var music = JSON.parse(reader.result)
-//             console.log(music)
-//             that.data = music
-//           }
-//           return data
-//         }]
-//         return response
-// })
-
+axios.default.baseURL = 'http://localhost:120'
+// axios.default.headers = {
+//   "Content-Type": "aplication/json;charset=utf-8"
+// }
 
 // 发送邮箱信息
 export const postEmailMessage = (data) => axios.post('/node/blog/email', { data: data })
@@ -100,3 +85,6 @@ export const deleteArticle = (id) => axios.delete('/node/root/deleteArticle', {p
 
 // 提交文章修改
 export const reviseArticleContent = (data) => axios.post('/node/root/reviseArticle', data)
+
+// 提交文章标题和简介的修改
+export const reviseArticleTitle = (data) => axios.post('/node/root/revisetitle', data)
