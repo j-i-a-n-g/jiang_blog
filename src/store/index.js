@@ -448,7 +448,9 @@ export default new Vuex.Store({
         ],
         rootName: '',
         // 隐藏侧边栏
-        showLeftSider: true
+        showLeftSider: true,
+        // 文章列表数据
+        articleList: []
   },
   getters: {
   },
@@ -474,6 +476,10 @@ export default new Vuex.Store({
     // 隐藏侧边栏
     hideLeftSider(state,val) {
       state.showLeftSider = val
+    },
+    // 设置文章列表数据
+    setArticleList(state,val) {
+      state.articleList = val
     }
   },
   actions: {

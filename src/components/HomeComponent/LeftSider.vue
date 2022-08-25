@@ -8,6 +8,22 @@
     <!-- 文章 -->
     <div class="left-article-text">
       <h3 class="border_left">热门文章</h3>
+            <el-skeleton :loading="article_Arr.length ? false : true" animated>
+        <template slot="template">
+          <!-- 图片位置 -->
+          <div style="display: flex;  margin-top: 20px;">
+          <el-skeleton-item
+            variant="image"
+            style="width: 60px; height: 60px;"/>
+          <!-- 描述位置 -->
+          <div style="display: flex; flex-direction: column;">
+            <el-skeleton-item variant="text" style="margin:0 0 10px 20px; width:230px;" />
+            <el-skeleton-item variant="text" style="margin:0 0 10px 20px; width: 230px;" />
+            <el-skeleton-item variant="text" style="margin-left: 20px; width: 150px;" />
+          </div>
+          </div>
+        </template>
+      <template>
       <ul>
         <li
           class="left-article-text-list"
@@ -21,6 +37,8 @@
           <span>{{ item.articleDesc }}</span>
         </li>
       </ul>
+      </template>
+      </el-skeleton>
     </div>
     <!-- 博客 -->
     <div class="left-blog-message">
@@ -127,6 +145,8 @@ export default {
     async getAllArticle() {
       const { data } = await getArticleList();
       const articleList = data.result;
+      this.$store.commit('setArticleList',articleList)
+
     // 获取热门文章的数据
     this.article_Arr = articleList.filter(item => {
       return item.articleHot === true

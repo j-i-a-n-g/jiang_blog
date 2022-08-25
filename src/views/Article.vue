@@ -29,13 +29,13 @@
 </template>
 
 <script>
-import { getArticleList } from '@/assets/api/index'
+// import { getArticleList } from '@/assets/api/index'
 export default {
   name: "Article",
   data() {
     return {
       // 数据源
-      articleList: [],
+      articleList: this.$store.state.articleList
     }
   },
   created() {
@@ -45,11 +45,11 @@ export default {
     watchFullText(url) {
       this.$router.push({name:"FullText",params:{id:url}})
     },
-    // 获取文章列表
-    async getAllArticle() {
-      const {data} = await getArticleList()
-      this.articleList = data.result
-    }
+    // // 获取文章列表
+    // async getAllArticle() {
+    //   const {data} = await getArticleList()
+    //   this.articleList = data.result
+    // }
   }
 };
 </script>

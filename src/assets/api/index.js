@@ -1,9 +1,19 @@
 const axios = require('axios')
+import NProgress from 'nprogress'
+import 'nprogress/nprogress.css'
 
 axios.default.baseURL = 'http://localhost:120'
 // axios.default.headers = {
 //   "Content-Type": "aplication/json;charset=utf-8"
 // }
+axios.interceptors.request.use(config => {
+  NProgress.start()
+  return config
+})
+axios.interceptors.response.use(config => {
+  NProgress.done()
+  return config
+})
 
 // 发送邮箱信息
 export const postEmailMessage = (data) => axios.post('/node/blog/email', { data: data })

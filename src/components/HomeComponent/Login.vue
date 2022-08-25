@@ -42,7 +42,7 @@ export default {
     let userCaptcha = (rule, value, callback) => {
       if (!value) {
         return callback(new Error("验证码不能为空"));
-      } else if (value !== this.isSvg) {
+      } else if (value.toLowerCase() !== this.isSvg) {
         return callback(new Error("验证码错误"));
       }
       callback();
