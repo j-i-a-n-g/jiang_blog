@@ -34,7 +34,7 @@ module.exports = {
         }
       },
       '/node' : {
-        target: 'http://localhost:80',
+        target: 'http://localhost:120',
         ws:true,
         changeOrigin: true,
         pathRewrite: {

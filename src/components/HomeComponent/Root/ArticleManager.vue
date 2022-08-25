@@ -106,7 +106,7 @@ import {
   getArticleList,
   postChangeArticleHot,
   deleteArticle,
-  reviseArticleContent,
+  reviseArticleTitle,
   deleteArticleImg,
 } from "@/assets/api/index";
 export default {
@@ -135,17 +135,21 @@ export default {
       this.originData = this.tableData.slice(0);
     },
     // 提交对文章内容的修改
-    async submitArticleChange(row) {
-      const bol = this.originData.find((item) => {
-        return item._id === row._id;
-      });
-      if (
-        bol.articleTitle === row.articleTitle &&
-        bol.articleDesc === row.articleDesc 
-      ) {
-        return this.$message("未对文章内容做修改");
-      }
-      const { data } = await reviseArticleContent(row)
+    async submitArticleChange({articleDesc, articleTitle, _id}) {
+      // const bol = this.originData.find((item) => {
+      //   return item._id === row._id;
+      // });
+      // if (
+      //   bol.articleTitle === row.articleTitle &&
+      //   bol.articleDesc === row.articleDesc 
+      // ) {
+      //   return this.$message("未对文章内容做修改");
+      // }
+      const { data } = await reviseArticleTitle({
+        articleDesc,
+        articleTitle,
+        _id
+      })
       this.$message.success(data.message);
     },
     // 取消修改
