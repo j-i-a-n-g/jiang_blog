@@ -110,7 +110,7 @@ a {
   z-index: 99;
   width: 100vw;
   height: 50px;
-  background: linear-gradient( to right, #11C3F2, #6CF1AD);
+  background: linear-gradient(to right, #ff9569 0%, #e92758 100%);
   box-shadow: 0 0 5px 1px #eee;
   cursor: pointer;
   &-content {
