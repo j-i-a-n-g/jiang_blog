@@ -18,9 +18,13 @@ router.get('/getAllLink', async(req, res) => {
 
 // 获取当前用户的友链信息
 router.get('/getUserLink', async (req, res) => {
+  if(req.session.userSession) {
   const {_id} = req.session.userSession
   const result = await getUserLink(_id)
   res.send(result)
+  } else {
+  res.send({code:1,message:'用户未登录'})
+  }
 })
 
 module.exports = router

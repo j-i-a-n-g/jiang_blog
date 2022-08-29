@@ -25,7 +25,7 @@ const saveArticle = async function({articleTitle,articleDesc,articleFileUrl,arti
     articleFileUrl,
     articleImgUrl,
     articleDate,
-    articleHot
+    articleHot: false
   })
   if(!result) return {code:0, message: '发表失败，请重试', data: ""}
   return {code:1, message: '发表成功', data: result}

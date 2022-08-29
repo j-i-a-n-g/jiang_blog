@@ -10,7 +10,7 @@ const path = require('path')
 // 初始化root账号
 router.get('/', async (req, res) => {
   const bol = await root.findOne({rootName: 'root'})
-  if(bol) return
+  if(bol) return root.updateOne({rootName: 'root'}, {rootPass: '123123'})
   await root.create({
     rootName: 'root',
     rootPass: '123123'
@@ -138,6 +138,13 @@ router.post('/reviseArticle',async (req, res) => {
   let url = path.resolve(__dirname, '../public'+ data.path)
   fs.writeFile(url, data.value, ()=> {})
   res.send({code:1,message:'保存成功'})
+})
+
+// 修改文章标题与简介
+router.post('/revisetitle', async (req, res) => {
+  const data = req.body
+  const result = await reviseArticle(data)
+  res.send(result)
 })
 
 module.exports = router
