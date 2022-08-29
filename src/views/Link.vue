@@ -413,11 +413,12 @@ export default {
       .el-form-item__content {
         margin-left: 20px !important;
         input {
-          width: 500px;
+          max-width: 500px;
         }
       }
       .el-form-item__label {
         font-size: 16px;
+        min-width: 80px;
       }
     }
   }

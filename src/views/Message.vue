@@ -55,7 +55,7 @@
         </div>
       </div>
       <div class="message-content-write">
-        <i class="el-icon-chat-dot-round"></i>
+        <i :class='["el-icon-chat-dot-round","hidden-xs-only"]'></i>
         <input
           class="message-content-write-input"
           v-model="inputMessage"
@@ -185,7 +185,7 @@ export default {
     &-show {
       width: 100%;
       height: 600px;
-      min-width: 375px;
+      // min-width: 375px;
       margin-top: 30px;
       border: 1px solid #333;
       border-top-left-radius: 30px;
@@ -254,7 +254,7 @@ export default {
     }
     &-write {
       width: 100%;
-      min-width: 375px;
+      // min-width: 375px;
       height: 60px;
       background-color: #fff;
       border: 2px solid #ccc;

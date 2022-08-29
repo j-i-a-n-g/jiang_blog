@@ -168,19 +168,21 @@ export default {
     padding-left: 10px;
   }
   &-form {
-    margin: 20px;
-    width: 80%;
-    min-width:550px;
+    margin: 20px 0;
+    width: 90%;
     border-radius: 30px;
     border: 1px solid #ccc;
     ::v-deep .el-form {
       margin: 25px auto;
       .el-form-item__label {
-        font-size: 18px !important;
+        font-size: 14px !important;
       }
       .el-form-item__content {
         .el-input {
-          width: 400px;
+          max-width: 400px;
+          .el-input__inner {
+            width: 90%;
+          }
         }
       }
     }

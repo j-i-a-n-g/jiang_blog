@@ -30,7 +30,7 @@ export default {
   font-size: 16px;
   &-content {
     max-width: 1500px;
-    height: 100%;
+    // height: 100%;
     margin: 0 auto;
     display: flex;
     flex-wrap: nowrap;
@@ -45,17 +45,16 @@ export default {
       width: 300px;
       max-height: 900px;
       padding-right: 35px;
-      box-shadow: 0 0 2px 1px #ccc;
       margin-top: 50px;
       overflow-y: scroll;
       overflow-x: hidden;
     }
     &-right {
       flex: 1;
-      height: 100vh;
+      height: 95vh;
       max-height: 1200px;
-      // z-index: 2;
-      overflow-y: scroll;
+      overflow: hidden;
+      overflow-y: auto;
       // 隐藏滚动条兼容性处理
       scrollbar-width: none; /* Firefox */
       -ms-overflow-style: none; /* IE 10+ */

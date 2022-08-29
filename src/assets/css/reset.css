@@ -71,6 +71,8 @@ html, body {
   font-size: 0;
   /* 整个项目不允许区选中文字 */
   user-select: none;
+  -webkit-overflow-scrolling: touch;
+  -webkit-tab-hightlight-color: rgba(0,0,0,0);
   }
 
 .border-left {

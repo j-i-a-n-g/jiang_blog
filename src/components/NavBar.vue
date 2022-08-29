@@ -1,6 +1,7 @@
 <template>
   <div class="nav-bar">
     <div class="nav-bar-content">
+      <!-- 左侧logo -->
       <div :class="['nav-bar-content-logo','hidden-xs-only']">
         <img src="@img/logo.png" draggable="false" alt="">
       </div>
@@ -142,12 +143,11 @@ a {
     &-list {
       display: flex;
       max-width: 800px;
-      min-width: 600px;
+      min-width: 300px;
       height: 50px;
       line-height: 50px;
       text-align: center;
       font-size: 16px;
-      // margin-left: 250px;
       li {
         width: 100px;
         border: 1px solid #C4F9FF;
@@ -159,7 +159,6 @@ a {
       width: 100px;
       height: 40px;
       right: 0;
-      // border: 1px solid #C4F9FF;
       margin-right: 20px;
       display: flex;
       align-items: center;

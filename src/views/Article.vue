@@ -78,6 +78,15 @@ export default {
       }
       &-desc {
         display: inline-block;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        // 谷歌
+        display: -webkit-box;
+        // 行数
+        -webkit-line-clamp: 5;
+        -webkit-box-orient: vertical;
+        font-size: 14px;
+        line-height: 20px;
         max-width: 800px;
         margin-left: 20px;
         font-size: 14px;
