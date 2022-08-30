@@ -7,7 +7,7 @@
         <LeftSider></LeftSider>
       </div>
       <div class="app-content-right">
-        <keep-alive>
+        <keep-alive :include="['Article','Home','About']">
           <router-view></router-view>
         </keep-alive>
       </div>
@@ -30,7 +30,6 @@ export default {
   font-size: 16px;
   &-content {
     max-width: 1500px;
-    // height: 100%;
     margin: 0 auto;
     display: flex;
     flex-wrap: nowrap;
@@ -53,8 +52,8 @@ export default {
       flex: 1;
       height: 95vh;
       max-height: 1200px;
-      overflow: hidden;
-      overflow-y: auto;
+      // overflow: hidden;
+      overflow-y: scroll;
       // 隐藏滚动条兼容性处理
       scrollbar-width: none; /* Firefox */
       -ms-overflow-style: none; /* IE 10+ */

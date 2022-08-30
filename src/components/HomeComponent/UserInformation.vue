@@ -2,7 +2,7 @@
   <div class="user-information">
     <h3 class="border-left">修改资料</h3>
     <div class="user-information-tab">
-      <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
+      <el-tabs v-model="activeName" type="card">
       <!-- 修改用户名 -->
         <el-tab-pane label="用户名" name="first">
           <UserName></UserName>

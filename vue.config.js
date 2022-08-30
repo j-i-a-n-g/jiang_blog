@@ -6,6 +6,8 @@ module.exports = {
   configureWebpack: config => {
     if(process.env.NODE_ENV === 'production') {
       // 生产环境
+      // 删除所有的console.log
+      config.optimization.minimizer[0].options.terserOptions.compress.drop_console = true
     } else {
       // 开发环境
     }
@@ -20,9 +22,6 @@ module.exports = {
       }
     }
   },
-  // defineConfig: ({
-  //   //   transpileDependencies: true,
-  // })
   devServer: {
     proxy: {
       '/api': {

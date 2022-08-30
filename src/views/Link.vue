@@ -317,11 +317,15 @@ export default {
     // 获取当前账号的友链信息
     async getUserLink() {
       const {data} = await getLinkById()
-      this.blogForm.blogName = data.data.blogName,
-      this.blogForm.blogOrigin = data.data.blogOrigin,
-      this.blogForm.blogLogo = data.data.blogLogo,
-      this.blogForm.blogMessage = data.data.blogMessage,
-      this.blogForm.blogDate = DateFilter(data.data.blogDate)
+      if(data.data) {
+        this.blogForm.blogName = data.data.blogName,
+        this.blogForm.blogOrigin = data.data.blogOrigin,
+        this.blogForm.blogLogo = data.data.blogLogo,
+        this.blogForm.blogMessage = data.data.blogMessage,
+        this.blogForm.blogDate = DateFilter(data.data.blogDate)
+      } else {
+        return
+      }
     }
   },
 };

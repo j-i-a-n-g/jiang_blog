@@ -46,7 +46,6 @@ export default {
       this.$refs[formName].validate(async (valid) => {
         if (valid) {
           const {data} = await postChangeUsername(this.ruleForm)
-          console.log(data);
           if (data.code) {
             this.$store.commit('setUserInfo', data.data) 
             this.$message.success('更改用户名成功')

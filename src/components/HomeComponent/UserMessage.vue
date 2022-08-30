@@ -41,6 +41,12 @@ export default {
     reviseeMssage() {
       this.$emit('reviseeMssage')
     }
+  },
+  // 监听vueX中用户信息的变化
+  watch: {
+    '$store.state.userInfo'() {
+      this.userInfo = this.$store.state.userInfo
+    }
   }
 }
 </script>

@@ -21,8 +21,6 @@ data() {
   }
 },
 created() {
-  this.$store.commit('hideLeftSider', false)
-  console.log(this.$route.params.id);
   this.getmd(this.$route.params.id)
 },
 methods: {
@@ -31,8 +29,13 @@ methods: {
     this.handbook = data
   }
 },
+beforeRouteEnter(to, from, next) {
+  next(vm => {
+    vm.$store.commit("hideLeftSider", false)
+  });
+},
 beforeRouteLeave(to, from, next) {
-    this.$store.commit("hideLeftSider", true);
+    this.$store.commit("hideLeftSider", true)
     next();
 },
 components: {
