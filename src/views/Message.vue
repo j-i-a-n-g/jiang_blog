@@ -185,13 +185,12 @@ export default {
     &-show {
       width: 100%;
       height: 600px;
-      // min-width: 375px;
       margin-top: 30px;
       border: 1px solid #333;
       border-top-left-radius: 30px;
       border-top-right-radius: 30px;
       background-color: #eee;
-      padding: 50px;
+      padding: 30px 20px;
       box-sizing: border-box;
       overflow: hidden;
       overflow-y: auto;
@@ -204,9 +203,9 @@ export default {
           border: 1px solid rgb(16, 16, 16);
           border-radius: 20px;
           background-color: #fff;
-          padding: 20px;
+          padding: 10px;
           min-height: 30px;
-          min-width: 375px;
+          width: 100%;
           box-sizing: border-box;
           margin-bottom: 15px;
           &-content {

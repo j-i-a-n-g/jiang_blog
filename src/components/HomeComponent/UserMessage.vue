@@ -52,11 +52,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+$viewportWidth: 100vw;
 .user-message {
   position: absolute;
   right: -19px;
   top: 51px;
-  width: 400px;
+  width: 320px;
   height: 250px;
   box-shadow: 0 0 3px 1px #ccc;
   padding: 20px;
