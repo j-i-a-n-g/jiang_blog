@@ -9,6 +9,10 @@ module.exports = mongoose.model(
       type: String,
       default: new Date()
     },
+    lastOriginTime: {
+      type: String,
+      default: new Date()
+    },
     userAvatar: {
       type: String,
       default: '/img/avatar.png'

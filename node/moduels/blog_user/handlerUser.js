@@ -8,6 +8,8 @@ const handlerUser = async ({username, password}) => {
     return {code:1, message: '注册成功', data}
   } 
   if(result.password === password) {
+    const nowDate = new Date()
+    await user.updateOne({username: username},{lastOriginTime: nowDate})
     return {code:1, message: '登录成功', data: result}
   }
   return {code:0, message: '登录失败', data: ""}

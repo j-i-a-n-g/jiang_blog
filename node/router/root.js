@@ -140,11 +140,4 @@ router.post('/reviseArticle',async (req, res) => {
   res.send({code:1,message:'保存成功'})
 })
 
-// 修改文章标题与简介
-router.post('/revisetitle', async (req, res) => {
-  const data = req.body
-  const result = await reviseArticle(data)
-  res.send(result)
-})
-
 module.exports = router
