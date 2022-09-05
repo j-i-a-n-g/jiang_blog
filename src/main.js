@@ -23,6 +23,16 @@ Vue.filter('timer', (val) => {
   const ss = addZero(new Date(val).getSeconds())
   return `${y}-${m}-${d} ${hh}:${mm}:${ss}`
 })
+Vue.filter('timer2', (val) => {
+  const addZero = function(value) {
+    if(value < 10) return `0${value}`
+    return value
+  }
+  const y = addZero(new Date(val).getFullYear())
+  const m = addZero(new Date(val).getMonth() + 1)
+  const d = addZero(new Date(val).getDate())
+  return `${y}-${m}-${d}`
+})
 Vue.prototype.$message = function(msg){
   return Message({
     message:msg,

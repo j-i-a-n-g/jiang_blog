@@ -205,7 +205,7 @@ export default {
     },
     // 跳转到修改文章内容页面
     routerToArticleContent(row) {
-      this.$router.push({name: 'ArticleContent', params:{id: row.articleFileUrl}})
+      this.$router.push({path: '/articleContent/' + row._id, query:{id: row.articleFileUrl}})
     }
   },
 };
@@ -235,5 +235,13 @@ export default {
       margin-top: 15px;
     }
   }
+  ::v-deep .el-table--fit {
+    min-height: 780px;
+  }
+  ::v-deep .el-pagination {
+    padding: 10px 20px;
+    background-color: #fff;
+  }
+
 }
 </style>

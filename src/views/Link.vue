@@ -308,7 +308,6 @@ export default {
         },
       ];
       const { data } = await getLinkList();
-      console.log(data.data);
       this.links.unshift(...data.data);
       this.hotLinks = data.data.filter((item) => {
         return item.blogHotLink === true;
@@ -356,6 +355,7 @@ export default {
       border-radius: 15px;
       padding: 10px;
       margin: 10px;
+      background-color: #fff;
       cursor: pointer;
       &-avatar {
         width: 50px;
@@ -416,14 +416,20 @@ export default {
       justify-content: left;
       .el-form-item__content {
         margin-left: 20px !important;
-        input {
-          max-width: 500px;
+        .el-input {
+          min-width: 300px;
         }
       }
       .el-form-item__label {
         font-size: 16px;
         min-width: 80px;
+        color: #fff;
       }
+    }
+  }
+  ::v-deep .el-tabs {
+    .el-tabs__item {
+      color: #fff;
     }
   }
 }

@@ -22,8 +22,7 @@ data() {
 },
 created() {
   this.$store.commit('hideLeftSider', false)
-  console.log(this.$route.params.id);
-  this.getmd(this.$route.params.id)
+  this.getmd(this.$route.query.id)
 },
 methods: {
   async getmd(val) {

@@ -10,6 +10,7 @@ export default new Vuex.Store({
       userAvatar: "",
       userDate: "",
       username: "",
+      lastOriginTime:'',
       _id: null,
     },
         // 表情
@@ -468,8 +469,9 @@ export default new Vuex.Store({
       state.userInfo = {
         password: "",
         userAvatar: "",
-        userDate: "",
+        userDate: "未登录",
         username: "",
+        lastOriginTime:'',
         _id: null,
       }
     },

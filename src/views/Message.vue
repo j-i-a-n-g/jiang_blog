@@ -4,10 +4,10 @@
       <h3><i class="el-icon-s-comment"></i>留言</h3>
     </div>
     <el-divider class="message-divider" content-position="left"
-      >留言区</el-divider
+      ></el-divider
     >
     <div class="message-content">
-      <el-alert title="友善发言，维护良好的互联网环境" type="warning">
+      <el-alert title="温馨提示：登录后方可查看与发表留言，请友善发言，维护良好的互联网环境" type="warning">
       </el-alert>
       <div class="message-content-show">
         <div class="infinite-list-wrapper" style="overflow: auto">
@@ -175,6 +175,7 @@ export default {
     font-size: 24px;
     .el-icon-s-comment {
       margin-right: 15px;
+      color: #fff;
     }
   }
   &-divider {
@@ -185,11 +186,9 @@ export default {
     &-show {
       width: 100%;
       height: 600px;
-      margin-top: 30px;
+      margin-top: 10px;
       border: 1px solid #333;
-      border-top-left-radius: 30px;
-      border-top-right-radius: 30px;
-      background-color: #eee;
+      background-color: rgba(238,238,238,.3);
       padding: 30px 20px;
       box-sizing: border-box;
       overflow: hidden;
@@ -200,7 +199,6 @@ export default {
       }
       &-ul {
         &-list {
-          border: 1px solid rgb(16, 16, 16);
           border-radius: 20px;
           background-color: #fff;
           padding: 10px;
@@ -278,8 +276,11 @@ export default {
   .tip {
     font-size: 14px;
     text-align: center;
-    color: #999;
+    color: #fff;
     line-height: 20px;
+  }
+  i {
+    color: #333;
   }
 }
 </style>

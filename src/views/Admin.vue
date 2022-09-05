@@ -68,4 +68,7 @@ export default {
     }
   }
 }
+::v-deep .el-tabs__item {
+    color: #fff;
+  }
 </style>

@@ -6,7 +6,7 @@
       </div>
       <div class="user-message-base-title">
         <p>昵称：<span>{{userInfo.username}}</span></p>
-        <p class="time">注册时间：<span>{{userInfo.userDate | timer}}</span></p>
+        <p class="time">注册时间：<span>{{userInfo.userDate | timer2}}</span></p>
       </div>
     </div>
     <!-- 按钮 -->

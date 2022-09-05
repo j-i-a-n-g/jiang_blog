@@ -18,7 +18,7 @@
               <p class="article-content-title-name">{{item.articleTitle}}</p>
               <div class="bottom clearfix">
                 <time class="time">{{ item.articleDate | timer }}</time>
-                <el-button type="text" class="button" @click="watchFullText(item.articleFileUrl)">查看全文</el-button>
+                <el-button type="text" class="button" @click="watchFullText(item._id,item.articleFileUrl)">查看全文</el-button>
               </div>
             </div>
           </el-card>
@@ -38,8 +38,8 @@ export default {
     }
   },
   methods: {
-    watchFullText(url) {
-      this.$router.push({name:"FullText",params:{id:url}})
+    watchFullText(id,url) {
+      this.$router.push({path: '/article/' + id , query:{id:url}})
     }
   }
 };
@@ -54,7 +54,7 @@ export default {
     margin: 10px;
   }
   ::v-deep .el-row {
-    margin-top: 40px;
+    margin-top: 20px;
     .el-card__body {
       margin: 20px;
     }

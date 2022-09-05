@@ -171,5 +171,8 @@ export default {
     height: 178px;
     display: block;
   }
+  ::v-deep .el-form-item__label {
+    color: #fff;
+  }
 }
 </style>

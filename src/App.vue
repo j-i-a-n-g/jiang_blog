@@ -33,7 +33,6 @@ export default {
     margin: 0 auto;
     display: flex;
     flex-wrap: nowrap;
-    overflow-y: scroll;
     // 隐藏滚动条兼容性处理
     scrollbar-width: none; /* Firefox */
     -ms-overflow-style: none; /* IE 10+ */
@@ -61,13 +60,15 @@ export default {
         display: none; /* Chrome Safari */
       }
       margin-top: 50px;
-      box-shadow: 0 0 2px 1px #ccc;
+      // box-shadow: 0 0 2px 1px #ccc;
     }
   }
+  
 }
 .globle {
   width: 100%;
   height: 100%;
 }
+
 </style>
 

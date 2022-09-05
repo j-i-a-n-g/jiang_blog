@@ -29,7 +29,7 @@
           class="left-article-text-list"
           v-for="item in article_Arr"
           :key="item._id"
-          @click="watchFullText(item.articleFileUrl)"
+          @click="watchFullText(item._id,item.articleFileUrl)"
         >
           <div class="article_bg">
             <img :src="'/node' + item.articleImgUrl" alt="" draggable="false" />
@@ -67,6 +67,7 @@
 <script>
 import RootLogin from "./Root/RootLogin.vue";
 import { getArticleList } from '@/assets/api/index'
+import { DateWithoutHours } from '@/assets/js/dateFilter'
 export default {
   name: "LeftSider",
   data() {
@@ -84,27 +85,27 @@ export default {
       blogText: [
         {
           iconClass: "el-icon-notebook-1",
-          titleText: "文章",
-          changeNumber: "1",
+          titleText: "文章总数",
+          changeNumber: 0,
         },
         {
           iconClass: "el-icon-chat-dot-square",
-          titleText: "评论数量",
-          changeNumber: "2",
+          titleText: "热门文章",
+          changeNumber: 0,
         },
         {
           iconClass: "el-icon-loading",
-          titleText: "运行天数",
-          changeNumber: "3",
+          titleText: "账号天数",
+          changeNumber: "未登录",
         },
         {
           iconClass: "el-icon-edit",
-          titleText: "最后活动",
-          changeNumber: "4",
+          titleText: "上次登录",
+          changeNumber: "未登录",
         },
       ],
       // 控制root登录面板的输入框
-      isShow: false
+      isShow: false,
     };
   },
   created() {
@@ -145,17 +146,57 @@ export default {
     async getAllArticle() {
       const { data } = await getArticleList();
       const articleList = data.result;
+      this.blogText[0].changeNumber = articleList.length
       this.$store.commit('setArticleList',articleList)
 
     // 获取热门文章的数据
     this.article_Arr = articleList.filter(item => {
       return item.articleHot === true
     })
+    this.blogText[1].changeNumber = this.article_Arr.length
+    this.article_Arr = this.article_Arr.slice(0, 3)
     },
     // 查看文章详细内容
-    watchFullText(url) {
-      this.$router.push({name:"FullText",params:{id:url}})
+    watchFullText(id,url) {
+      this.$router.push({path: '/article/' + id , query:{id:url}})
+    },
+    // 计算注册天数
+    getDaysBetween(enrollDate,newDate){
+    let startDate = Date.parse(enrollDate)
+    let endDate = Date.parse(newDate)
+    if (startDate>endDate){
+        return 0 + '天'
     }
+    if (startDate==endDate){
+        return 1 + '天'
+    }
+    let days= parseInt((endDate - startDate)/(1*24*60*60*1000));
+    return  days + '天'
+}
+    
+  },
+  watch: {
+    '$store.state.userInfo.userDate': {
+      handler: function(val) {
+      if(!val) return
+      if (val !== '未登录') {
+        // 获取现在的时间
+        const nowTime = new Date()
+        const result = this.getDaysBetween(val, nowTime)
+        this.blogText[2].changeNumber = result
+      } else {
+        this.blogText[2].changeNumber = '未登录'
+      }
+    },
+      immediate: true
+    },
+    '$store.state.userInfo.lastOriginTime': {
+      handler: function(val) {
+      if(!val) return this.blogText[3].changeNumber = '未登录'
+        this.blogText[3].changeNumber = DateWithoutHours(val)
+      },
+      immediate: true
+    },
   },
   components: { RootLogin },
 };
@@ -229,6 +270,9 @@ export default {
       flex-direction: row;
       height: 60px;
       margin-top: 15px;
+      padding: 5px;
+      background-color: rgba(232, 229, 229, .5);
+      border-radius: 6px;
       .article_bg {
         float: left;
         margin-right: 10px;
@@ -243,6 +287,7 @@ export default {
         -webkit-box-orient: vertical;
         font-size: 14px;
         line-height: 20px;
+        color: #333;
       }
     }
 
@@ -275,7 +320,9 @@ export default {
         margin-left: 10px;
         text-align: center;
         line-height: 25px;
-        width: 40px;
+        min-width: 20px;
+        padding: 2px 10px;
+        font-size: 14px;
         height: 25px;
         background-color: rgb(215, 46, 46);
         border-radius: 40%;

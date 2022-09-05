@@ -3,7 +3,6 @@
     <div class="nav-bar-content">
       <!-- 左侧logo -->
       <div :class="['nav-bar-content-logo','hidden-xs-only']">
-        <img src="@img/logo.png" draggable="false" alt="">
       </div>
       <ul class="nav-bar-content-list">
         <li v-for="(item, index) in navtitle" :key="index">
@@ -126,18 +125,6 @@ a {
     &-logo {
       width: 50px;
       height: 100%;
-      background-color: #C4F9FF;
-      border: 2px solid blue;
-      border-radius: 50%;
-      overflow: hidden;
-      box-sizing: border-box;
-      display: flex;
-      justify-content: center;
-      margin: 0 20px;
-      img {
-        width: 50px;
-        height: 50px;
-      }
     }
     // 标题列表样式
     &-list {

@@ -21,7 +21,7 @@ data() {
   }
 },
 created() {
-  this.getmd(this.$route.params.id)
+  this.getmd(this.$route.query.id)
 },
 methods: {
   async getmd(val) {
