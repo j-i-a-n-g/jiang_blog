@@ -31,7 +31,7 @@ methods: {
   },
   // 保存文档，提交到后端
  async handlerSubmit(value, render) {
-  const path = this.$route.params.id
+  const path = this.$route.query.id
    const {data} = await reviseArticleContent({value, path})
    this.$message.success(data.message)
    this.$router.push({path: '/admin'})

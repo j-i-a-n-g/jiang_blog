@@ -6,13 +6,13 @@
       </div>
       <ul class="nav-bar-content-list">
         <li v-for="(item, index) in navtitle" :key="index">
-        <router-link :to="item.path">{{item.title}}</router-link>
+        <router-link class="nav-bar-content-list-topic" :to="item.path">{{item.title}}</router-link>
         </li>
       </ul>
       <!-- 音乐播放器 -->
       <!-- <NavMusic /> -->
       <div class="nav-bar-content-login">
-        <div  @click="showState">
+        <div @click="showState">
           <i class="el-icon-key"></i>
           <span class="hidden-xs-only">{{$store.state.userInfo.username ? $store.state.userInfo.username : '登录戳我'}}</span>
         </div>
@@ -110,8 +110,7 @@ a {
   z-index: 99;
   width: 100vw;
   height: 50px;
-  background: linear-gradient(to right, #ff9569 0%, #e92758 100%);
-  box-shadow: 0 0 5px 1px #eee;
+  // box-shadow: 0 0 5px 1px #eee;
   cursor: pointer;
   &-content {
     height: 100%;
@@ -136,8 +135,33 @@ a {
       text-align: center;
       font-size: 16px;
       li {
-        width: 100px;
-        border: 1px solid #C4F9FF;
+        width: 80px;
+        // border: 1px solid #C4F9FF;
+        // border-radius: 10px;
+        margin: 0 2px;
+        position: relative;
+        pointer-events: none;
+        &::after {
+          content: "";
+          position: absolute;
+          top: 0;
+          left: 0;
+          bottom: 0;
+          right: 0;
+          // border: 2px solid #16a085;
+          transform-origin: center;
+        }
+        &:hover::after {
+          transform: scale(1.25);
+          transition: all ease-out .5s;
+          border: 1px solid #96f3e0;
+          border-radius: 10px;
+          opacity: 0;
+        }
+        .nav-bar-content-list-topic {
+          color: #fff;
+          pointer-events: auto;
+        }
       }
     }
     // 登录按钮
@@ -150,6 +174,9 @@ a {
       display: flex;
       align-items: center;
       justify-content: center;
+      &:hover {
+        text-shadow: 0 0 10px #fff;
+      }
       i {
         font-size: 20px;
       }

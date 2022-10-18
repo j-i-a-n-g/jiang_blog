@@ -1,8 +1,5 @@
 <template>
   <div class="about">
-    <div class="about-img">
-      <img src="@/assets/img/misaka.jpg" alt="">
-    </div>
     <!-- 自述 -->
     <div class="about-text">
       <h3 class="border_left">自述</h3>
@@ -36,6 +33,9 @@
         <el-button @click="resetForm('ruleForm')">重置</el-button>
       </el-form-item>
     </el-form>
+    </div>
+    <div class="about-img">
+      <img src="@/assets/img/misaka.jpg" alt="">
     </div>
   </div>
 </template>

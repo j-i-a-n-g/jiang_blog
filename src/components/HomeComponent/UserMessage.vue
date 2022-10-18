@@ -30,8 +30,8 @@ export default {
   },
   methods: {
     async userLogout() {
-      const {data} = await postUserLogout()
-      console.log(data);
+      await postUserLogout()
+      // console.log(data);
       this.$store.commit('deleteUserInfo')
       this.$emit('hideUsermessage')
       this.$message.success('退出登录成功')

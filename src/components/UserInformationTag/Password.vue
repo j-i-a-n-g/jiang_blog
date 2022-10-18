@@ -114,6 +114,7 @@ export default {
       .el-form-item__label {
         font-size: 16px;
         width: 80px !important;
+        color: #fff;
       }
       .el-button--primary {
         width: 100px;

@@ -71,7 +71,7 @@ export default {
     }
     .el-form-item__label {
       font-size: 18px;
-      color: #333;
+      color: #fff;
       width: 90px !important;
       text-align: left;
       padding: 0;

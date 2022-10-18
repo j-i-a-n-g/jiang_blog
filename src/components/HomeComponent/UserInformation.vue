@@ -95,4 +95,9 @@ export default {
   height: 178px;
   display: block;
 }
+.el-tabs__nav {
+  .el-tabs__item {
+  color: #fff;
+}
+} 
 </style>

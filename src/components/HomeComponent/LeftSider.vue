@@ -8,36 +8,58 @@
     <!-- 文章 -->
     <div class="left-article-text">
       <h3 class="border_left">热门文章</h3>
-            <el-skeleton :loading="article_Arr.length ? false : true" animated>
+      <el-skeleton :loading="article_Arr.length ? false : true" animated>
         <template slot="template">
           <!-- 图片位置 -->
-          <div style="display: flex;  margin-top: 20px;">
-          <el-skeleton-item
-            variant="image"
-            style="width: 60px; height: 60px;"/>
-          <!-- 描述位置 -->
-          <div style="display: flex; flex-direction: column;">
-            <el-skeleton-item variant="text" style="margin:0 0 10px 20px; width:230px;" />
-            <el-skeleton-item variant="text" style="margin:0 0 10px 20px; width: 230px;" />
-            <el-skeleton-item variant="text" style="margin-left: 20px; width: 150px;" />
-          </div>
+          <div style="display: flex; margin-top: 20px">
+            <el-skeleton-item
+              variant="image"
+              style="width: 60px; height: 60px"
+            />
+            <!-- 描述位置 -->
+            <div style="display: flex; flex-direction: column">
+              <el-skeleton-item
+                variant="text"
+                style="margin: 0 0 10px 20px; width: 230px"
+              />
+              <el-skeleton-item
+                variant="text"
+                style="margin: 0 0 10px 20px; width: 230px"
+              />
+              <el-skeleton-item
+                variant="text"
+                style="margin-left: 20px; width: 150px"
+              />
+            </div>
           </div>
         </template>
-      <template>
-      <ul>
-        <li
-          class="left-article-text-list"
-          v-for="item in article_Arr"
-          :key="item._id"
-          @click="watchFullText(item._id,item.articleFileUrl)"
-        >
-          <div class="article_bg">
-            <img :src="'/node' + item.articleImgUrl" alt="" draggable="false" />
+        <template>
+          <div class="left-article-text-box" ref="scrollBox" :style="{height: '175px', overflow: 'hidden'}">
+            <ul
+              class="left-article-text-box-ul"
+              ref="scrollUl"
+              @mouseover="scrollStop"
+              @mouseout="scrollStart"
+            >
+              <li
+                class="left-article-text-box-list"
+                v-for="item in article_Arr"
+                :key="item._id"
+                @click="watchFullText(item._id, item.articleFileUrl)"
+              >
+                <div class="article_bg">
+                  <img
+                    :src="'/node' + item.articleImgUrl"
+                    alt=""
+                    draggable="false"
+                  />
+                </div>
+                <span>{{ item.articleDesc }}</span>
+              </li>
+            </ul>
+            <ul ref="scrollUl2"></ul>
           </div>
-          <span>{{ item.articleDesc }}</span>
-        </li>
-      </ul>
-      </template>
+        </template>
       </el-skeleton>
     </div>
     <!-- 博客 -->
@@ -60,14 +82,18 @@
       <i class="el-icon-s-cooperation"></i>
       管理
     </div>
-    <RootLogin :isShow="isShow" @hideRootLogin="isShow = false" class="root-login-form" />
+    <RootLogin
+      :isShow="isShow"
+      @hideRootLogin="isShow = false"
+      class="root-login-form"
+    />
   </div>
 </template>
 
 <script>
 import RootLogin from "./Root/RootLogin.vue";
-import { getArticleList } from '@/assets/api/index'
-import { DateWithoutHours } from '@/assets/js/dateFilter'
+import { getArticleList } from "@/assets/api/index";
+import { DateWithoutHours } from "@/assets/js/dateFilter";
 export default {
   name: "LeftSider",
   data() {
@@ -106,12 +132,39 @@ export default {
       ],
       // 控制root登录面板的输入框
       isShow: false,
+      scrollTimer: null,
     };
   },
   created() {
-    this.getAllArticle()
+    this.getAllArticle();
+  },
+  updated() {
+    this.listScroll();
   },
   methods: {
+    // 左侧热门文章自动滚动
+    listScroll() {
+      const box = this.$refs.scrollBox;
+      const ul = this.$refs.scrollUl;
+      this.$refs.scrollUl2.innerHTML = ul.innerHTML
+      this.scrollStart();
+    },
+    scrollStart() {
+      const box = this.$refs.scrollBox;
+      const ul = this.$refs.scrollUl;
+      this.scrollStop();
+      this.scrollTimer = setInterval(() => {
+        // 滚动高度大于列表高度时，复位0
+        if (box.scrollTop >= (ul.scrollHeight + 15 * (this.article_Arr.length - 3))) {
+          box.scrollTop = 0
+        } else {
+          box.scrollTop += 1
+        }
+      }, 60);
+    },
+    scrollStop() {
+      clearInterval(this.scrollTimer);
+    },
     changeTransition() {
       let timer = setTimeout(() => {
         this.changeTransition();
@@ -146,56 +199,55 @@ export default {
     async getAllArticle() {
       const { data } = await getArticleList();
       const articleList = data.result;
-      this.blogText[0].changeNumber = articleList.length
-      this.$store.commit('setArticleList',articleList)
+      this.blogText[0].changeNumber = articleList.length;
+      this.$store.commit("setArticleList", articleList);
 
-    // 获取热门文章的数据
-    this.article_Arr = articleList.filter(item => {
-      return item.articleHot === true
-    })
-    this.blogText[1].changeNumber = this.article_Arr.length
-    this.article_Arr = this.article_Arr.slice(0, 3)
+      // 获取热门文章的数据
+      this.article_Arr = articleList.filter((item) => {
+        return item.articleHot === true;
+      });
+      this.blogText[1].changeNumber = this.article_Arr.length;
+      // this.article_Arr = this.article_Arr.slice(0, 3)
     },
     // 查看文章详细内容
-    watchFullText(id,url) {
-      this.$router.push({path: '/article/' + id , query:{id:url}})
+    watchFullText(id, url) {
+      this.$router.push({ path: "/article/" + id, query: { id: url } });
     },
     // 计算注册天数
-    getDaysBetween(enrollDate,newDate){
-    let startDate = Date.parse(enrollDate)
-    let endDate = Date.parse(newDate)
-    if (startDate>endDate){
-        return 0 + '天'
-    }
-    if (startDate==endDate){
-        return 1 + '天'
-    }
-    let days= parseInt((endDate - startDate)/(1*24*60*60*1000));
-    return  days + '天'
-}
-    
+    getDaysBetween(enrollDate, newDate) {
+      let startDate = Date.parse(enrollDate);
+      let endDate = Date.parse(newDate);
+      if (startDate > endDate) {
+        return 0 + "天";
+      }
+      if (startDate == endDate) {
+        return 1 + "天";
+      }
+      let days = parseInt((endDate - startDate) / (1 * 24 * 60 * 60 * 1000));
+      return days + "天";
+    },
   },
   watch: {
-    '$store.state.userInfo.userDate': {
-      handler: function(val) {
-      if(!val) return
-      if (val !== '未登录') {
-        // 获取现在的时间
-        const nowTime = new Date()
-        const result = this.getDaysBetween(val, nowTime)
-        this.blogText[2].changeNumber = result
-      } else {
-        this.blogText[2].changeNumber = '未登录'
-      }
-    },
-      immediate: true
-    },
-    '$store.state.userInfo.lastOriginTime': {
-      handler: function(val) {
-      if(!val) return this.blogText[3].changeNumber = '未登录'
-        this.blogText[3].changeNumber = DateWithoutHours(val)
+    "$store.state.userInfo.userDate": {
+      handler: function (val) {
+        if (!val) return;
+        if (val !== "未登录") {
+          // 获取现在的时间
+          const nowTime = new Date();
+          const result = this.getDaysBetween(val, nowTime);
+          this.blogText[2].changeNumber = result;
+        } else {
+          this.blogText[2].changeNumber = "未登录";
+        }
       },
-      immediate: true
+      immediate: true,
+    },
+    "$store.state.userInfo.lastOriginTime": {
+      handler: function (val) {
+        if (!val) return (this.blogText[3].changeNumber = "未登录");
+        this.blogText[3].changeNumber = DateWithoutHours(val);
+      },
+      immediate: true,
     },
   },
   components: { RootLogin },
@@ -208,10 +260,8 @@ export default {
   flex-flow: column;
   align-items: center;
   width: 100%;
-  // height: 600px;
   padding: 17px;
   background: transparent;
-  box-shadow: 0 0 5px 2px #ccc;
 
   &-avatar {
     margin: 20px auto;
@@ -260,34 +310,45 @@ export default {
     font-weight: 700;
     border-left: 4px solid skyblue;
     padding-left: 10px;
+    margin-bottom: 15px;
+
   }
   // 热门文章
   .left-article-text {
     margin-top: 50px;
-
-    &-list {
-      display: flex;
-      flex-direction: row;
-      height: 60px;
-      margin-top: 15px;
-      padding: 5px;
-      background-color: rgba(232, 229, 229, .5);
-      border-radius: 6px;
-      .article_bg {
-        float: left;
-        margin-right: 10px;
-      }
-      span {
-        overflow: hidden;
-        text-overflow: ellipsis;
-        // 谷歌
-        display: -webkit-box;
-        // 行数
-        -webkit-line-clamp: 3;
-        -webkit-box-orient: vertical;
-        font-size: 14px;
-        line-height: 20px;
-        color: #333;
+     &-box {
+      height: 175px;
+      overflow: hidden;
+      &-list {
+        display: flex;
+        flex-direction: row;
+        height: 60px;
+        margin-top: 15px;
+        padding: 5px;
+        background-color: rgba(232, 229, 229, 0.5);
+        border-radius: 6px;
+        transition: all 0.5s;
+        &:hover {
+          cursor: pointer;
+          background-color: rgba(232, 229, 229, 0.9);
+          transition: all 0.5s;
+        }
+        .article_bg {
+          float: left;
+          margin-right: 10px;
+        }
+        span {
+          overflow: hidden;
+          text-overflow: ellipsis;
+          // 谷歌
+          display: -webkit-box;
+          // 行数
+          -webkit-line-clamp: 3;
+          -webkit-box-orient: vertical;
+          font-size: 14px;
+          line-height: 20px;
+          color: #333;
+        }
       }
     }
 
