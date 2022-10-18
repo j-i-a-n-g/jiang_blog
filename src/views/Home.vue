@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <TopicTitle topic="首页" iconClass="el-icon-orange" />
-    <h3>网站介绍：</h3>
+    <h5>网站介绍：</h5>
     <p>本网站为个人博客空间网站，使用时需注意以下几点：
       <br/>
       (1) 点击左侧栏的“热门文章”可查看对应文章内容；“博客信息”项下有文章和账号的相关信息<br/>
@@ -33,7 +33,7 @@ export default {
 <style lang="scss" scoped>
 .home {
   padding: 20px;
-  h3 {
+  h5 {
     font-size: 24px;
     font-weight: 600;
     margin: 20px 0;

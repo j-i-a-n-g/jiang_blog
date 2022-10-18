@@ -34,12 +34,10 @@
           </div>
         </template>
         <template>
-          <div class="left-article-text-box" ref="scrollBox" :style="{height: '175px', overflow: 'hidden'}">
+          <div class="left-article-text-box" @mouseout="scrollStart" @mouseover="scrollStop" ref="scrollBox" :style="{height: '175px', overflow: 'hidden'}">
             <ul
               class="left-article-text-box-ul"
               ref="scrollUl"
-              @mouseover="scrollStop"
-              @mouseout="scrollStart"
             >
               <li
                 class="left-article-text-box-list"
@@ -323,7 +321,7 @@ export default {
         display: flex;
         flex-direction: row;
         height: 60px;
-        margin-top: 15px;
+        margin-top: 5px;
         padding: 5px;
         background-color: rgba(232, 229, 229, 0.5);
         border-radius: 6px;
@@ -351,7 +349,6 @@ export default {
         }
       }
     }
-
     img {
       width: 60px;
       height: 60px;

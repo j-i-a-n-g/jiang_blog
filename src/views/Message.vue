@@ -166,18 +166,32 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@keyframes flashing {
+  0% {
+    box-shadow: 0 0 15px #ccc;
+  }
+  100% {
+    box-shadow: 0 0 15px #fff;
+  }
+}
 .message {
   padding: 20px;
+  width: 800px;
   &-divider {
-    margin: 20px 0;
+    margin: 20px 0 5px 0;
     font-size: 16px;
   }
+  ::v-deep .el-alert {
+    width: 100%;
+  }
   &-content {
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    overflow: hidden;
+    animation: flashing 1s ease-out 0s infinite alternate;
     &-show {
       width: 100%;
       height: 600px;
-      margin-top: 10px;
-      border: 1px solid #333;
       background-color: rgba(238,238,238,.3);
       padding: 30px 20px;
       box-sizing: border-box;
@@ -194,8 +208,9 @@ export default {
           padding: 10px;
           min-height: 30px;
           width: 100%;
+          max-width: 600px;
           box-sizing: border-box;
-          margin-bottom: 15px;
+          margin-bottom: 10px;
           &-content {
             display: flex;
             flex-wrap: nowrap;
@@ -206,6 +221,7 @@ export default {
               min-height: 40px;
               max-width: 40px;
               max-height: 40px;
+              box-shadow: 0 0 5px #594dc5;
               border-radius: 50%;
               overflow: hidden;
               text-align: center;
@@ -217,7 +233,6 @@ export default {
             }
             &-message {
               margin-left: 30px;
-              max-width: 800px;
               min-width: 200px;
               div {
                 width: 375px;
@@ -229,7 +244,7 @@ export default {
               p {
                 font-size: 18px;
                 color: #333;
-                margin-top: 20px;
+                margin-top: 10px;
               }
               .name {
                 margin-right: 20px;
@@ -241,10 +256,11 @@ export default {
     }
     &-write {
       width: 100%;
-      // min-width: 375px;
+      max-width: 800px;
       height: 60px;
       background-color: #fff;
-      border: 2px solid #ccc;
+      box-shadow: 0 0 5px #ccc inset;
+      
       display: flex;
       font-size: 24px;
       align-items: center;

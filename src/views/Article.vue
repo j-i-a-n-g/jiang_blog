@@ -51,7 +51,15 @@ export default {
 .article {
   padding: 20px;
   ::v-deep .el-row {
-    margin-top: 10px;
+    max-width: 800px;
+    transform: scale(0.95);
+    box-shadow: 0 0 0 #fff;
+    transition: all .3s;
+    &:hover {
+      transform: scale(0.98);
+      box-shadow: 0 0 5px #fff;
+      transition: all .5s;
+    }
     .el-card__body {
       margin: 10px 20px;
     }
@@ -71,7 +79,7 @@ export default {
         // 谷歌
         display: -webkit-box;
         // 行数
-        -webkit-line-clamp: 5;
+        -webkit-line-clamp: 4;
         -webkit-box-orient: vertical;
         font-size: 14px;
         line-height: 20px;

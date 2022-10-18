@@ -1,9 +1,9 @@
 <template>
-    <h2>
+  <h2>
     <i :class="iconClass">
       {{topic}}
     </i>
-    </h2>
+  </h2>
 </template>
 
 <script>

@@ -3,7 +3,7 @@
     <TopicTitle topic="关于" iconClass="el-icon-edit" />
     <!-- 自述 -->
     <div class="about-text">
-      <h3 class="border_left">自述</h3>
+      <h3 :class="['border_left', 'readme']">自述</h3>
       <span>这个人很神秘，什么都没有写</span>
     </div>
     <!-- 技能 -->
@@ -149,6 +149,13 @@ export default {
       border-radius: 30px;
     }
   }
+  h3 {
+    margin: 20px auto;
+    font-size: 24px;
+    font-weight: 700;
+    border-left: 4px solid skyblue;
+    padding-left: 10px;
+  }
   &-text {
     span {
       font-size: 20px;
@@ -162,13 +169,9 @@ export default {
         margin-right: 15px;
       }
     }
-  }
-  h3 {
-    margin: 20px auto;
-    font-size: 24px;
-    font-weight: 700;
-    border-left: 4px solid skyblue;
-    padding-left: 10px;
+    .readme {
+      margin-top: 0;
+    }
   }
   &-form {
     margin: 20px 0;
