@@ -1,5 +1,6 @@
 <template>
   <div class="about">
+    <TopicTitle topic="关于" iconClass="el-icon-edit" />
     <!-- 自述 -->
     <div class="about-text">
       <h3 class="border_left">自述</h3>
@@ -41,6 +42,7 @@
 </template>
 
 <script>
+import TopicTitle from '@/components/TopicTitle.vue'
 import { postEmailMessage } from '@/assets/api/index'
 export default {
   name: 'About',
@@ -128,7 +130,8 @@ export default {
     resetForm(formName) {
       this.$refs[formName].resetFields();
     }
-  }
+  },
+  components: { TopicTitle }
 }
 </script>
 

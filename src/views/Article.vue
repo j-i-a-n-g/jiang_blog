@@ -1,6 +1,6 @@
 <template>
   <div class="article">
-    <h2><i class="el-icon-document">文章列表</i></h2>
+    <TopicTitle topic="文章列表" iconClass="el-icon-document" />
     <div class="article-content">
       <el-row v-for="item in articleList" :key="item._id">
         <el-col :span="24">
@@ -29,6 +29,7 @@
 </template>
 
 <script>
+import TopicTitle from '@/components/TopicTitle.vue'
 export default {
   name: "Article",
   data() {
@@ -41,30 +42,26 @@ export default {
     watchFullText(id,url) {
       this.$router.push({path: '/article/' + id , query:{id:url}})
     }
-  }
+  },
+  components: { TopicTitle }
 };
 </script>
 
 <style lang="scss" scoped>
 .article {
   padding: 20px;
-  h2 {
-    font-size: 24px;
-    font-weight: 800;
-    margin: 10px;
-  }
   ::v-deep .el-row {
-    margin-top: 20px;
+    margin-top: 10px;
     .el-card__body {
-      margin: 20px;
+      margin: 10px 20px;
     }
     .article-content-img {
       display: flex;
       flex-wrap: nowrap;
       width: 100%;
       .image {
-        width: 100px;
-        height: 100px;
+        width: 80px;
+        height: 80px;
         display: block;
       }
       &-desc {

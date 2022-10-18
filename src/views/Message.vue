@@ -1,11 +1,7 @@
 <template>
   <div class="message">
-    <div class="message-title">
-      <h3><i class="el-icon-s-comment"></i>留言</h3>
-    </div>
-    <el-divider class="message-divider" content-position="left"
-      ></el-divider
-    >
+    <TopicTitle topic="留言" iconClass="el-icon-s-comment" />
+    <el-divider class="message-divider" content-position="left"></el-divider>
     <div class="message-content">
       <el-alert title="温馨提示：登录后方可查看与发表留言，请友善发言，维护良好的互联网环境" type="warning">
       </el-alert>
@@ -90,6 +86,7 @@
 
 <script>
 import Emoji from "@/components/Emoji/Emoji.vue";
+import TopicTitle from '@/components/TopicTitle.vue'
 import { postMessage, getAllMessage } from "@/assets/api/index";
 import { mapState } from "vuex";
 export default {
@@ -164,22 +161,15 @@ export default {
       return this.loading || this.noMore;
     },
   },
-  components: { Emoji },
+  components: { Emoji, TopicTitle },
 };
 </script>
 
 <style lang="scss" scoped>
 .message {
   padding: 20px;
-  &-title {
-    font-size: 24px;
-    .el-icon-s-comment {
-      margin-right: 15px;
-      color: #fff;
-    }
-  }
   &-divider {
-    margin: 30px 0;
+    margin: 20px 0;
     font-size: 16px;
   }
   &-content {

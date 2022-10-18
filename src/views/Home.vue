@@ -1,5 +1,6 @@
 <template>
   <div class="home">
+    <TopicTitle topic="首页" iconClass="el-icon-orange" />
     <h3>网站介绍：</h3>
     <p>本网站为个人博客空间网站，使用时需注意以下几点：
       <br/>
@@ -22,8 +23,10 @@
 </template>
 
 <script>
+import TopicTitle from '@/components/TopicTitle.vue'
 export default {
-    name: "Home",
+  name: "Home",
+  components: { TopicTitle }
 }
 </script>
 

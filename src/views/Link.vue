@@ -1,7 +1,6 @@
 <template>
   <div class="link">
-    <h2><i class="el-icon-link">友情链接</i></h2>
-
+    <TopicTitle topic="友情链接" iconClass="el-icon-link" />
     <el-tabs v-model="activeName">
       <!-- 申请友链 -->
       <el-tab-pane label="申请友链" name="first">
@@ -144,6 +143,7 @@
 
 <script>
 import { DateFilter } from '@js/dateFilter.js'
+import TopicTitle from '@/components/TopicTitle.vue'
 import { postUserLink, getLinkList, getLinkById } from "@/assets/api/index";
 export default {
   name: "Link",
@@ -327,12 +327,13 @@ export default {
       }
     }
   },
+  components: { TopicTitle }
 };
 </script>
 
 <style lang="scss" scoped>
 .link {
-  padding: 20px;
+  padding: 10px;
   h2 {
     font-size: 24px;
     font-weight: 800;
