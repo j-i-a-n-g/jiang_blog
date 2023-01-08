@@ -30,6 +30,7 @@
 
 <script>
 import TopicTitle from '@/components/TopicTitle.vue'
+import { getArticleList } from "@/assets/api/index";
 export default {
   name: "Article",
   data() {
@@ -38,9 +39,21 @@ export default {
       articleList: this.$store.state.articleList
     }
   },
+  created() {
+    if(!articleList.length) {
+      getAllArticle()
+    }
+  },
   methods: {
     watchFullText(id,url) {
       this.$router.push({path: '/article/' + id , query:{id:url}})
+    },
+      // 获取文章数据
+    async getAllArticle() {
+      const { data } = await getArticleList();
+      const articleList = data.result;
+      this.blogText[0].changeNumber = articleList.length;
+      this.$store.commit("setArticleList", articleList);
     }
   },
   components: { TopicTitle }
@@ -121,6 +134,10 @@ export default {
     .clearfix:after {
       clear: both;
     }
+  }
+  &-content {
+    max-height: calc(100vh - 200px);
+    overflow: scroll;
   }
 }
 </style>

@@ -1,7 +1,8 @@
 <template>
   <div class="about">
     <TopicTitle topic="关于" iconClass="el-icon-edit" />
-    <!-- 自述 -->
+    <div class="about-content">
+      <!-- 自述 -->
     <div class="about-text">
       <h3 :class="['border_left', 'readme']">自述</h3>
       <span>这个人很神秘，什么都没有写</span>
@@ -37,6 +38,7 @@
     </div>
     <div class="about-img">
       <img src="@/assets/img/misaka.jpg" alt="">
+    </div>
     </div>
   </div>
 </template>
@@ -141,6 +143,10 @@ export default {
   display: flex;
   flex-direction: column;
   padding: 20px;
+  &-content {
+    max-height: calc(100vh - 200px);
+    overflow: scroll;
+  }
   &-img {
     margin: 0 auto;
     margin-top: 10px;

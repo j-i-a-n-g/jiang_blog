@@ -1,7 +1,7 @@
 <template>
   <div class="link">
     <TopicTitle topic="友情链接" iconClass="el-icon-link" />
-    <el-tabs v-model="activeName">
+      <el-tabs v-model="activeName">
       <!-- 申请友链 -->
       <el-tab-pane label="申请友链" name="first">
         <el-alert title="友链申请-请符合规范😊" type="warning" show-icon>
@@ -138,7 +138,7 @@
         </el-form>
       </el-tab-pane>
     </el-tabs>
-  </div>
+    </div>
 </template>
 
 <script>
@@ -345,6 +345,8 @@ export default {
     display: flex;
     flex-wrap: wrap;
     max-width: 800px;
+    max-height: calc(100vh - 200px);
+    overflow: scroll;
     &-list {
       width: 300px;
       height: 60px;

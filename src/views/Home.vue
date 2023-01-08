@@ -26,7 +26,12 @@
 import TopicTitle from '@/components/TopicTitle.vue'
 export default {
   name: "Home",
-  components: { TopicTitle }
+  components: { TopicTitle },
+  data() {
+    return {
+      warehouseOption : [1,2,3,4,5,6]
+    }
+  }
 }
 </script>
 

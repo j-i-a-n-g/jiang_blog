@@ -1,5 +1,5 @@
 <template>
-  <h2>
+    <h2>
     <i :class="iconClass">
       {{topic}}
     </i>
