@@ -25,12 +25,14 @@
         </el-col>
       </el-row>
     </div>
+    <blog-pagination style="margin-left:15px;" :total="articleList.length" :pageSize="8" />
   </div>
 </template>
 
 <script>
 import TopicTitle from '@/components/TopicTitle.vue'
 import { getArticleList } from "@/assets/api/index";
+import BlogPagination from '@/components/basic/Blog-Pagination.vue';
 export default {
   name: "Article",
   data() {
@@ -60,7 +62,8 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style
+    BlogPagination lang="scss" scoped>
 .article {
   padding: 20px;
   ::v-deep .el-row {

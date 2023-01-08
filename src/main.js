@@ -7,6 +7,10 @@ import {Message} from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import '@css/reset.css'
 import 'element-ui/lib/theme-chalk/display.css';
+// 注册全局组件
+import components from './components'
+
+Vue.use(components)
 
 Vue.config.productionTip = false
 Vue.use(ElementUI)
