@@ -2,11 +2,11 @@
   <div class="article">
     <TopicTitle topic="文章列表" iconClass="el-icon-document" />
     <div class="article-tag">
-      <el-tag class="article-tag-item" v-for="(item, index) in tagList" :key="index" type="success">{{ item.tagName }}</el-tag>
-      <el-tag class="article-tag-all">全部</el-tag>
+      <el-tag class="article-tag-item" v-for="item in tagList" :key="item._id" @click="selectArticleByTag(item)" type="success">{{ item.tagName }}</el-tag>
+      <el-tag class="article-tag-all" @click="getAllArticle">全部</el-tag>
     </div>
     <div class="article-content">
-      <el-row v-for="item in articleList" :key="item._id">
+      <el-row v-for="(item, index) in articleListByTag" :key="index">
         <el-col :span="24">
           <el-card :body-style="{ padding: '0px' }">
             <div class="article-content-img">
@@ -50,6 +50,7 @@ export default {
     return {
       // 数据源
       articleList: this.$store.state.articleList,
+      articleListByTag: this.$store.state.articleList,
       // 标签数组
       tagList: []
     }
@@ -68,10 +69,19 @@ export default {
       // 获取文章数据
     async getAllArticle() {
       const { data } = await getArticleList();
-      const articleList = data.result;
-      console.log(articleList, 'articleList')
-      this.blogText[0].changeNumber = articleList.length;
-      this.$store.commit("setArticleList", articleList);
+      this.articleList = data.result;
+      this.articleListByTag = data.result
+      console.log(this.articleList, 'articleList')
+      // this.blogText[0].changeNumber = articleList.length;
+      this.$store.commit("setArticleList", this.articleList);
+    },
+    selectArticleByTag(item) {
+      this.articleListByTag = []
+      this.articleList.forEach(it => {
+        const result = it.articleTagList.filter(tag => tag.tagName === item.tagName)
+        if(!result.length) return
+        this.articleListByTag.push(it)
+      });
     }
   },
   components: { TopicTitle }
