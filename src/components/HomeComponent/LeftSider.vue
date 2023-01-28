@@ -3,7 +3,7 @@
     <div class="left-avatar">
       <img class="left-avatar-img" src="@img/comImg/avatar.png" alt="" />
     </div>
-    <div class="left-title">你指尖跃动的电光，是我此生不变的信仰</div>
+    <div class="left-title">{{ preTime| timer }}</div>
     <div class="box_trani" @click="changeTransition">{{ text_box }}</div>
     <!-- 文章 -->
     <div class="left-article-text">
@@ -131,10 +131,16 @@ export default {
       // 控制root登录面板的输入框
       isShow: false,
       scrollTimer: null,
+      preTime: null,
     };
   },
   created() {
     this.getAllArticle();
+  },
+  mounted() {
+    setInterval(() => {
+      this.preTime = new Date()
+    }, 1000)
   },
   updated() {
     this.listScroll();
@@ -273,20 +279,9 @@ export default {
     }
   }
   &-title {
-    font-size: 14px;
+    font-size: 24px;
     position: relative;
     cursor: pointer;
-
-    &:after {
-      position: absolute;
-      right: -20px;
-      bottom: -2px;
-      content: " ";
-      width: 0px;
-      height: 0px;
-      border: 6px solid black;
-      border-color: rgba(0, 0, 0, 0.5) transparent transparent transparent;
-    }
   }
   .box_trani {
     margin-top: 10px;

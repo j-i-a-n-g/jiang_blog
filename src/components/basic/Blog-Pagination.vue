@@ -1,8 +1,8 @@
 <template>
   <el-pagination
   :page-size="pageSize"
-  :pager-count="11"
-  layout="total, prev, pager, next"
+  :pager-count="pagerCount"
+  :layout=layout
   :total="total"
   class="blog-pagination">
 </el-pagination>
@@ -23,6 +23,10 @@ export default {
       type: Number,
       default: 6
     },
+    layout: {
+      type: String,
+      default: "total, prev, pager, next"
+    }
   }
 }
 </script>

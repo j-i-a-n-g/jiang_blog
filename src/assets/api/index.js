@@ -96,5 +96,20 @@ export const deleteArticle = (id) => axios.delete('/node/root/deleteArticle', {p
 // 提交文章修改
 export const reviseArticleContent = (data) => axios.post('/node/root/reviseArticle', data)
 
+// 获取文章相关tag
+export const getArticleTagList = (id) => axios.get('/node/root/getArticleTagList', {params: {id: id}})
+
+// 提交文章相关标签修改
+export const reviseArticleTagList = (data) => axios.post('/node/root/reviseArticleTagList', data)
+
 // 提交文章标题和简介的修改
 export const reviseArticleTitle = (data) => axios.post('/node/root/revisetitle', data)
+
+// 获取文章标签列表
+export const getTagList = () => axios.get('/node/tag/getTagList')
+
+// 新增文章标签
+export const addTag = (data) => axios.post('/node/tag/addTag', data)
+
+// 删除文章标签
+export const deleteTag = (id) => axios.get('/node/tag/deleteTag',{params: {id: id}})

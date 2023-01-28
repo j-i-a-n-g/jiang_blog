@@ -1,6 +1,10 @@
 <template>
   <div class="article">
     <TopicTitle topic="文章列表" iconClass="el-icon-document" />
+    <div class="article-tag">
+      <el-tag class="article-tag-item" v-for="(item, index) in tagList" :key="index" type="success">{{ item.tagName }}</el-tag>
+      <el-tag class="article-tag-all">全部</el-tag>
+    </div>
     <div class="article-content">
       <el-row v-for="item in articleList" :key="item._id">
         <el-col :span="24">
@@ -15,7 +19,14 @@
               >
             </div>
             <div class="article-content-title">
-              <p class="article-content-title-name">{{item.articleTitle}}</p>
+              <div style="display:flex; flex-wrap: nowrap;">
+                <p class="article-content-title-name">{{item.articleTitle}}</p>
+              <ul class="article-content-title-group">
+                <li style="padding-left:10px" v-for="tag in item.articleTagList" :key="tag.id" @click="selectTags(tag)">
+                  <el-tag>{{ tag.tagName }}</el-tag>
+                </li>
+              </ul>
+              </div>
               <div class="bottom clearfix">
                 <time class="time">{{ item.articleDate | timer }}</time>
                 <el-button type="text" class="button" @click="watchFullText(item._id,item.articleFileUrl)">查看全文</el-button>
@@ -25,25 +36,29 @@
         </el-col>
       </el-row>
     </div>
-    <blog-pagination style="margin-left:15px;" :total="articleList.length" :pageSize="8" />
+    <!-- <blog-paggination style="margin-left:15px;" :total="articleList.length" :pageSize="8" /> -->
   </div>
 </template>
 
 <script>
 import TopicTitle from '@/components/TopicTitle.vue'
-import { getArticleList } from "@/assets/api/index";
-import BlogPagination from '@/components/basic/Blog-Pagination.vue';
+import { getArticleList, getTagList } from "@/assets/api/index";
+// import BlogPagination from '@/components/basic/Blog-Pagination.vue';
 export default {
   name: "Article",
   data() {
     return {
       // 数据源
-      articleList: this.$store.state.articleList
+      articleList: this.$store.state.articleList,
+      // 标签数组
+      tagList: []
     }
   },
-  created() {
-    if(!articleList.length) {
-      getAllArticle()
+  async created() {
+    const { data } = await getTagList()
+    this.tagList = data.data
+    if(!this.articleList.length) {
+      this.getAllArticle()
     }
   },
   methods: {
@@ -54,6 +69,7 @@ export default {
     async getAllArticle() {
       const { data } = await getArticleList();
       const articleList = data.result;
+      console.log(articleList, 'articleList')
       this.blogText[0].changeNumber = articleList.length;
       this.$store.commit("setArticleList", articleList);
     }
@@ -108,9 +124,16 @@ export default {
     .article-content-title {
       padding-top: 20px;
       &-name {
-        font-size: 18px;
+        font-size: 24px;
         font-weight: 500;
-        margin-bottom: 15px;
+        margin-bottom: 10px;
+        margin-top: 5px;
+      }
+      &-group {
+        display: flex;
+        flex-wrap: nowrap;
+        margin-left: 10px;
+        /* cursor: pointer; */
       }
     }
     .time {
@@ -141,6 +164,15 @@ export default {
   &-content {
     max-height: calc(100vh - 200px);
     overflow: scroll;
+  }
+  &-tag {
+    max-width: 760px;
+    padding: 15px;
+    margin-left: 5px;
+    cursor: pointer;
+    ::v-deep .el-tag {
+      margin-right: 15px;
+    }
   }
 }
 </style>

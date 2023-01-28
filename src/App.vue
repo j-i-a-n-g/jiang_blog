@@ -7,7 +7,7 @@
         <LeftSider></LeftSider>
       </div>
       <div class="app-content-right">
-        <keep-alive :include="['Article','Home','About']">
+        <keep-alive :include="['Home','About']">
           <router-view></router-view>
         </keep-alive>
       </div>
