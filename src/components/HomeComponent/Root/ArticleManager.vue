@@ -149,7 +149,7 @@
     </el-table>
     <el-pagination
       @current-change="handleCurrentChange"
-      :page-size="2"
+      :page-size="3"
       layout="total, prev, pager, next"
       :total="total">
     </el-pagination>
@@ -227,8 +227,8 @@ export default {
   },
   methods: {
     // 获取文章数据
-    async getAllArticle(num=1) {
-      const { data } = await getArticleList(num);
+    async getAllArticle(num=1, pageSize=3) {
+      const { data } = await getArticleList(num, pageSize);
       console.log(data);
       data.result.data.forEach((item) => {
         item.isDisable = true;

@@ -82,7 +82,7 @@ export const deleteArticleImg = (data) => axios.post('/node/root/deleteImg', dat
 export const publishArticle = (data) => axios.post('/node/root/saveArticle',data)
 
 // 获取所有文章列表
-export const getArticleList = (num) => axios.get('/node/root/getArticlelist',{params: {num: num}})
+export const getArticleList = (num, pageSize) => axios.get('/node/root/getArticlelist',{params: {num: num, pageSize: pageSize}})
 
 // 获取文章详情
 export const getMdVal = (val) => axios.get(`/node${val}`)

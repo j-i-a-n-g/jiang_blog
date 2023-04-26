@@ -2,11 +2,11 @@
   <div class="article">
     <TopicTitle topic="文章列表" iconClass="el-icon-document" />
     <div class="article-tag">
-      <el-tag class="article-tag-item" v-for="item in tagList" :key="item._id" @click="selectArticleByTag(item)" type="success">{{ item.tagName }}</el-tag>
       <el-tag class="article-tag-all" @click="getAllArticle">全部</el-tag>
+      <el-tag class="article-tag-item" v-for="item in tagList" :key="item._id" @click="selectArticleByTag(item)" type="success">{{ item.tagName }}</el-tag>
     </div>
     <div class="article-content">
-      <el-row v-for="(item, index) in articleListByTag" :key="index">
+      <el-row v-for=" (item, index) in articleListByTag" :key="index">
         <el-col :span="24">
           <el-card :body-style="{ padding: '0px' }">
             <div class="article-content-img">
@@ -36,6 +36,14 @@
         </el-col>
       </el-row>
     </div>
+    <!-- <el-pagination
+      :page-size="pageSize"
+      :page-sizes="[8, 10, 15, 20]"
+      @current-change="handleCurrentChange"
+      layout="total, prev, pager, next, sizes"
+      :total="total"
+      class="blog-pagination">
+    </el-pagination> -->
     <!-- <blog-paggination style="margin-left:15px;" :total="articleList.length" :pageSize="8" /> -->
   </div>
 </template>
@@ -52,7 +60,10 @@ export default {
       articleList: this.$store.state.articleList,
       articleListByTag: this.$store.state.articleList,
       // 标签数组
-      tagList: []
+      tagList: [],
+      // 分页器相关变量
+      // pageSize: 8,
+      // total: 0
     }
   },
   async created() {
@@ -71,7 +82,8 @@ export default {
       const { data } = await getArticleList();
       this.articleList = data.result;
       this.articleListByTag = data.result
-      console.log(this.articleList, 'articleList')
+      // this.total = data.result.total
+      console.log(data.result, 'articleList')
       // this.blogText[0].changeNumber = articleList.length;
       this.$store.commit("setArticleList", this.articleList);
     },
@@ -82,7 +94,11 @@ export default {
         if(!result.length) return
         this.articleListByTag.push(it)
       });
-    }
+    },
+    // 分页器
+    // handleCurrentChange(num = 8) {
+    //   this.getAllArticle(num)
+    // }
   },
   components: { TopicTitle }
 };
@@ -172,7 +188,7 @@ export default {
     }
   }
   &-content {
-    max-height: calc(100vh - 200px);
+    max-height: calc(100vh - 230px);
     overflow: scroll;
   }
   &-tag {
@@ -183,6 +199,23 @@ export default {
     ::v-deep .el-tag {
       margin-right: 15px;
     }
+  }
+}
+/* 分页器样式 */
+.blog-pagination {
+  ::v-deep .el-pagination__total,
+  ::v-deep .btn-prev,
+  ::v-deep .number,
+  ::v-deep .btn-next {
+    background-color: transparent !important;
+    color: #fff ;
+  }
+  ::v-deep .el-pagination__total {
+    padding-left: 15px;
+  }
+  ::v-deep .el-pager .active {
+    text-shadow: 0 0 10px #fff;
+    font-size: 16px;
   }
 }
 </style>
