@@ -21,7 +21,7 @@ export default {
     initComponent() {
       let $preview = document.getElementById('preview-css')
       $preview.innerHTML = `<style>${this.code.css}</style>`
-      this.code.js = this.code.js.replace(/export/, "").replace(/default/, "")
+      this.code.js = this.code.js.replace(/export default/, "").replace(/default/, "")
       this.renderComponent = Vue.component("online-render", {
         mixins: [this.initVueInfo(this.code.js)], 
         template: this.code.html,

@@ -21,7 +21,7 @@ let defaultOptions = {
   autoClosingDelete: "always", // 是否自动删除结束括号(包括中括号) "always" | "never" | "auto"
   autoClosingOvertype: "always", // 是否关闭改写 即使用insert模式时是覆盖后面的文字还是不覆盖后面的文字 "always" | "never" | "auto"
   autoClosingQuotes: "always", // 是否自动添加结束的单引号 双引号 "always" | "languageDefined" | "beforeWhitespace" | "never"
-  autoIndent: "None", // 控制编辑器在用户键入、粘贴、移动或缩进行时是否应自动调整缩进
+  // autoIndent: "None", // 控制编辑器在用户键入、粘贴、移动或缩进行时是否应自动调整缩进
   autoIndex: true,
   automaticLayout: true, // 自动布局
   codeLens: false, // 是否显示codeLens 通过 CodeLens，你可以在专注于工作的同时了解代码所发生的情况 – 而无需离开编辑器。 可以查找代码引用、代码更改、关联的 Bug、工作项、代码评审和单元测试。
@@ -43,9 +43,11 @@ let defaultOptions = {
   cursorSurroundingLinesStyle: "all", // "default" | "all" 光标环绕样式
   cursorWidth: 10, // <=25 光标宽度
   minimap: {
-    enabled: false, // 是否启用预览图
+    enabled: true, // 是否启用预览图
   }, // 预览图设置
   folding: true, // 是否启用代码折叠
+  fontSize: '16',
+  fontFamily : 'consolas', // `'consolas' | 'pictorico' | 'courier new' | ...'`
   links: true, // 是否点击链接
   overviewRulerBorder: false, // 是否应围绕概览标尺绘制边框
   renderLineHighlight: "gutter", // 当前行突出显示方式
@@ -74,7 +76,7 @@ export default {
   },
   methods: {
     initEditer(key) {
-      let code = ""
+      let code = "";
       if(this.editer) {
        code = this.editer.getValue()
        this.editer.setValue(code);
@@ -83,10 +85,10 @@ export default {
       }
       this.editer = MonacoEditor.editor.create(this.$refs.monacoEditor, {
         ...defaultOptions,
-        value: code ? code : this.code,
+        value: code ? key == 'js' ? 'export deafult' + code : code 
+        : key == 'js' ? 'export deafult' + this.code : this.code,
         language : this.language
-      });
-      // this.editor.setValue(this.code)
+      }, MonacoEditor.editor.ICodeEditor);
     },
   },
 };
