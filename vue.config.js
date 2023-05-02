@@ -6,6 +6,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MonacoWebpackPlugin = require('monaco-editor-esm-webpack-plugin');
 module.exports = {
   lintOnSave: false,
+  runtimeCompiler: true,
   configureWebpack: config => {
     if (process.env.NODE_ENV === 'production') {
       // 生产环境
