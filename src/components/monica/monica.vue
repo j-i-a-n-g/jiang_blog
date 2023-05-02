@@ -65,19 +65,25 @@ export default {
       type: String,
       default: 'html'
     },
-    value: {
-      type: String,
-      default: ''
+    code: {
+      default: null
     }
   },
   mounted() {
     this.initEditer();
   },
   methods: {
-    initEditer() {
+    initEditer(key) {
+      let code = ""
+      if(this.editer) {
+       code = this.editer.getValue()
+       this.editer.setValue(code);
+       this.$emit('setCode', code, key)
+       return
+      }
       this.editer = MonacoEditor.editor.create(this.$refs.monacoEditor, {
         ...defaultOptions,
-        value: this.value,
+        value: code ? code : this.code,
         language : this.language
       });
       // this.editor.setValue(this.code)
