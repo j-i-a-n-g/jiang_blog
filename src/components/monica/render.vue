@@ -39,7 +39,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.online-render {
+#online-render {
   width: 100%;
   height: 100%;
 }
