@@ -6,14 +6,14 @@ export default {
   install(Vue, options) {
     Vue.component('BlogPagination', BlogPagination)
     Vue.component('TopicTitle', TopicTitle)
-    Vue.component('MonacoEditor', {
-      template: '<div class="editor"></div>',
-      render(h) {
-        return h('div', {
-          class: 'editor'
-        })
-      },
-      props: MonacoEditor   
-    });  
+    // Vue.component('MonacoEditor', {
+    //   template: '<div class="editor"></div>',
+    //   render(h) {
+    //     return h('div', {
+    //       class: 'editor'
+    //     })
+    //   },
+    //   props: MonacoEditor   
+    // });  
   }
 }
