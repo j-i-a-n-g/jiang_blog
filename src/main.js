@@ -7,6 +7,7 @@ import {Message} from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import '@css/reset.css'
 import 'element-ui/lib/theme-chalk/display.css';
+import MonacoEditor from 'monaco-editor/esm/vs/editor/editor.api';
 // 注册全局组件
 import components from './components'
 

@@ -25,6 +25,11 @@ const routes = [
     component: () => import('@/views/Message.vue')
   },
   {
+    path: '/onlineEdit',
+    name: 'onlineEdit',
+    component: () => import('@/views/OnlineEdit.vue')
+  },
+  {
     path: '/link',
     name: 'Link',
     component: () => import('@/views/Link.vue')

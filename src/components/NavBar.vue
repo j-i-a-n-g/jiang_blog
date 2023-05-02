@@ -44,9 +44,13 @@ export default {
               path:'/article',
               title: '文章'
             },
+            // {
+            //   path:'/message',
+            //   title: '留言'
+            // },
             {
-              path:'/message',
-              title: '留言'
+              path:'/onlineEdit',
+              title: '在线开发'
             },{
               path:'/link',
               title: '友链'
