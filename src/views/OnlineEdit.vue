@@ -1,6 +1,6 @@
 <template>
   <div id="online-edit">
-    <TopicTitle topic="在线开发" iconClass="el-icon-s-comment" />
+    <TopicTitle topic="开发" iconClass="el-icon-s-comment" />
     <div class="main">
       <div class="main-edit">
         <el-button
