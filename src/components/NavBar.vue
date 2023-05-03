@@ -50,7 +50,7 @@ export default {
             // },
             {
               path:'/onlineEdit',
-              title: '在线开发'
+              title: '开发'
             },{
               path:'/link',
               title: '友链'
