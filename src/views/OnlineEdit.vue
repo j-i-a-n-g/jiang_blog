@@ -7,7 +7,7 @@
           type="primary"
           plain
           size="small"
-          style="position: absolute; right: 10px; top: 4px; z-index: 10"
+          style="position: absolute; right: 10px; top: 5px; z-index: 10"
           @click="saveCode"
           >保存</el-button
         >
@@ -36,7 +36,7 @@
               :code="code.css"
             />
           </el-tab-pane>
-          <el-tab-pane label="更多">敬请期待...</el-tab-pane>
+          <el-tab-pane style="background-color: black;padding: 10px;" label="更多">尚在开发中...</el-tab-pane>
         </el-tabs>
       </div>
       <div class="main-render">
@@ -103,12 +103,13 @@ export default {
       height: 100%;
       .el-tabs__header {
         background-color: #1e1e1e;
+        height: 40px;
       }
       .el-tabs__content {
-        height: 100%;
+        height: calc(100% - 40px);
         padding: 0;
         .el-tab-pane {
-          height: 90%;
+          height: 100%;
         }
       }
     }
