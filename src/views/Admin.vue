@@ -56,7 +56,7 @@ export default {
 
 <style lang="scss" scoped>
 .admin {
-  margin-top: 40px;
+  // margin-top: 40px;
   font-size: 20px;
   &-password {
     display: flex;
@@ -66,6 +66,10 @@ export default {
     .input {
       width: 300px;
     }
+  }
+  ::v-deep .el-tabs__content {
+    height: calc(100vh - 110px);
+    overflow-y: scroll;
   }
 }
 ::v-deep .el-tabs__item {
