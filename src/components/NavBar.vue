@@ -55,9 +55,13 @@ export default {
               path:'/link',
               title: '友链'
             },{
-              path:'/about',
-              title: '关于'
-            }
+              path:'/hanabi',
+              title: 'Canvas'
+            },
+            // {
+            //   path:'/about',
+            //   title: '关于'
+            // }
           ],
           // 控制登录表单的隐藏显示
           isShowLogin: false,

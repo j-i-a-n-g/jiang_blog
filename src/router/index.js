@@ -30,6 +30,11 @@ const routes = [
     component: () => import('@/views/OnlineEdit.vue')
   },
   {
+    path: '/hanabi',
+    name: 'Canvas',
+    component: () => import('@/views/Canvas/index.vue')
+  },
+  {
     path: '/link',
     name: 'Link',
     component: () => import('@/views/Link.vue')
