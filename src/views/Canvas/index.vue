@@ -4,19 +4,19 @@
       <canvasPaint
         ref="canvasPaint"
         @reduceFontSize="reduceFontSize"
-        :textFontSize="formData.textFontSize"
-        :textArr="formData.textArr"
-        :textColor="formData.textColor"
-        :textWeight="formData.textWeight"
-        :showShadow="formData.showShadow"
-        :shadowBlur1="formData.shadowBlur1"
-        :shadowBlur2="formData.shadowBlur2"
+        :formData="formData"
       />
     </div>
     <span @click="drawerShow = true" class="setting">设置属性</span>
     <el-drawer title="设置" :visible.sync="drawerShow">
       <div class="drawer-main">
-    <el-button style="position: absolute;right: 100px;top: 20px;" @click="saveSetting" type="primary" size="small">保存设置</el-button>
+        <el-button
+          style="position: absolute; right: 100px; top: 20px"
+          @click="saveSetting"
+          type="primary"
+          size="small"
+          >保存设置</el-button
+        >
         <el-form label-width="140px" :model="formData">
           <el-tabs v-model="activeName" type="card">
             <el-tab-pane label="文字" name="first">
@@ -46,6 +46,30 @@
                     type="number"
                     v-model="formData.textFontSize"
                   ></el-input>
+                </el-form-item>
+                <el-form-item label="主段文本填充方式">
+                  <el-switch
+                    v-model="formData.StrokeOrFill1"
+                    active-color="#13ce66"
+                    inactive-color="#ff4949"
+                    active-value="fill"
+                    inactive-value="stroke"
+                    active-text="填充"
+                    inactive-text="描边"
+                  >
+                  </el-switch>
+                </el-form-item>
+                <el-form-item label="副段文本填充方式">
+                  <el-switch
+                    v-model="formData.StrokeOrFill2"
+                    active-color="#13ce66"
+                    inactive-color="#ff4949"
+                    active-value="fill"
+                    inactive-value="stroke"
+                    active-text="填充"
+                    inactive-text="描边"
+                  >
+                  </el-switch>
                 </el-form-item>
                 <el-form-item label="字体颜色">
                   <el-color-picker v-model="formData.textColor" show-alpha>
@@ -114,14 +138,16 @@ export default {
       activeName: "first",
       formData: {
         textFontSize: 200,
-        textArr: ["Hello", "Canvas"],
-        textColor: "yellow",
+        textArr: ["0", "Canvas"],
+        textColor: "red",
         textWeight: 700,
         showShadow: true,
         shadowColor1: "#fff",
         shadowColor2: "#fff",
         shadowBlur1: 25,
         shadowBlur2: 25,
+        StrokeOrFill1: "fill",
+        StrokeOrFill2: "stroke",
       },
     };
   },
@@ -131,8 +157,8 @@ export default {
     },
     saveSetting() {
       this.$refs.canvasPaint.resetCanvas();
-      this.drawerShow = false
-    }
+      this.drawerShow = false;
+    },
   },
 };
 </script>
