@@ -151,6 +151,7 @@ export default {
       type: Number,
       default: 5,
     },
+    BgImg: {},
     formData: {
       type: Object,
       default: () => {
@@ -203,8 +204,22 @@ export default {
       this.cvsDocus[2].height = this.cvsDocus[3].height = box[0].offsetHeight;
       this.cvsDocus[4].width = this.cvsDocus[3].width = box[0].offsetWidth;
       this.cvsDocus[4].height = this.cvsDocus[3].height = box[0].offsetHeight;
+      const bgImage = new Image();  
+      bgImage.src = this.BgImg;  
+      bgImage.onload = function() {
+        const canvasWidth = c5.width;
+        const canvasHeight = c5.height;
+        const imgWidth = bgImage.width;
+        const imgHeight = bgImage.height;
+        const scaleX = canvasWidth / imgWidth;  
+        const scaleY = canvasHeight / imgHeight;
+        console.log(imgWidth * scaleX, imgHeight * scaleY, 
+        0, 0, canvasWidth, canvasHeight)
+        ctx5.drawImage(bgImage, 0, 0, canvasWidth, canvasHeight);  // 在 (0,0) 位置绘制背景图
+      }
       // 根据屏幕宽度调整大小
       this.resize();
+      
     },
     resize() {
       // 屏幕宽度小于99999999，formData.textFontSize开始自减，调整字体大小，适应屏幕宽度
@@ -233,24 +248,20 @@ export default {
       // this.cvsDocus[1].textBaseline = "middle";
       this.cvss[0].translate(0, 200)
       // this.cvss[1].translate(0, -50)
-      if (this.formData.StrokeOrFill1 == "fill") {
+      if (this.formData.StrokeOrFill2 == "fill") {
         // fillStyle 设置或返回用于填充绘画的颜色、渐变或模式。
         // this.cvss[0].fillStyle = "red";
-        // this.cvss[0].fillText(this.formData.textArr[0], (this.cvsDocus[3].width - maxWidth) / 2, this.formData.textFontSize);
         this.cvss[0].fillText(this.formData.textArr[0], 0, this.formData.textFontSize); // hello
       } else {
         // this.cvss[0].strokeStyle = "red";
-        // this.cvss[0].strokeText(this.formData.textArr[0], (this.cvsDocus[3].width - this.textWidth * 2) / 2, this.formData.textFontSize);
         this.cvss[0].strokeText(this.formData.textArr[0], 0, this.formData.textFontSize);
 
       }
-      if (this.formData.StrokeOrFill2 == "fill") {
+      if (this.formData.StrokeOrFill1 == "fill") {
         // this.cvss[1].fillStyle = "red";
-        // this.cvss[1].fillText(this.formData.textArr[1], (this.cvsDocus[3].width - this.textWidth * 1.75) / 2, this.formData.textFontSize);
         this.cvss[1].fillText(this.formData.textArr[1], 0, this.formData.textFontSize);
       } else {
         // this.cvss[1].strokeStyle = "red";
-        // this.cvss[1].strokeText(this.formData.textArr[1],(this.cvsDocus[3].width - maxWidth) / 2, this.formData.textFontSize);
         this.cvss[1].strokeText(this.formData.textArr[1], 0 , this.formData.textFontSize);
       }
       this.getPosition();

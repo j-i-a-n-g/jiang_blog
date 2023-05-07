@@ -5,6 +5,7 @@
         ref="canvasPaint"
         @reduceFontSize="reduceFontSize"
         :formData="formData"
+        :BgImg="BgImg"
       />
     </div>
     <span @click="drawerShow = true" class="setting">设置属性</span>
@@ -23,14 +24,14 @@
               <div>
                 <el-form-item label="文本内容主段">
                   <el-input
-                    :maxlength="5"
-                    v-model="formData.textArr[0]"
+                    :maxlength="7"
+                    v-model="formData.textArr[1]"
                   ></el-input>
                 </el-form-item>
                 <el-form-item label="文本内容副段">
                   <el-input
-                    :maxlength="5"
-                    v-model="formData.textArr[1]"
+                    :maxlength="7"
+                    v-model="formData.textArr[0]"
                   ></el-input>
                 </el-form-item>
                 <el-form-item label="文字粗细">
@@ -120,7 +121,16 @@
               </div>
             </el-tab-pane>
             <el-tab-pane label="烟花" name="second">烟花</el-tab-pane>
-            <el-tab-pane label="其他" name="third">其他</el-tab-pane>
+            <el-tab-pane label="其他" name="third">
+              <div class="other">
+                <div class="imgs_block" v-for="(img, index) in imgs" :key="index">
+                    <div class="imgs_block_box" :class="BgImg == img.url ? 'isSelect' : ''">
+                      <span class="title">{{ img.title }}</span>
+                      <el-avatar @click="selectBGImg(index)" shape="square" :size="100" fit="contain" :src="img.url"></el-avatar>
+                    </div>
+                </div>
+              </div>
+            </el-tab-pane>
           </el-tabs>
         </el-form>
       </div>
@@ -138,7 +148,7 @@ export default {
       activeName: "first",
       formData: {
         textFontSize: 200,
-        textArr: ["0", "Canvas"],
+        textArr: ["13", "Harden"],
         textColor: "red",
         textWeight: 700,
         showShadow: true,
@@ -149,6 +159,11 @@ export default {
         StrokeOrFill1: "fill",
         StrokeOrFill2: "stroke",
       },
+      imgs: [
+        {url: require('@/assets/img/CanvasBG1.png'), title: '静夜'},
+        {url: require('@/assets/img/CanvasBG2.png'), title: '少女'},
+      ],
+      BgImg: require('@/assets/img/CanvasBG1.png')
     };
   },
   methods: {
@@ -159,6 +174,10 @@ export default {
       this.$refs.canvasPaint.resetCanvas();
       this.drawerShow = false;
     },
+    // 选择背景
+    selectBGImg(index) {
+      this.BgImg = imgs[index].url
+    }
   },
 };
 </script>
@@ -206,5 +225,24 @@ export default {
       max-width: 300px;
     }
   }
+  .other {
+    display: flex;
+    padding: 0 10px;
+    .imgs_block {
+      margin-right: 10px;
+    }
+    .imgs_block_box {
+    display: flex;
+    flex-direction: column;
+    }
+    .title {
+      text-align: center;
+      margin: 10px;
+    }
+    .isSelect {
+      border: 1px solid #409eff;
+    }
+  }
+  
 }
 </style>
