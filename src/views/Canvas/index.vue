@@ -2,10 +2,11 @@
   <div class="hanabi">
     <div class="canvas-box">
       <canvasPaint
-      v-if="reloadCanvas"
+        v-if="reloadCanvas"
         ref="canvasPaint"
         @reduceFontSize="reduceFontSize"
         :formData="formData"
+        :fireFlowerData="fireFlowerData"
         :BgImg="BgImg"
       />
     </div>
@@ -19,138 +20,156 @@
           size="small"
           >保存设置</el-button
         >
-        <el-form label-width="140px" :model="formData">
-          <el-tabs v-model="activeName" type="card">
-            <el-tab-pane label="文字" name="first">
-              <div>
-                <el-form-item label="文本内容主段">
-                  <el-input
-                    :maxlength="7"
-                    v-model="formData.textArr[1]"
-                  ></el-input>
-                </el-form-item>
-                <el-form-item label="文本内容副段">
-                  <el-input
-                    :maxlength="7"
-                    v-model="formData.textArr[0]"
-                  ></el-input>
-                </el-form-item>
-                <el-form-item label="文字粗细">
-                  <el-input-number
-                    v-model="formData.textWeight"
-                    :step="100"
-                    :min="500"
-                    :max="1000"
-                  ></el-input-number>
-                </el-form-item>
-                <el-form-item label="字体大小">
-                  <el-input
-                    type="number"
-                    v-model="formData.textFontSize"
-                  ></el-input>
-                </el-form-item>
-                <el-form-item label="主段文本填充方式">
-                  <el-switch
-                    v-model="formData.StrokeOrFill1"
-                    active-color="#13ce66"
-                    inactive-color="#ff4949"
-                    active-value="fill"
-                    inactive-value="stroke"
-                    active-text="填充"
-                    inactive-text="描边"
-                  >
-                  </el-switch>
-                </el-form-item>
-                <el-form-item label="副段文本填充方式">
-                  <el-switch
-                    v-model="formData.StrokeOrFill2"
-                    active-color="#13ce66"
-                    inactive-color="#ff4949"
-                    active-value="fill"
-                    inactive-value="stroke"
-                    active-text="填充"
-                    inactive-text="描边"
-                  >
-                  </el-switch>
-                </el-form-item>
-                <el-form-item label="字体颜色">
-                  <el-color-picker @active-change="e => formData.textColor = e" v-model="formData.textColor" show-alpha>
-                  </el-color-picker>
-                </el-form-item>
-                <el-form-item label="是否设置文字阴影">
-                  <el-switch
-                    v-model="formData.showShadow"
-                    active-color="#13ce66"
-                    inactive-color="#ff4949"
-                  >
-                  </el-switch>
-                </el-form-item>
-                <el-form-item
-                  v-if="formData.showShadow"
-                  label="主段文字阴影颜色"
+        <el-tabs v-model="activeName" type="card">
+          <el-tab-pane label="文字" name="first">
+            <el-form label-width="140px" :model="formData">
+              <el-form-item label="文本内容主段">
+                <el-input
+                  :maxlength="7"
+                  v-model="formData.textArr[1]"
+                ></el-input>
+              </el-form-item>
+              <el-form-item label="文本内容副段">
+                <el-input
+                  :maxlength="7"
+                  v-model="formData.textArr[0]"
+                ></el-input>
+              </el-form-item>
+              <el-form-item label="文字粗细">
+                <el-input-number
+                  v-model="formData.textWeight"
+                  :step="100"
+                  :min="500"
+                  :max="1000"
+                ></el-input-number>
+              </el-form-item>
+              <el-form-item label="字体大小">
+                <el-input
+                  type="number"
+                  v-model="formData.textFontSize"
+                ></el-input>
+              </el-form-item>
+              <el-form-item label="主段文本填充方式">
+                <el-switch
+                  v-model="formData.StrokeOrFill1"
+                  active-color="#13ce66"
+                  inactive-color="#ff4949"
+                  active-value="fill"
+                  inactive-value="stroke"
+                  active-text="填充"
+                  inactive-text="描边"
                 >
-                  <el-color-picker v-model="formData.shadowColor1" show-alpha>
-                  </el-color-picker>
-                </el-form-item>
-                <el-form-item
-                  v-if="formData.showShadow"
-                  label="副段文字阴影颜色"
+                </el-switch>
+              </el-form-item>
+              <el-form-item label="副段文本填充方式">
+                <el-switch
+                  v-model="formData.StrokeOrFill2"
+                  active-color="#13ce66"
+                  inactive-color="#ff4949"
+                  active-value="fill"
+                  inactive-value="stroke"
+                  active-text="填充"
+                  inactive-text="描边"
                 >
-                  <el-color-picker v-model="formData.shadowColor2" show-alpha>
-                  </el-color-picker>
-                </el-form-item>
-                <el-form-item
-                  v-if="formData.showShadow"
-                  label="主段文字阴影模糊"
+                </el-switch>
+              </el-form-item>
+              <el-form-item label="字体颜色">
+                <el-color-picker
+                  @active-change="(e) => (formData.textColor = e)"
+                  v-model="formData.textColor"
+                  show-alpha
                 >
-                  <el-input-number
-                    v-model="formData.shadowBlur1"
-                    :min="0"
-                    :max="25"
-                  ></el-input-number>
-                </el-form-item>
-                <el-form-item
-                  v-if="formData.showShadow"
-                  label="副段文字阴影模糊"
+                </el-color-picker>
+              </el-form-item>
+              <el-form-item label="是否设置文字阴影">
+                <el-switch
+                  v-model="formData.showShadow"
+                  active-color="#13ce66"
+                  inactive-color="#ff4949"
                 >
-                  <el-input-number
-                    v-model="formData.shadowBlur2"
-                    :min="0"
-                    :max="25"
-                  ></el-input-number>
-                </el-form-item>
-                <el-form-item label="主段文本顶部偏移">
-                  <el-input-number
-                    v-model="formData.offsetTop1"
-                    :step="50"
-                    :min="-200"
-                    :max="200"
-                  ></el-input-number>
-                </el-form-item>
-                <el-form-item label="副段文本顶部偏移">
-                  <el-input-number
-                    v-model="formData.offsetTop2"
-                    :step="50"
-                    :min="-200"
-                    :max="200"
-                  ></el-input-number>
-                </el-form-item>
-              </div>
-            </el-tab-pane>
-            <el-tab-pane label="烟花" name="second">烟花</el-tab-pane>
-            <el-tab-pane label="其他" name="third">
-              <div class="other">
-                <div class="imgs_block" v-for="(img, index) in imgs" :key="index">
-                    <div @click="selectBGImg(index)" class="imgs_block_box">
-                      <span class="title">{{ img.title }}</span>
-                      <el-avatar shape="square" :size="100" fit="contain" :src="img.url"></el-avatar>
-                      <i v-show="img.isActive" class="el-icon-check"></i>
-                    </div>
+                </el-switch>
+              </el-form-item>
+              <el-form-item v-if="formData.showShadow" label="文字阴影颜色">
+                <el-color-picker v-model="formData.shadowColor1" show-alpha>
+                </el-color-picker>
+              </el-form-item>
+              <el-form-item v-if="formData.showShadow" label="页面滤镜颜色">
+                <el-color-picker v-model="formData.shadowColor2" show-alpha>
+                </el-color-picker>
+              </el-form-item>
+              <el-form-item v-if="formData.showShadow" label="主段文字阴影模糊">
+                <el-input-number
+                  v-model="formData.shadowBlur1"
+                  :min="0"
+                  :max="25"
+                ></el-input-number>
+              </el-form-item>
+              <el-form-item v-if="formData.showShadow" label="副段文字阴影模糊">
+                <el-input-number
+                  v-model="formData.shadowBlur2"
+                  :min="0"
+                  :max="25"
+                ></el-input-number>
+              </el-form-item>
+              <el-form-item label="主段文本顶部偏移">
+                <el-input-number
+                  v-model="formData.offsetTop1"
+                  :step="50"
+                  :min="-200"
+                  :max="200"
+                ></el-input-number>
+              </el-form-item>
+              <el-form-item label="副段文本顶部偏移">
+                <el-input-number
+                  v-model="formData.offsetTop2"
+                  :step="50"
+                  :min="-200"
+                  :max="200"
+                ></el-input-number>
+              </el-form-item>
+            </el-form>
+          </el-tab-pane>
+          <el-tab-pane label="烟花" name="second">
+            <el-form label-width="140px" :model="fireFlowerData">
+              <el-form-item label="烟花颜色：">
+                <el-switch
+                  v-model="fireFlowerData.isColorful"
+                  active-color="#13ce66"
+                  inactive-color="#ff4949"
+                  active-text="五颜六色"
+                  inactive-text="自定义(仅支持五种颜色)"
+                >
+                </el-switch>
+              </el-form-item>
+              <el-form-item v-show="!fireFlowerData.isColorful" label="自定义颜色：">
+                <el-color-picker
+                v-for="(item, index) in fireFlowerData.fireColorArr"
+                :key="index"
+                  @active-change="(e) => (fireFlowerData.fireColorArr[index] = e)"
+                  v-model="fireFlowerData.fireColorArr[index]"
+                  color-format='hsl'
+                >
+                </el-color-picker>
+              </el-form-item>
+            </el-form>
+          </el-tab-pane>
+          <el-tab-pane label="背景" name="third">
+            <div class="other">
+              <div class="imgs_block" v-for="(img, index) in imgs" :key="index">
+                <div @click="selectBGImg(index)" class="imgs_block_box">
+                  <span class="title">{{ img.title }}</span>
+                  <el-avatar
+                    shape="square"
+                    :size="100"
+                    fit="contain"
+                    :src="img.url"
+                  ></el-avatar>
+                  <i v-show="img.isActive" class="el-icon-check"></i>
                 </div>
               </div>
-            </el-tab-pane>
-          </el-tabs>
-        </el-form>
+            </div>
+          </el-tab-pane>
+        </el-tabs>
       </div>
     </el-drawer>
   </div>
@@ -171,7 +190,7 @@ export default {
         textWeight: 700,
         showShadow: true,
         shadowColor1: "#fff",
-        shadowColor2: "#fff",
+        shadowColor2: "rgba(255, 255, 255, 0)",
         shadowBlur1: 25,
         shadowBlur2: 25,
         StrokeOrFill1: "fill",
@@ -179,12 +198,24 @@ export default {
         offsetTop1: 0,
         offsetTop2: 0,
       },
+      fireFlowerData: {
+        isColorful: true,
+        fireColorArr: ["rgba(255, 255, 255, 0)", "rgba(255, 255, 255, 0)", "rgba(255, 255, 255, 0)", "rgba(255, 255, 255, 0)", "rgba(255, 255, 255, 0)"]
+      },
       imgs: [
-        {url: require('@/assets/img/CanvasBG1.png'), title: '静夜', isActive: true},
-        {url: require('@/assets/img/CanvasBG2.png'), title: '少女', isActive: false},
+        {
+          url: require("@/assets/img/CanvasBG1.png"),
+          title: "静夜",
+          isActive: true,
+        },
+        {
+          url: require("@/assets/img/CanvasBG2.png"),
+          title: "少女",
+          isActive: false,
+        },
       ],
-      BgImg: require('@/assets/img/CanvasBG1.png'),
-      reloadCanvas: true
+      BgImg: require("@/assets/img/CanvasBG1.png"),
+      reloadCanvas: true,
     };
   },
   methods: {
@@ -198,15 +229,15 @@ export default {
       this.$nextTick(() => {
         setTimeout(() => {
           this.reloadCanvas = true;
-        }, 50)
-      })
+        }, 50);
+      });
     },
     // 选择背景
     selectBGImg(index) {
-      this.imgs.forEach(item => item.isActive = false)
-      this.imgs[index].isActive = true
-      this.BgImg = this.imgs[index].url
-    }
+      this.imgs.forEach((item) => (item.isActive = false));
+      this.imgs[index].isActive = true;
+      this.BgImg = this.imgs[index].url;
+    },
   },
 };
 </script>
@@ -283,6 +314,5 @@ export default {
       margin: 10px;
     }
   }
-  
 }
 </style>

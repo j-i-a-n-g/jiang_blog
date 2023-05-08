@@ -11,7 +11,7 @@ function lerp(a, b, t) {
 }
 // 绽放的烟花
 class Shard {
-  constructor(x, y, hue, getTarget) {
+  constructor(x, y, hue, color, getTarget) {
     this.x = x;
     this.y = y;
     this.hue = hue;
@@ -26,11 +26,17 @@ class Shard {
     this.target = getTarget();
     this.ttl = 100;
     this.timer = 0;
+    this.color = color
   }
-  draw(cvs) {
+  draw(cvs, isColorful) {
     //cvs5
-    // HSL色彩的表述方式是：H(hue)色相，S(saturation)饱和度，以及L(lightness)亮度
-    cvs.fillStyle = `hsl(${this.hue}, 100%, ${this.lightness}%)`;
+    if(isColorful) {
+      // HSL色彩的表述方式是：H(hue)色相，S(saturation)饱和度，以及L(lightness)亮度
+      cvs.fillStyle = `hsl(${this.hue}, 100%, ${this.lightness}%)`;
+    } else {
+      cvs.fillStyle = this.color
+    }
+    
     // 起始一条路径，或重置当前路径。
     cvs.beginPath();
     /**
@@ -106,8 +112,9 @@ class Rocket {
     this.ySpeed = -Math.cos(this.angle) * this.blastSpeed;
     this.hue = Math.floor(Math.random() * 360);
     this.trail = [];
+    this.color = ""
   }
-  draw(cvs) {
+  draw(cvs, isColorful, fireColorArr) {
     //cvs5
     // restore()和save()只作用于绘制状态
     cvs.save();
@@ -116,7 +123,13 @@ class Rocket {
     // rotate 旋转当前的绘图
     cvs.rotate(Math.atan2(this.ySpeed, this.xSpeed) + Math.PI / 2);
     // fillStyle 设置或返回用于填充绘画的颜色、渐变或模式。
-    cvs.fillStyle = `hsl(${this.hue}, 100%, 50%)`; // 色相 饱和度 亮度
+    if(isColorful) {
+      cvs.fillStyle = `hsl(${this.hue}, 100%, 50%)`; // 色相 饱和度 亮度
+    } else {
+      let index = Math.floor(Math.random() * fireColorArr.length)
+      cvs.fillStyle = fireColorArr[index]
+      this.color = fireColorArr[index]
+    }
     // fillRect 绘制"被填充"的矩形。这里填充的就是烟花飞上来动态的那个“烟火”
     cvs.fillRect(0, 0, 5, 15);
     cvs.restore();
@@ -140,7 +153,7 @@ class Rocket {
   // 烟花绽放
   explode(shards, getTarget) {
     for (let i = 0; i < 70; i++) {
-      shards.push(new Shard(this.x, this.y, this.hue, getTarget));
+      shards.push(new Shard(this.x, this.y, this.hue, this.color, getTarget));
     }
   }
 }
@@ -155,9 +168,13 @@ export default {
     formData: {
       type: Object,
       default: () => {
-        return {
-          
-        }
+        return {}
+      }
+    },
+    fireFlowerData: {
+      type: Object,
+      default: () => {
+        return {}
       }
     }
   },
@@ -340,7 +357,7 @@ export default {
         this.rockets.push(new Rocket(this.cvsDocus[2]));
       }
       this.rockets.forEach((r, i) => {
-        r.draw(this.cvss[2]);
+        r.draw(this.cvss[2], this.fireFlowerData.isColorful, this.fireFlowerData.fireColorArr);
         r.update();
         if (r.ySpeed > 0) {
           // 烟花绽放的方法
@@ -349,7 +366,7 @@ export default {
         }
       });
       this.shards.forEach((s, i) => {
-        s.draw(this.cvss[2]);
+        s.draw(this.cvss[2], this.fireFlowerData.isColorful);
         s.update(this.cvsDocus[2], this.shards, this.fidelity);
         if (s.timer >= s.ttl || s.lightness >= 99) {
           this.cvss[3].fillRect(
