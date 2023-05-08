@@ -116,7 +116,7 @@ class Rocket {
     // rotate 旋转当前的绘图
     cvs.rotate(Math.atan2(this.ySpeed, this.xSpeed) + Math.PI / 2);
     // fillStyle 设置或返回用于填充绘画的颜色、渐变或模式。
-    cvs.fillStyle = `hsl(${this.hue}, 100%, 50%)`;
+    cvs.fillStyle = `hsl(${this.hue}, 100%, 50%)`; // 色相 饱和度 亮度
     // fillRect 绘制"被填充"的矩形。这里填充的就是烟花飞上来动态的那个“烟火”
     cvs.fillRect(0, 0, 5, 15);
     cvs.restore();
@@ -383,7 +383,7 @@ export default {
         x += this.cvsDocus[4].width / 2 - this.textWidth2 / 2;
         y += this.cvsDocus[4].height / 2 - this.formData.textFontSize / 2;
 
-        return { x, y };
+        return { x, y: y - this.formData.offsetTop1 };
       }
       if (this.textTargetsO.length > 0) {
         const idx = Math.floor(Math.random() * this.textTargetsO.length);
@@ -392,11 +392,10 @@ export default {
 
         x += this.cvsDocus[2].width / 2 - this.textWidth / 2;
         y += this.cvsDocus[2].height / 2 - this.formData.textFontSize / 2;
-        return { x, y };
+        return { x, y: y - this.formData.offsetTop2 };
       }
     },
     resetCanvas() {
-      console.log("reset");
       this.cvss.forEach((item, index) => {
         item.clearRect(
           0,
@@ -424,7 +423,6 @@ export default {
           this.textWidth2 = 9999
           this.initCVS();
           this.loop();
-          console.log("success");
         });
       });
     },

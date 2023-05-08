@@ -2,6 +2,7 @@
   <div class="hanabi">
     <div class="canvas-box">
       <canvasPaint
+      v-if="reloadCanvas"
         ref="canvasPaint"
         @reduceFontSize="reduceFontSize"
         :formData="formData"
@@ -73,7 +74,7 @@
                   </el-switch>
                 </el-form-item>
                 <el-form-item label="字体颜色">
-                  <el-color-picker v-model="formData.textColor" show-alpha>
+                  <el-color-picker @active-change="e => formData.textColor = e" v-model="formData.textColor" show-alpha>
                   </el-color-picker>
                 </el-form-item>
                 <el-form-item label="是否设置文字阴影">
@@ -118,15 +119,32 @@
                     :max="25"
                   ></el-input-number>
                 </el-form-item>
+                <el-form-item label="主段文本顶部偏移">
+                  <el-input-number
+                    v-model="formData.offsetTop1"
+                    :step="50"
+                    :min="-200"
+                    :max="200"
+                  ></el-input-number>
+                </el-form-item>
+                <el-form-item label="副段文本顶部偏移">
+                  <el-input-number
+                    v-model="formData.offsetTop2"
+                    :step="50"
+                    :min="-200"
+                    :max="200"
+                  ></el-input-number>
+                </el-form-item>
               </div>
             </el-tab-pane>
             <el-tab-pane label="烟花" name="second">烟花</el-tab-pane>
             <el-tab-pane label="其他" name="third">
               <div class="other">
                 <div class="imgs_block" v-for="(img, index) in imgs" :key="index">
-                    <div class="imgs_block_box" :class="BgImg == img.url ? 'isSelect' : ''">
+                    <div @click="selectBGImg(index)" class="imgs_block_box">
                       <span class="title">{{ img.title }}</span>
-                      <el-avatar @click="selectBGImg(index)" shape="square" :size="100" fit="contain" :src="img.url"></el-avatar>
+                      <el-avatar shape="square" :size="100" fit="contain" :src="img.url"></el-avatar>
+                      <i v-show="img.isActive" class="el-icon-check"></i>
                     </div>
                 </div>
               </div>
@@ -158,12 +176,15 @@ export default {
         shadowBlur2: 25,
         StrokeOrFill1: "fill",
         StrokeOrFill2: "stroke",
+        offsetTop1: 0,
+        offsetTop2: 0,
       },
       imgs: [
-        {url: require('@/assets/img/CanvasBG1.png'), title: '静夜'},
-        {url: require('@/assets/img/CanvasBG2.png'), title: '少女'},
+        {url: require('@/assets/img/CanvasBG1.png'), title: '静夜', isActive: true},
+        {url: require('@/assets/img/CanvasBG2.png'), title: '少女', isActive: false},
       ],
-      BgImg: require('@/assets/img/CanvasBG1.png')
+      BgImg: require('@/assets/img/CanvasBG1.png'),
+      reloadCanvas: true
     };
   },
   methods: {
@@ -171,12 +192,20 @@ export default {
       this.textFontSize--;
     },
     saveSetting() {
-      this.$refs.canvasPaint.resetCanvas();
+      // this.$refs.canvasPaint.resetCanvas();
       this.drawerShow = false;
+      this.reloadCanvas = false;
+      this.$nextTick(() => {
+        setTimeout(() => {
+          this.reloadCanvas = true;
+        }, 50)
+      })
     },
     // 选择背景
     selectBGImg(index) {
-      this.BgImg = imgs[index].url
+      this.imgs.forEach(item => item.isActive = false)
+      this.imgs[index].isActive = true
+      this.BgImg = this.imgs[index].url
     }
   },
 };
@@ -232,15 +261,26 @@ export default {
       margin-right: 10px;
     }
     .imgs_block_box {
-    display: flex;
-    flex-direction: column;
+      display: flex;
+      position: relative;
+      flex-direction: column;
+      .el-icon-check {
+        position: absolute;
+        right: 0px;
+        top: 36px;
+        display: block;
+        background-color: #409eff;
+        width: 20px;
+        height: 20px;
+        text-align: center;
+        line-height: 20px;
+        color: #fff;
+        border-radius: 5px;
+      }
     }
     .title {
       text-align: center;
       margin: 10px;
-    }
-    .isSelect {
-      border: 1px solid #409eff;
     }
   }
   
