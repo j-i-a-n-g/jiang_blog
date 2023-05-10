@@ -59,17 +59,17 @@ export default {
       code: {
         html: `<div class="text">123</div>`,
         js: `export default {
-              components: {},
-              data() {
-                return {
-                }
-              },
-              mounted() {},
-              methods: {},
-            }`,
+  components: {},
+  data() {
+    return {
+    }
+  },
+  mounted() {},
+  methods: {},
+}`,
         css: `.text {
-                color: red
-              }`,
+  color: red
+}`,
       },
     };
   },

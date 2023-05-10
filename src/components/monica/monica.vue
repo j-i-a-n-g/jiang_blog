@@ -46,15 +46,15 @@ let defaultOptions = {
     enabled: true, // 是否启用预览图
   }, // 预览图设置
   folding: true, // 是否启用代码折叠
-  fontSize: '16',
-  fontFamily : 'consolas', // `'consolas' | 'pictorico' | 'courier new' | ...'`
+  fontSize: "16",
+  fontFamily: "consolas", // `'consolas' | 'pictorico' | 'courier new' | ...'`
   links: true, // 是否点击链接
   overviewRulerBorder: false, // 是否应围绕概览标尺绘制边框
   renderLineHighlight: "gutter", // 当前行突出显示方式
   roundedSelection: false, // 选区是否有圆角
   scrollBeyondLastLine: false, // 设置编辑器是否可以滚动到最后一行之后
   readOnly: false, // 是否为只读模式
-  theme: "vs-dark", // vs, hc-black, or vs-dark
+  theme: "vs-dark", // vs, hc-black, or vs-dark mytheme
 };
 export default {
   data() {
@@ -65,11 +65,11 @@ export default {
   props: {
     language: {
       type: String,
-      default: 'html'
+      default: "html",
     },
     code: {
-      default: null
-    }
+      default: null,
+    },
   },
   mounted() {
     this.initEditer();
@@ -77,18 +77,47 @@ export default {
   methods: {
     initEditer(key) {
       let code = "";
-      if(this.editer) {
-       code = this.editer.getValue()
-       this.editer.setValue(code);
-       this.$emit('setCode', code, key)
-       return
+      if (this.editer) {
+        code = this.editer.getValue();
+        this.editer.setValue(code);
+        this.$emit("setCode", code, key);
+        return;
       }
-      this.editer = MonacoEditor.editor.create(this.$refs.monacoEditor, {
-        ...defaultOptions,
-        value: code ? key == 'js' ? 'export deafult' + code : code 
-        : key == 'js' ? 'export deafult' + this.code : this.code,
-        language : this.language
-      }, MonacoEditor.editor.ICodeEditor);
+      // 自定义样式
+      MonacoEditor.editor.defineTheme("mytheme", {
+        base: "vs",
+        inherit: false,
+        rules: [
+          // { token: "source.myLang", foreground: "606266" },
+          { background: "DC143C" },
+        ],
+        colors: {
+          "editor.background": "transparent",
+          "editor.lineHighlightBorder": "#cccccc",
+        },
+        tokenTheme: {
+          html: {
+            "document.html": {
+              "foreign.name.html": "606266"  // 设置 html 标签名颜色
+            }  
+          }
+        }
+      });
+      this.editer = MonacoEditor.editor.create(
+        this.$refs.monacoEditor,
+        {
+          ...defaultOptions,
+          value: code
+            ? key == "js"
+              ? "export deafult" + code
+              : code
+            : key == "js"
+            ? "export deafult" + this.code
+            : this.code,
+          language: this.language,
+        },
+        MonacoEditor.editor.ICodeEditor
+      );
     },
   },
 };
