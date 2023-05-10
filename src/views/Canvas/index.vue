@@ -5,7 +5,7 @@
         v-if="reloadCanvas"
         ref="canvasPaint"
         @reduceFontSize="reduceFontSize"
-        :formData="formData"
+        :fontSetting="fontSetting"
         :fireFlowerData="fireFlowerData"
         :BgImg="BgImg"
       />
@@ -22,22 +22,22 @@
         >
         <el-tabs v-model="activeName" type="card">
           <el-tab-pane label="文字" name="first">
-            <el-form label-width="140px" :model="formData">
+            <el-form label-width="140px" :model="fontSetting">
               <el-form-item label="文本内容主段">
                 <el-input
                   :maxlength="7"
-                  v-model="formData.textArr[1]"
+                  v-model="fontSetting.textArr[1]"
                 ></el-input>
               </el-form-item>
               <el-form-item label="文本内容副段">
                 <el-input
                   :maxlength="7"
-                  v-model="formData.textArr[0]"
+                  v-model="fontSetting.textArr[0]"
                 ></el-input>
               </el-form-item>
               <el-form-item label="文字粗细">
                 <el-input-number
-                  v-model="formData.textWeight"
+                  v-model="fontSetting.textWeight"
                   :step="100"
                   :min="500"
                   :max="1000"
@@ -46,12 +46,12 @@
               <el-form-item label="字体大小">
                 <el-input
                   type="number"
-                  v-model="formData.textFontSize"
+                  v-model="fontSetting.textFontSize"
                 ></el-input>
               </el-form-item>
               <el-form-item label="主段文本填充方式">
                 <el-switch
-                  v-model="formData.StrokeOrFill1"
+                  v-model="fontSetting.StrokeOrFill1"
                   active-color="#13ce66"
                   inactive-color="#ff4949"
                   active-value="fill"
@@ -63,7 +63,7 @@
               </el-form-item>
               <el-form-item label="副段文本填充方式">
                 <el-switch
-                  v-model="formData.StrokeOrFill2"
+                  v-model="fontSetting.StrokeOrFill2"
                   active-color="#13ce66"
                   inactive-color="#ff4949"
                   active-value="fill"
@@ -75,45 +75,45 @@
               </el-form-item>
               <el-form-item label="字体颜色">
                 <el-color-picker
-                  @active-change="(e) => (formData.textColor = e)"
-                  v-model="formData.textColor"
+                  @active-change="(e) => (fontSetting.textColor = e)"
+                  v-model="fontSetting.textColor"
                   show-alpha
                 >
                 </el-color-picker>
               </el-form-item>
               <el-form-item label="是否设置文字阴影">
                 <el-switch
-                  v-model="formData.showShadow"
+                  v-model="fontSetting.showShadow"
                   active-color="#13ce66"
                   inactive-color="#ff4949"
                 >
                 </el-switch>
               </el-form-item>
-              <el-form-item v-if="formData.showShadow" label="文字阴影颜色">
-                <el-color-picker v-model="formData.shadowColor1" show-alpha>
+              <el-form-item v-if="fontSetting.showShadow" label="文字阴影颜色">
+                <el-color-picker v-model="fontSetting.shadowColor1" show-alpha>
                 </el-color-picker>
               </el-form-item>
-              <el-form-item v-if="formData.showShadow" label="页面滤镜颜色">
-                <el-color-picker v-model="formData.shadowColor2" show-alpha>
+              <el-form-item v-if="fontSetting.showShadow" label="页面滤镜颜色">
+                <el-color-picker v-model="fontSetting.shadowColor2" show-alpha>
                 </el-color-picker>
               </el-form-item>
-              <el-form-item v-if="formData.showShadow" label="主段文字阴影模糊">
+              <el-form-item v-if="fontSetting.showShadow" label="主段文字阴影模糊">
                 <el-input-number
-                  v-model="formData.shadowBlur1"
+                  v-model="fontSetting.shadowBlur1"
                   :min="0"
                   :max="25"
                 ></el-input-number>
               </el-form-item>
-              <el-form-item v-if="formData.showShadow" label="副段文字阴影模糊">
+              <el-form-item v-if="fontSetting.showShadow" label="副段文字阴影模糊">
                 <el-input-number
-                  v-model="formData.shadowBlur2"
+                  v-model="fontSetting.shadowBlur2"
                   :min="0"
                   :max="25"
                 ></el-input-number>
               </el-form-item>
               <el-form-item label="主段文本顶部偏移">
                 <el-input-number
-                  v-model="formData.offsetTop1"
+                  v-model="fontSetting.offsetTop1"
                   :step="50"
                   :min="-200"
                   :max="200"
@@ -121,7 +121,7 @@
               </el-form-item>
               <el-form-item label="副段文本顶部偏移">
                 <el-input-number
-                  v-model="formData.offsetTop2"
+                  v-model="fontSetting.offsetTop2"
                   :step="50"
                   :min="-200"
                   :max="200"
@@ -183,7 +183,7 @@ export default {
     return {
       drawerShow: false,
       activeName: "first",
-      formData: {
+      fontSetting: {
         textFontSize: 200,
         textArr: ["13", "Harden"],
         textColor: "red",
@@ -215,8 +215,21 @@ export default {
         },
       ],
       BgImg: require("@/assets/img/CanvasBG1.png"),
+      bgImgIndex: 0,
       reloadCanvas: true,
     };
+  },
+  created() {
+    if(localStorage.getItem('font_Setting')) {
+      this.fontSetting = JSON.parse(localStorage.getItem('font_Setting'))
+    }
+    if(localStorage.getItem('fireFlower_Setting')) {
+      this.fireFlowerData = JSON.parse(localStorage.getItem('fireFlower_Setting'))
+    }
+    if(localStorage.getItem('canvas_bgImgIndex') || localStorage.getItem('canvas_bgImgIndex') == 0) {
+      this.bgImgIndex = localStorage.getItem('canvas_bgImgIndex')
+      this.BgImg = this.imgs[this.bgImgIndex].url;      
+    }
   },
   methods: {
     reduceFontSize() {
@@ -224,6 +237,9 @@ export default {
     },
     saveSetting() {
       // this.$refs.canvasPaint.resetCanvas();
+      localStorage.setItem('font_Setting', JSON.stringify(this.fontSetting))
+      localStorage.setItem('fireFlower_Setting', JSON.stringify(this.fireFlowerData))
+      localStorage.setItem('canvas_bgImgIndex', this.bgImgIndex)
       this.drawerShow = false;
       this.reloadCanvas = false;
       this.$nextTick(() => {
@@ -237,6 +253,7 @@ export default {
       this.imgs.forEach((item) => (item.isActive = false));
       this.imgs[index].isActive = true;
       this.BgImg = this.imgs[index].url;
+      this.bgImgIndex = index
     },
   },
 };

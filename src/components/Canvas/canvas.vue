@@ -115,6 +115,7 @@ class Rocket {
     this.color = ""
   }
   draw(cvs, isColorful, fireColorArr) {
+    this.blastSpeed = 6 + Math.random() * 7;
     //cvs5
     // restore()和save()只作用于绘制状态
     cvs.save();
@@ -165,7 +166,7 @@ export default {
       default: 5,
     },
     BgImg: {},
-    formData: {
+    fontSetting: {
       type: Object,
       default: () => {
         return {}
@@ -198,6 +199,8 @@ export default {
       textWidth: 9999,
       textWidth2: 9999,
       isShow: true,
+      fontStyle: {},
+      fireFlower: {}
     };
   },
   mounted() {
@@ -239,47 +242,47 @@ export default {
       
     },
     resize() {
-      // 屏幕宽度小于99999999，formData.textFontSize开始自减，调整字体大小，适应屏幕宽度
+      // 屏幕宽度小于99999999，fontSetting.textFontSize开始自减，调整字体大小，适应屏幕宽度
       while (this.textWidth > window.innerWidth) {
         this.$emit("reduceFontSize");
-        // 在画布上写一段900粗细 formData.textFontSize像素的文本，使用的字体是 "Arial"
-        this.cvss[0].font = `900 ${this.formData.textFontSize}px Arial`;
+        // 在画布上写一段900粗细 fontSetting.textFontSize像素的文本，使用的字体是 "Arial"
+        this.cvss[0].font = `900 ${this.fontSetting.textFontSize}px Arial`;
         // measureText 返回包含指定文本宽度的对象。
-        this.textWidth = this.cvss[0].measureText(this.formData.textArr[0]).width;
+        this.textWidth = this.cvss[0].measureText(this.fontSetting.textArr[0]).width;
       }
       while (this.textWidth2 > window.innerWidth) {
-        this.cvss[1].font = `900 ${this.formData.textFontSize}px Arial`;
-        this.textWidth2 = this.cvss[1].measureText(this.formData.textArr[1]).width;
+        this.cvss[1].font = `900 ${this.fontSetting.textFontSize}px Arial`;
+        this.textWidth2 = this.cvss[1].measureText(this.fontSetting.textArr[1]).width;
       }
       let maxWidth = this.textWidth > this.textWidth2 ? this.textWidth : this.textWidth2
       this.cvsDocus[0].width = maxWidth;
       this.cvsDocus[1].width = maxWidth;
-      this.cvsDocus[0].height = this.formData.textFontSize * 3;
-      this.cvsDocus[1].height = this.formData.textFontSize * 3;
+      this.cvsDocus[0].height = this.fontSetting.textFontSize * 3;
+      this.cvsDocus[1].height = this.fontSetting.textFontSize * 3;
       
-      this.cvss[0].font = `${this.formData.textWeight} ${this.formData.textFontSize}px Arial`;
-      this.cvss[1].font = `${this.formData.textWeight} ${this.formData.textFontSize}px Arial`;
+      this.cvss[0].font = `${this.fontSetting.textWeight} ${this.fontSetting.textFontSize}px Arial`;
+      this.cvss[1].font = `${this.fontSetting.textWeight} ${this.fontSetting.textFontSize}px Arial`;
       this.cvsDocus[0].textAlign = "right";
       this.cvsDocus[1].textAlign = "right";
       // this.cvsDocus[0].textBaseline = "middle";
       // this.cvsDocus[1].textBaseline = "middle";
       this.cvss[0].translate(0, 200)
       // this.cvss[1].translate(0, -50)
-      if (this.formData.StrokeOrFill2 == "fill") {
+      if (this.fontSetting.StrokeOrFill2 == "fill") {
         // fillStyle 设置或返回用于填充绘画的颜色、渐变或模式。
         // this.cvss[0].fillStyle = "red";
-        this.cvss[0].fillText(this.formData.textArr[0], 0, this.formData.textFontSize); // hello
+        this.cvss[0].fillText(this.fontSetting.textArr[0], 0, this.fontSetting.textFontSize); // hello
       } else {
         // this.cvss[0].strokeStyle = "red";
-        this.cvss[0].strokeText(this.formData.textArr[0], 0, this.formData.textFontSize);
+        this.cvss[0].strokeText(this.fontSetting.textArr[0], 0, this.fontSetting.textFontSize);
 
       }
-      if (this.formData.StrokeOrFill1 == "fill") {
+      if (this.fontSetting.StrokeOrFill1 == "fill") {
         // this.cvss[1].fillStyle = "red";
-        this.cvss[1].fillText(this.formData.textArr[1], 0, this.formData.textFontSize);
+        this.cvss[1].fillText(this.fontSetting.textArr[1], 0, this.fontSetting.textFontSize);
       } else {
         // this.cvss[1].strokeStyle = "red";
-        this.cvss[1].strokeText(this.formData.textArr[1], 0 , this.formData.textFontSize);
+        this.cvss[1].strokeText(this.fontSetting.textArr[1], 0 , this.fontSetting.textFontSize);
       }
       this.getPosition();
     },
@@ -322,16 +325,16 @@ export default {
       // 设置或返回用于填充绘画的颜色、渐变或模式。
       this.cvss[3].fillStyle = "#FFF";
       // 设置或返回用于填充绘画的颜色、渐变或模式。
-      this.cvss[4].fillStyle = this.formData.textColor;
-      if (this.formData.showShadow) {
+      this.cvss[4].fillStyle = this.fontSetting.textColor;
+      if (this.fontSetting.showShadow) {
         // 设置或返回用于阴影的颜色
-        this.cvss[3].shadowColor = this.formData.shadowColor1;
+        this.cvss[3].shadowColor = this.fontSetting.shadowColor1;
         // 设置或返回用于阴影的模糊级别
-        this.cvss[3].shadowBlur = this.formData.shadowBlur1;
+        this.cvss[3].shadowBlur = this.fontSetting.shadowBlur1;
         // 设置或返回用于阴影的颜色
-        this.cvss[4].shadowColor = this.formData.shadowColor2;
+        this.cvss[4].shadowColor = this.fontSetting.shadowColor2;
         // 设置或返回用于阴影的模糊级别
-        this.cvss[4].shadowBlur = this.formData.shadowBlur2;
+        this.cvss[4].shadowBlur = this.fontSetting.shadowBlur2;
       }
     },
     // ANIMATION LOOP
@@ -398,9 +401,9 @@ export default {
         this.textTargetsT.splice(idx, 1);
 
         x += this.cvsDocus[4].width / 2 - this.textWidth2 / 2;
-        y += this.cvsDocus[4].height / 2 - this.formData.textFontSize / 2;
+        y += this.cvsDocus[4].height / 2 - this.fontSetting.textFontSize / 2;
 
-        return { x, y: y - this.formData.offsetTop1 };
+        return { x, y: y - this.fontSetting.offsetTop1 };
       }
       if (this.textTargetsO.length > 0) {
         const idx = Math.floor(Math.random() * this.textTargetsO.length);
@@ -408,8 +411,8 @@ export default {
         this.textTargetsO.splice(idx, 1);
 
         x += this.cvsDocus[2].width / 2 - this.textWidth / 2;
-        y += this.cvsDocus[2].height / 2 - this.formData.textFontSize / 2;
-        return { x, y: y - this.formData.offsetTop2 };
+        y += this.cvsDocus[2].height / 2 - this.fontSetting.textFontSize / 2;
+        return { x, y: y - this.fontSetting.offsetTop2 };
       }
     },
     resetCanvas() {
