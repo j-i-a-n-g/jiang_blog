@@ -58,10 +58,10 @@ export default {
               path:'/hanabi',
               title: 'Canvas'
             },
-            // {
-            //   path:'/about',
-            //   title: '关于'
-            // }
+            {
+              path:'/qrCode',
+              title: '生成二维码'
+            }
           ],
           // 控制登录表单的隐藏显示
           isShowLogin: false,

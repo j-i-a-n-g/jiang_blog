@@ -35,6 +35,11 @@ const routes = [
     component: () => import('@/views/Canvas/index.vue')
   },
   {
+    path: '/qrCode',
+    name: 'Canvas',
+    component: () => import('@/views/QrCode/index.vue')
+  },
+  {
     path: '/link',
     name: 'Link',
     component: () => import('@/views/Link.vue')
