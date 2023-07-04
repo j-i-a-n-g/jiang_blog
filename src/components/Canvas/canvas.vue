@@ -1,10 +1,14 @@
 <template>
-  <div class="canvas" v-if="isShow">
-    <canvas v-for="(cvs, idx) in canvasNum" :key="idx"></canvas>
+  <div class="canvas" ref="picture" v-if="isShow">
+    <canvas class="canvas_content" v-for="(cvs, idx) in canvasNum" :key="idx"></canvas>
   </div>
 </template>
 
 <script>
+import GIF from '@/components/GIFjs/dist/gif'
+import { getGifWorker } from './gif.worker'
+import html2canvas from 'html2canvas';
+import Whammy from './whammy';
 // HELPER FUNCTIONS
 function lerp(a, b, t) {
   return Math.abs(b - a) > 0.1 ? a + t * (b - a) : b;
@@ -200,18 +204,23 @@ export default {
       textWidth2: 9999,
       isShow: true,
       fontStyle: {},
-      fireFlower: {}
+      fireFlower: {},
+      exportTimer: null, // 定时器
+      gifCom: null,
+      outsideCanvas: null,
+      mediaRecorder: null, // 存放录制视频的对象
     };
   },
   mounted() {
     this.initCVS();
     this.loop();
+    // console.log(GIF);
   },
   methods: {
     // 初始化
     initCVS() {
       // 获取所有canvas元素
-      const [c1, c2, c3, c4, c5] = document.querySelectorAll("canvas");
+      const [c1, c2, c3, c4, c5] = document.querySelectorAll(".canvas_content");
       this.cvsDocus = [c1, c2, c3, c4, c5];
       // 分别给每个canvas提供绘画方法和属性
       // getContext() 方法可返回一个对象，该对象提供了用于在画布上绘图的方法和属性。
@@ -444,6 +453,167 @@ export default {
           this.initCVS();
           this.loop();
         });
+      });
+    },
+    // testHtml5Canvas() {
+    //   html2canvas(this.$refs.picture, {useCORS: true}).then((canvas) => {
+    //       // document.body.appendChild(canvas); // 自动在下方显示绘制的canvas图片
+    //       const link = canvas.toDataURL("image/jpg");
+    //       this.exportPicture(link, "文件名");
+    //   })
+    // },
+    // 导出图片
+    exportPicture(link, name = "未命名文件") {
+        const file = document.createElement("a");
+        file.style.display = "none";
+        file.href = link;
+        file.download = decodeURI(name);
+        document.body.appendChild(file);
+        file.click();
+        document.body.removeChild(file);
+    },
+    startRecordGif() {
+      html2canvas(this.$refs.picture, {useCORS: true}).then((canvas) => {
+          this.$message.success("开始录制gif");
+          document.body.appendChild(canvas); // 自动在下方显示绘制的canvas图片
+          this.outsideCanvas = canvas;
+          this.initGIF(canvas, this.$refs.picture)
+          // const link = canvas.toDataURL("image/jpg");
+          // this.exportPicture(link, "文件名");
+      })
+    },
+    initGIF(canvas, html) {
+      this.gifCom = new GIF({
+        workers: 2,
+        quality: 1,
+        workerScript: getGifWorker(),
+        debug: true,
+        framerate: 30,
+      });
+      const ctx = canvas.getContext('2d');
+      
+      // 设定时间间隔
+      const delay = 30;
+      // 设置时间函数
+      this.exportTimer = setInterval(() => {
+          // 画布的宽高与视频宽高保持一致，延迟取上面定义的延迟时间
+          canvas.width = 1165;
+          canvas.height = 870;
+          canvas.delay = delay
+          // canvas.getContext('2d').drawImage(this.$refs.picture, 0, 0, canvas.width, canvas.height); 
+          ctx.drawImage(this.cvsDocus[0], 0, 0, canvas.width, canvas.height);
+          ctx.drawImage(this.cvsDocus[1], 0, 0, canvas.width, canvas.height);
+          ctx.drawImage(this.cvsDocus[2], 0, 0, canvas.width, canvas.height);
+          ctx.drawImage(this.cvsDocus[3], 0, 0, canvas.width, canvas.height);
+          ctx.drawImage(this.cvsDocus[4], 0, 0, canvas.width, canvas.height);
+          // 将当前画面帧追加到 gif中
+          const imgImage = new Image();
+          imgImage.src = canvas.toDataURL("image/jpg");
+          
+          imgImage.onload = (e) => {
+            // 绘制底色  
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // 绘制当前帧
+            ctx.drawImage(imgImage, 0, 0, canvas.width, canvas.height);
+            
+            // 当前帧追加到gif中
+            this.gifCom.addFrame(canvas, {copy: true, delay: canvas.delay});
+          }
+          // 调用 requestAnimationFrame() 函数渲染下一帧
+          // requestAnimationFrame(renderFrame);
+          // 使用 Whammy.js 将 Canvas 帧转换为 WebM 视频帧
+          // const videoFrames = [];
+          // const whammy = new Whammy.Video(15);
+          // whammy.add(ctx);
+          // let output = whammy.compile(false, function(output1){
+          //   var url = webkitURL.createObjectURL(output);
+          //   // console.log("url:"+url);
+          //   return url;
+          //   // document.getElementById('download').style.display = '';
+          //   // document.getElementById('download').href = url;
+          // });
+          // console.log(output)
+          // const mediaChunks = [];
+          // const mediaRecorder = new MediaRecorder(output, { mimeType: 'video/webm' });
+          // mediaRecorder.ondataavailable = function (event) {
+          //   if (event.data.size > 0) {
+          //     mediaChunks.push(event.data);
+          //   }
+          // };
+          // mediaRecorder.onstop = function () {
+          //   const blob = new Blob(mediaChunks, { type: 'video/mp4' });
+          //   const url = URL.createObjectURL(blob);
+          //   const link = document.createElement('a');
+          //   link.href = url;
+          //   link.download = 'animation.mp4';
+          //   link.click();
+          // };
+          // setTimeout(function () {
+          //   mediaRecorder.stop();
+          // }, 5000); // 捕获 5 秒钟的视频
+      }, delay)
+    },
+    recordMedia() {
+      html2canvas(this.$refs.picture, {useCORS: true}).then((canvas) => {
+        this.exportTimer = setInterval(() => {
+          this.outsideCanvas = canvas;
+          const ctx = canvas.getContext('2d');
+          canvas.width = 1165;
+          canvas.height = 870;
+          ctx.drawImage(this.cvsDocus[0], 0, 0, canvas.width, canvas.height);
+          ctx.drawImage(this.cvsDocus[1], 0, 0, canvas.width, canvas.height);
+          ctx.drawImage(this.cvsDocus[2], 0, 0, canvas.width, canvas.height);
+          ctx.drawImage(this.cvsDocus[3], 0, 0, canvas.width, canvas.height);
+          ctx.drawImage(this.cvsDocus[4], 0, 0, canvas.width, canvas.height);
+        }, 0)
+          var stream = canvas.captureStream(120);
+          console.log(stream)
+          this.mediaRecorder = new MediaRecorder(stream, { mimeType: 'video/webm;codecs=vp9' });
+          console.log("开始录制");
+          let data = [];
+          this.mediaRecorder.ondataavailable = (event) => {
+            console.log(event.data)
+              // if (event.data && event.data.size) {
+                  data.push(event.data);
+              // }
+          };
+          this.mediaRecorder.onerror = (err) => {
+            console.log(err)
+          }
+          this.mediaRecorder.onstop = () => {
+          //结束录制时下载视频
+              const url = URL.createObjectURL(new Blob(data, { type: 'video/webm' }));
+              var element = document.createElement('a');
+              element.setAttribute('href', url);
+              element.setAttribute('download', "");
+              element.style.display = 'none';
+              document.body.appendChild(element);
+              element.click();
+              document.body.removeChild(element);
+          };
+          //录制开始
+          this.mediaRecorder.start();
+          this.$message.success("开始录制");
+      })
+    },
+    stopRecordMedia() {
+      this.mediaRecorder.stop();
+      this.$message.success("结束录制，视频生成中，请稍后...");
+      console.log("结束录制");
+    },
+    stopRecordGif() {
+      clearInterval(this.exportTimer);
+      this.$message.success("gif生成中，时间可能较久，请稍后...");
+      this.gifCom.render();
+      // 监听渲染完成，返回 blob 文件流
+      this.gifCom.on('finished', function(blob) {
+        const url = URL.createObjectURL(blob);
+        console.log(url, "渲染完成")
+        const aLink = document.createElement('a');
+        aLink.setAttribute('download', 'img')
+        aLink.setAttribute('href', url)
+        aLink.click()
       });
     },
   },

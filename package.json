@@ -13,6 +13,8 @@
     "core-js": "^3.8.3",
     "echarts": "^5.4.2",
     "element-ui": "^2.15.9",
+    "gif.js.optimized": "^1.0.1",
+    "html2canvas": "^1.4.1",
     "mavon-editor": "^2.10.4",
     "monaco-editor": "^0.31.0",
     "monaco-editor-nls": "^3.0.0",
@@ -20,8 +22,10 @@
     "nprogress": "^0.2.0",
     "vue": "^2.7.8",
     "vue-aplayer": "^1.6.1",
+    "vue-qr": "^4.0.9",
     "vue-router": "^3.5.1",
-    "vuex": "^3.6.2"
+    "vuex": "^3.6.2",
+    "whammy": "^0.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",

@@ -9,7 +9,7 @@ import '@css/reset.css'
 import 'element-ui/lib/theme-chalk/display.css';
 import MonacoEditor from 'monaco-editor/esm/vs/editor/editor.api';
 // 注册全局组件
-import components from './components'
+import components from './components';
 
 Vue.use(components)
 

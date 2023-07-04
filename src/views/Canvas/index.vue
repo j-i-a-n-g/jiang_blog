@@ -11,10 +11,28 @@
       />
     </div>
     <span @click="drawerShow = true" class="setting">设置属性</span>
+    <span @click="startRecordGif" style="top: 0px;" class="record">开始导出gif</span>
+    <span @click="stopRecordGif" style="top: 40px;" class="record">结束导出gif</span>
+    <span @click="recordMedia" style="top: 80px;" class="record">开始录制</span>
+    <span @click="stopRecordMedia" style="top: 120px;" class="record">结束录制</span>
     <el-drawer title="设置" :visible.sync="drawerShow">
       <div class="drawer-main">
         <el-button
-          style="position: absolute; right: 100px; top: 20px"
+          style="position: absolute; right: 305px; top: 20px"
+          @click="saveSetting('media')"
+          type="primary"
+          size="small"
+          >保存设置并开始导出视频</el-button
+        >
+        <el-button
+          style="position: absolute; right: 145px; top: 20px"
+          @click="saveSetting('gif')"
+          type="primary"
+          size="small"
+          >保存设置并开始导出gif</el-button
+        >
+        <el-button
+          style="position: absolute; right: 60px; top: 20px"
           @click="saveSetting"
           type="primary"
           size="small"
@@ -235,7 +253,7 @@ export default {
     reduceFontSize() {
       this.textFontSize--;
     },
-    saveSetting() {
+    saveSetting(flag) {
       // this.$refs.canvasPaint.resetCanvas();
       localStorage.setItem('font_Setting', JSON.stringify(this.fontSetting))
       localStorage.setItem('fireFlower_Setting', JSON.stringify(this.fireFlowerData))
@@ -245,6 +263,15 @@ export default {
       this.$nextTick(() => {
         setTimeout(() => {
           this.reloadCanvas = true;
+          if(flag == "media") {
+            this.$nextTick(() => {
+              this.recordMedia()
+            })
+          } else if(flag == "gif") {
+            this.$nextTick(() => {
+              this.startRecordGif();
+            })
+          }
         }, 50);
       });
     },
@@ -255,6 +282,18 @@ export default {
       this.BgImg = this.imgs[index].url;
       this.bgImgIndex = index
     },
+    startRecordGif() {
+      this.$refs.canvasPaint.startRecordGif();
+    },
+    stopRecordGif() {
+      this.$refs.canvasPaint.stopRecordGif()
+    },
+    recordMedia() {
+      this.$refs.canvasPaint.recordMedia()
+    },
+    stopRecordMedia() {
+      this.$refs.canvasPaint.stopRecordMedia()
+    }
   },
 };
 </script>
@@ -283,6 +322,24 @@ export default {
     text-align: center;
     border-radius: 10px;
     padding-top: 20px;
+    opacity: 0.3;
+    &:hover {
+      opacity: 1;
+    }
+  }
+  .record {
+    position: absolute;
+    z-index: 10;
+    bottom: 0;
+    display: block;
+    width: 80px;
+    height: 30px;
+    line-height: 30px;
+    font-size: 14px;
+    color: #333;
+    background-color: #fff;
+    text-align: center;
+    border-radius: 10px;
     opacity: 0.3;
     &:hover {
       opacity: 1;
