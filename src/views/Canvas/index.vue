@@ -49,7 +49,7 @@
               </el-form-item>
               <el-form-item label="文本内容副段">
                 <el-input
-                  :maxlength="7"
+                  :maxlength="12"
                   v-model="fontSetting.textArr[0]"
                 ></el-input>
               </el-form-item>

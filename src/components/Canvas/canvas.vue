@@ -21,7 +21,7 @@ class Shard {
     this.hue = hue;
     this.lightness = 50;
     // 每一粒花火的半径（粗细）
-    this.size = 6 + Math.random() * 10;
+    this.size = 8 + Math.random() * 10;
     const angle = Math.random() * 2 * Math.PI;
     // 喷砂速度
     const blastSpeed = 1 + Math.random() * 6;
@@ -110,7 +110,7 @@ class Rocket {
     this.x = quarterW + Math.random() * (cvsDocu.width - quarterW);
     this.y = cvsDocu.height - 15;
     this.angle = (Math.random() * Math.PI) / 4 - Math.PI / 6;
-    this.blastSpeed = 6 + Math.random() * 7;
+    this.blastSpeed = 7 + Math.random() * 7;
     this.shardCount = 15 + Math.floor(Math.random() * 15);
     this.xSpeed = Math.sin(this.angle) * this.blastSpeed;
     this.ySpeed = -Math.cos(this.angle) * this.blastSpeed;

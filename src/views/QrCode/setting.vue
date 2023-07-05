@@ -82,7 +82,6 @@
               v-model="form.qrLogoScale"
               :step="0.1"
               :min="0"
-              :max="1"
             ></el-input-number>
           </el-form-item>
         </el-col>

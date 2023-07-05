@@ -7,7 +7,7 @@
       </div>
       <div class="right">
         <vue-qr
-        :autoColor="qrAutoColor"
+        :autoColor="formData.qrAutoColor"
         :text="formData.qrText"
         :correctLevel="formData.qrCorrectLevel"
         :size="formData.qrSize"
@@ -18,7 +18,7 @@
         :gifBgSrc="formData.qrGifBgSrc"
         :backgroundColor="formData.qrBackgroundColor"
         :logoSrc="formData.qrLogoSrc"
-        :logoScale="formData.logoScale"
+        :logoScale="formData.qrLogoScale"
         :logoMargin="formData.qrLogoMargin"
         :logoBackgroundColor="formData.qrLogoBackgroundColor"
         :logoCornerRadius="formData.qrLogoCornerRadius"
