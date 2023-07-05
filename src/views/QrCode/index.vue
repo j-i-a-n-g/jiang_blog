@@ -6,7 +6,8 @@
         <Setting :formData="formData" />
       </div>
       <div class="right">
-        <vue-qr 
+        <vue-qr
+        :autoColor="qrAutoColor"
         :text="formData.qrText"
         :correctLevel="formData.qrCorrectLevel"
         :size="formData.qrSize"
@@ -55,6 +56,7 @@ export default {
         qrLogoCornerRadius: 0, //logo边框的圆角半径
         qrWhiteMargin: true, // 背景图外将绘制白色边框
         qrDotScale: 1, //数据区域点缩小
+        qrAutoColor: true
       }
     }
   },

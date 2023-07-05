@@ -119,12 +119,17 @@
         </el-col>
       </el-row>
       <el-row>
-        <el-col :span="12">
+        <el-col :span="8">
           <el-form-item label="外层白色边框">
             <el-switch v-model="form.qrWhiteMargin"></el-switch>
           </el-form-item>
         </el-col>
-        <el-col :span="12">
+        <el-col :span="8">
+          <el-form-item label="实点颜色随背景">
+            <el-switch v-model="form.qrAutoColor"></el-switch>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
           <el-form-item label="数据区域点缩小">
             <el-input-number size="mini" v-model="form.qrDotScale"></el-input-number>
           </el-form-item>
