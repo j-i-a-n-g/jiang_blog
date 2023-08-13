@@ -99,4 +99,8 @@ html, body {
   border-left: 4px solid skyblue;
   padding-left: 10px;
 }
+@font-face {
+  font-family: 'UnifrakturCook-Bold';
+  src: url(../font/UnifrakturCook-Bold.ttf) format("truetype");
+}
  

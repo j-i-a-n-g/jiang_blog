@@ -91,12 +91,28 @@
                 >
                 </el-switch>
               </el-form-item>
-              <el-form-item label="字体颜色">
+              <el-form-item label="是否设置渐变">
+                <el-switch
+                  v-model="fontSetting.isLinearColor"
+                  active-color="#13ce66"
+                  inactive-color="#ff4949"
+                >
+                </el-switch>
+              </el-form-item>
+              <el-form-item v-if="!fontSetting.isLinearColor" label="字体颜色">
                 <el-color-picker
                   @active-change="(e) => (fontSetting.textColor = e)"
                   v-model="fontSetting.textColor"
                   show-alpha
                 >
+                </el-color-picker>
+              </el-form-item>
+              <el-form-item v-if="fontSetting.isLinearColor" label="字体渐变颜色">
+                <el-color-picker v-model="fontSetting.linearColorArr[0]" show-alpha>
+                </el-color-picker>
+                <el-color-picker v-model="fontSetting.linearColorArr[1]" show-alpha>
+                </el-color-picker>
+                <el-color-picker v-model="fontSetting.linearColorArr[2]" show-alpha>
                 </el-color-picker>
               </el-form-item>
               <el-form-item label="是否设置文字阴影">
@@ -215,6 +231,8 @@ export default {
         StrokeOrFill2: "stroke",
         offsetTop1: 0,
         offsetTop2: 0,
+        isLinearColor: false, // 是否设置渐变颜色
+        linearColorArr:['rgba(232, 244, 8, 1)', 'rgba(10, 158, 249, 1)', 'rgba(249, 34, 10, 1)']
       },
       fireFlowerData: {
         isColorful: true,

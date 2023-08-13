@@ -116,7 +116,7 @@ class Rocket {
     this.ySpeed = -Math.cos(this.angle) * this.blastSpeed;
     this.hue = Math.floor(Math.random() * 360);
     this.trail = [];
-    this.color = ""
+    this.color = "";
   }
   draw(cvs, isColorful, fireColorArr) {
     this.blastSpeed = 6 + Math.random() * 7;
@@ -211,6 +211,26 @@ export default {
       mediaRecorder: null, // 存放录制视频的对象
     };
   },
+  created() {
+    this.shard= {};
+    this.rocket= {};
+    this.cvsDocus= [];
+    this.cvss= [];
+    this.rockets= [];
+    this.shards= [];
+    this.textTargetsO= [];
+    this.textTargetsT= [];
+    this.fidelity= 3;
+    this.counter= 0;
+    this.textWidth= 9999;
+    this.textWidth2= 9999;
+    this.fontStyle= {};
+    this.fireFlower= {};
+    this.exportTimer= null; // 定时器
+    this.gifCom= null;
+    this.outsideCanvas= null;
+    this.mediaRecorder= null; // 存放录制视频的对象
+  },
   mounted() {
     this.initCVS();
     this.loop();
@@ -255,12 +275,12 @@ export default {
       while (this.textWidth > window.innerWidth) {
         this.$emit("reduceFontSize");
         // 在画布上写一段900粗细 fontSetting.textFontSize像素的文本，使用的字体是 "Arial"
-        this.cvss[0].font = `900 ${this.fontSetting.textFontSize}px Arial`;
+        this.cvss[0].font = `900 ${this.fontSetting.textFontSize}px '宋体'`;
         // measureText 返回包含指定文本宽度的对象。
         this.textWidth = this.cvss[0].measureText(this.fontSetting.textArr[0]).width;
       }
       while (this.textWidth2 > window.innerWidth) {
-        this.cvss[1].font = `900 ${this.fontSetting.textFontSize}px Arial`;
+        this.cvss[1].font = `900 ${this.fontSetting.textFontSize}px '宋体'`;
         this.textWidth2 = this.cvss[1].measureText(this.fontSetting.textArr[1]).width;
       }
       let maxWidth = this.textWidth > this.textWidth2 ? this.textWidth : this.textWidth2
@@ -269,8 +289,8 @@ export default {
       this.cvsDocus[0].height = this.fontSetting.textFontSize * 3;
       this.cvsDocus[1].height = this.fontSetting.textFontSize * 3;
       
-      this.cvss[0].font = `${this.fontSetting.textWeight} ${this.fontSetting.textFontSize}px Arial`;
-      this.cvss[1].font = `${this.fontSetting.textWeight} ${this.fontSetting.textFontSize}px Arial`;
+      this.cvss[0].font = `${this.fontSetting.textWeight} ${this.fontSetting.textFontSize}px 'UnifrakturCook-Bold'`;
+      this.cvss[1].font = `${this.fontSetting.textWeight} ${this.fontSetting.textFontSize}px 'UnifrakturCook-Bold'`;
       this.cvsDocus[0].textAlign = "right";
       this.cvsDocus[1].textAlign = "right";
       // this.cvsDocus[0].textBaseline = "middle";
@@ -331,10 +351,20 @@ export default {
           this.textTargetsT.push({ x, y: y - 150 }); // Canvas
         }
       }
-      // 设置或返回用于填充绘画的颜色、渐变或模式。
-      this.cvss[3].fillStyle = "#FFF";
-      // 设置或返回用于填充绘画的颜色、渐变或模式。
-      this.cvss[4].fillStyle = this.fontSetting.textColor;
+      if(this.fontSetting.isLinearColor) {
+        var gradient = this.cvss[4].createLinearGradient(200, 0, 800, 0);
+        //从0到整个区域的一半由黄渐变到蓝
+        //从中间到最后由蓝渐变到红
+        for(let i = 0; i < this.fontSetting.linearColorArr.length; i++) {
+          gradient.addColorStop((i / (this.fontSetting.linearColorArr.length - 1)) + "", this.fontSetting.linearColorArr[i]);
+        }
+        this.cvss[4].fillStyle = gradient
+      } else {
+        // 设置或返回用于填充绘画的颜色、渐变或模式。
+        this.cvss[3].fillStyle = "#FFF";
+        // 设置或返回用于填充绘画的颜色、渐变或模式。
+        this.cvss[4].fillStyle = this.fontSetting.textColor;
+      }
       if (this.fontSetting.showShadow) {
         // 设置或返回用于阴影的颜色
         this.cvss[3].shadowColor = this.fontSetting.shadowColor1;
