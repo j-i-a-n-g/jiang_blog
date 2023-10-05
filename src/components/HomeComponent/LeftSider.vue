@@ -204,13 +204,13 @@ export default {
     // 获取文章数据
     async getAllArticle() {
       const { data } = await getArticleList();
-      const articleList = data.result;
+      const articleList = data.data.list;
       this.blogText[0].changeNumber = articleList.length;
       this.$store.commit("setArticleList", articleList);
 
       // 获取热门文章的数据
       this.article_Arr = articleList.filter((item) => {
-        return item.articleHot === true;
+        return item.articleHot;
       });
       this.blogText[1].changeNumber = this.article_Arr.length;
       // this.article_Arr = this.article_Arr.slice(0, 3)

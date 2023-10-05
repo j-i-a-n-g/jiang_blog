@@ -80,11 +80,9 @@ export default {
       // 获取文章数据
     async getAllArticle() {
       const { data } = await getArticleList();
-      this.articleList = data.result;
-      this.articleListByTag = data.result
-      // this.total = data.result.total
-      console.log(data.result, 'articleList')
-      // this.blogText[0].changeNumber = articleList.length;
+      this.articleList = data.data.list;
+      this.articleListByTag = data.data.list
+      this.total = data.data.pagination.total
       this.$store.commit("setArticleList", this.articleList);
     },
     selectArticleByTag(item) {
