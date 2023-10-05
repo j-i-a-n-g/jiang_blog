@@ -19,8 +19,7 @@
           ref="file"
           drag
           :limit="1"
-          action="/node/root/uploadFile"
-          multiple
+          action="/node/article/uploadFile"
           :on-success="updateFile"
           :before-upload="judgeFileType"
           :on-remove = "deleteChoosedFile"
@@ -51,7 +50,7 @@
 </template>
 
 <script>
-import { deleteFile, deleteArticleImg, publishArticle } from '@/assets/api/index'
+import { uploadFile, deleteFile, deleteArticleImg, publishArticle } from '@/assets/api/index'
 export default {
   name: "ArticleBase",
   data() {
@@ -112,15 +111,26 @@ export default {
     },
     // 添加文件时判断文件类型
     judgeFileType(file) {
-      if(!file.name.endsWith('.txt') || !file.name.endsWith('.md')) {
-        this.$refs.file.abort()
+      // if(!file.name.endsWith('.txt') || !file.name.endsWith('.md')) {
+        // const f = new File([file], JSON.stringify(str2charcode(file.name)))
+        // uploadFile({ file: f }).then((res) => {
+        //     console.log(res);
+        //     // 调用上传接口成功后执行后续操作
+        // })
+      // }
+    },
+    str2charcode(str) {
+      const arr = []
+      for (const key of str) {
+          arr.push(key.charCodeAt())
       }
+      return arr
     },
     // 删除文件
     async deleteChoosedFile() {
       console.log(this.fileUrl.path);
         const {data} = await deleteFile({
-          path: this.fileUrl.path
+          fileUrl: this.fileUrl.path
         })
         this.$message.success(data.message)
     },

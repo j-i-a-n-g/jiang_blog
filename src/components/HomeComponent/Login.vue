@@ -84,6 +84,7 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate(async (valid) => {
         if (valid) {
+          delete this.ruleForm.userCaptcha
           const { data } = await postUserLogin(this.ruleForm);
           console.log(data);
           if (data.code) {
@@ -102,8 +103,9 @@ export default {
     // 请求验证码图
     async getSvgMessage() {
       const { data } = await getSvgCaptcha();
-      this.isSvg = data.text.toLowerCase();
-      this.$refs.svgBox.innerHTML = data.data;
+      console.log(data)
+      this.isSvg = data.data.text.toLowerCase();
+      this.$refs.svgBox.innerHTML = data.data.data;
     },
     // 刷新验证码
     changeSvgImg() {

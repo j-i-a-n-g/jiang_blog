@@ -24,6 +24,7 @@
 
 <script>
 import TopicTitle from '@/components/TopicTitle.vue'
+import axios from 'axios';
 export default {
   name: "Home",
   components: { TopicTitle },
@@ -31,6 +32,9 @@ export default {
     return {
       warehouseOption : [1,2,3,4,5,6]
     }
+  },
+  created() {
+
   }
 }
 </script>

@@ -70,7 +70,7 @@ module.exports = {
   devServer: {
     proxy: {
       '/api': {
-        target: 'http://music.zzhitong.com',
+        target: 'http://localhost:3200',
         ws: true,
         changeOrigin: true,
         pathRewrite: {
@@ -78,11 +78,12 @@ module.exports = {
         }
       },
       '/node': {
-        target: 'http://localhost:120',
+        target: 'http://localhost:3000',
         ws: true,
         changeOrigin: true,
         pathRewrite: {
-          '^/node': ''
+          '^/node': '',
+          // '^/node/root': ''
         }
       }
     }

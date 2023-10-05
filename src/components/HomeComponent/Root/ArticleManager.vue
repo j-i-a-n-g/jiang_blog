@@ -230,11 +230,11 @@ export default {
     async getAllArticle(num=1, pageSize=3) {
       const { data } = await getArticleList(num, pageSize);
       console.log(data);
-      data.result.data.forEach((item) => {
+      data.data.list.forEach((item) => {
         item.isDisable = true;
       });
-      this.total = data.result.total
-      this.tableData = data.result.data;
+      this.total = data.data.pagination.total
+      this.tableData = data.data.list;
       this.originData = this.tableData.slice(0);
     },
     // 提交对文章内容的修改
@@ -380,11 +380,11 @@ export default {
     },
     // 提交对文章相关标签的修改
     async submitTagList() {
-      const { data } = await reviseArticleTagList({data: this.choosedTagList, id: this.choosedId})
+      const { data } = await reviseArticleTagList({tagList: this.choosedTagList, id: this.choosedId})
       this.$message.success(data.message);
       this.choosedTagList = []
       this.choosedId = -1
-      this.tagDialogVisible = false
+      this.tagDialogVisible = false 
     }
   },
 };

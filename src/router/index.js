@@ -47,14 +47,14 @@ const routes = [
   {
     path: '/admin',
     name: 'Admin',
-    beforeEnter: (to, from, next) => {
-      let root = router.app.$store?.state.rootName
-      if(root) {
-        next()
-      } else {
-        next({path:'/'})
-      }
-    },
+    // beforeEnter: (to, from, next) => {
+    //   let root = router.app.$store?.state.rootName
+    //   if(root) {
+    //     next()
+    //   } else {
+    //     next({path:'/'})
+    //   }
+    // },
     component: () => import('@/views/Admin.vue')
   },
   {

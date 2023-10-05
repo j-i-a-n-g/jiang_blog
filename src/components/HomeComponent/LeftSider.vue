@@ -150,8 +150,10 @@ export default {
     listScroll() {
       const box = this.$refs.scrollBox;
       const ul = this.$refs.scrollUl;
-      this.$refs.scrollUl2.innerHTML = ul.innerHTML
-      this.scrollStart();
+      if(this.$refs.scrollUl2) {
+        this.$refs.scrollUl2.innerHTML = ul.innerHTML
+        this.scrollStart();
+      }
     },
     scrollStart() {
       const box = this.$refs.scrollBox;
