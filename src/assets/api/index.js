@@ -114,4 +114,4 @@ export const getTagList = () => axios.get('/node/articleTag/getTagList')
 export const addTag = (data) => axios.post('/node/articleTag/addTag', data)
 
 // 删除文章标签
-export const deleteTag = (id) => axios.get('/node/articleTag/deleteTag',{params: {id: id}})
+export const deleteTag = (tag) => axios.get('/node/articleTag/deleteTag',{params: {tag: tag}})

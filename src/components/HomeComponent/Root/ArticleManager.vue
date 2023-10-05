@@ -27,20 +27,8 @@
           @blur="handleInputConfirm"
         >
         </el-input>
-        <el-button v-else class="button-new-tag" size="small" @click="showInput">+ New Tag</el-button>
-        <!-- <el-tag class="dialog-tag-all">全部</el-tag> -->
+        <el-button v-else class="button-new-tag" size="small" @click="showInput">+ 添加新标签</el-button>
       </div>
-      <!-- <el-input
-        class="input-new-tag"
-        v-if="inputVisible"
-        v-model="inputValue"
-        ref="saveTagInput"
-        size="small"
-        @keyup.enter.native="handleInputConfirm"
-        @blur="handleInputConfirm"
-      >
-      </el-input>
-      <el-button v-else class="button-new-tag" size="small" @click="showInput">+ 其他标签</el-button> -->
       <p style="margin-top:30px">已选标签</p>
       <div class="selected">
         <el-tag @click="removeTag(item)" class="dialog-tag-item" v-for="(item, index) in choosedTagList" :key="index" type="success">{{ item.tagName }}</el-tag>
@@ -351,9 +339,10 @@ export default {
           cancelButtonText: '取消',
           type: 'warning'
         }).then(async () => {
-          const { data } = await deleteTag(item._id)
+          console.log(item.tag)
+          const { data } = await deleteTag(item.tag)
           if(data.code) {
-            this.tagList = this.tagList.filter(it => it._id !== item._id)
+            this.tagList = this.tagList.filter(it => it.tag !== item.tag)
             this.choosedTagList = this.choosedTagList.filter(it => it.tagName !== item.tagName)
             this.$message.success(data.message);
           } else {
