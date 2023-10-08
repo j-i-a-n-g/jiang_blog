@@ -98,7 +98,7 @@
           />
           <el-upload
             class="upload-demo"
-            action="/node/root/reviseArticleImg" 
+            action="/node/article/reviseArticleImg" 
             :data="{articleImgUrl: scope.row.articleImgUrl, id:scope.row._id}"
             :on-success="(response) => {updateActicleImg(response, scope.row)}"
             :on-remove="(file) => {deleteChoosedImg(file,scope.row)}"
@@ -252,8 +252,7 @@ export default {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning",
-      })
-        .then(async () => {
+      }).then(async () => {
           const { data } = await deleteArticle(_id);
           this.$message.success(data.message);
           this.getAllArticle();
@@ -339,7 +338,6 @@ export default {
           cancelButtonText: '取消',
           type: 'warning'
         }).then(async () => {
-          console.log(item.tag)
           const { data } = await deleteTag(item.tag)
           if(data.code) {
             this.tagList = this.tagList.filter(it => it.tag !== item.tag)
