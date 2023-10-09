@@ -22,7 +22,7 @@ axios.interceptors.response.use(config => {
 export const getSvgCaptcha = () => axios.get('/node/user/getsvg')
 
 // 用户登录
-export const postUserLogin = (data) => axios.post('/node/user/login', {...data})
+export const postUserLogin = (data) => axios.post('/node/user/login', { ...data })
 
 // 用户自动登录
 export const postAutoLogin = () => axios.post('/node/user/autologin')
@@ -61,7 +61,7 @@ export const postChangePassword = (data) => axios.post('/node/blog/changePasswor
 // export const initializeAccount = () => axios.get('/node/root/')
 
 // // 登录路由
-export const rootLogin = (data) => axios.post('/node/user/rootLogin',data)
+export const rootLogin = (data) => axios.post('/node/user/rootLogin', data)
 
 // // 修改root密码
 // export const postRootPassword = (rootPass) => axios.post('/node/root/rootPassword', rootPass)
@@ -81,10 +81,10 @@ export const uploadFile = (data) => axios.post('/node/article/uploadFile', data)
 export const deleteArticleImg = (data) => axios.post('/node/article/deleteImg', data)
 
 // 将所有文章信息传入到数据库中
-export const publishArticle = (data) => axios.post('/node/article/saveArticle',data)
+export const publishArticle = (data) => axios.post('/node/article/saveArticle', data)
 
 // 获取所有文章列表
-export const getArticleList = (num, pageSize) => axios.get('/node/article/getArticlelist',{params: {currentPage: num, pageSize: pageSize}})
+export const getArticleList = (num, pageSize) => axios.get('/node/article/getArticlelist', { params: { currentPage: num, pageSize: pageSize } })
 
 // 获取文章详情
 export const getMdVal = (val) => axios.get(`/node${val}`)
@@ -93,13 +93,13 @@ export const getMdVal = (val) => axios.get(`/node${val}`)
 export const postChangeArticleHot = (row) => axios.post('/node/article/changeArticleHot', row)
 
 // 移除文章
-export const deleteArticle = (id) => axios.delete('/node/article/deleteArticle', {params: {id: id}})
+export const deleteArticle = (id) => axios.delete('/node/article/deleteArticle', { params: { id: id } })
 
 // 提交文章修改
 export const reviseArticleContent = (data) => axios.post('/node/article/reviseArticle', data)
 
 // 获取文章相关tag
-export const getArticleTagList = (id) => axios.get('/node/article/getArticleTagList', {params: {id: id}})
+export const getArticleTagList = (id) => axios.get('/node/article/getArticleTagList', { params: { id: id } })
 
 // 提交文章相关标签修改
 export const reviseArticleTagList = (data) => axios.post('/node/article/reviseArticleTagList', data)
@@ -114,4 +114,10 @@ export const getTagList = () => axios.get('/node/articleTag/getTagList')
 export const addTag = (data) => axios.post('/node/articleTag/addTag', data)
 
 // 删除文章标签
-export const deleteTag = (tag) => axios.get('/node/articleTag/deleteTag',{params: {tag: tag}})
+export const deleteTag = (tag) => axios.get('/node/articleTag/deleteTag', { params: { tag: tag } })
+
+// 上传音乐
+export const publishMusic = (data) => axios.post('/node/music/create', data)
+
+// 获取列表
+export const getMusicList = () => axios.get('/node/music/getList')

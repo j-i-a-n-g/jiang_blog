@@ -25,6 +25,11 @@ const routes = [
     component: () => import('@/views/Message.vue')
   },
   {
+    path: '/music',
+    name: 'Music',
+    component: () => import('@/views/Music/index.vue')
+  },
+  {
     path: '/onlineEdit',
     name: 'onlineEdit',
     component: () => import('@/views/OnlineEdit.vue')
@@ -43,7 +48,7 @@ const routes = [
     path: '/link',
     name: 'Link',
     component: () => import('@/views/Link.vue')
-  }, 
+  },
   {
     path: '/admin',
     name: 'Admin',
@@ -62,10 +67,10 @@ const routes = [
     name: 'UserInformation',
     beforeEnter: (to, form, next) => {
       let id = router.app.$store?.state.userInfo._id
-      if(id) {
+      if (id) {
         next()
       } else {
-        next({path: '/'})
+        next({ path: '/' })
       }
     },
     component: () => import('@c/HomeComponent/UserInformation.vue')
@@ -73,12 +78,12 @@ const routes = [
   {
     path: '/article/:id',
     name: 'FullText',
-    component: () =>import('@/components/HomeComponent/FullText.vue')
+    component: () => import('@/components/HomeComponent/FullText.vue')
   },
   {
     path: '/articleContent/:id',
     name: 'ArticleContent',
-    component: () =>import('@/components/HomeComponent/Root/ArticleContent.vue')
+    component: () => import('@/components/HomeComponent/Root/ArticleContent.vue')
   }
 ]
 

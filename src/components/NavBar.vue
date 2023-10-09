@@ -2,11 +2,12 @@
   <div class="nav-bar">
     <div class="nav-bar-content">
       <!-- 左侧logo -->
-      <div :class="['nav-bar-content-logo','hidden-xs-only']">
-      </div>
+      <div :class="['nav-bar-content-logo', 'hidden-xs-only']"></div>
       <ul class="nav-bar-content-list">
         <li v-for="(item, index) in navtitle" :key="index">
-        <router-link class="nav-bar-content-list-topic" :to="item.path">{{item.title}}</router-link>
+          <router-link class="nav-bar-content-list-topic" :to="item.path">{{
+            item.title
+          }}</router-link>
         </li>
       </ul>
       <!-- 音乐播放器 -->
@@ -14,11 +15,21 @@
       <div class="nav-bar-content-login">
         <div @click="showState">
           <i class="el-icon-key"></i>
-          <span class="hidden-xs-only">{{$store.state.userInfo.username ? $store.state.userInfo.username : '登录戳我'}}</span>
+          <span class="hidden-xs-only">{{
+            $store.state.userInfo.username
+              ? $store.state.userInfo.username
+              : "登录戳我"
+          }}</span>
         </div>
         <transition name="login">
-        <Login v-if="isShowLogin" @changeLoginState="changeLoginState"></Login>
-        <UserMessage v-if="isShowUserMessage" @hideUsermessage="hideUsermessage"></UserMessage>
+          <Login
+            v-if="isShowLogin"
+            @changeLoginState="changeLoginState"
+          ></Login>
+          <UserMessage
+            v-if="isShowUserMessage"
+            @hideUsermessage="hideUsermessage"
+          ></UserMessage>
         </transition>
       </div>
     </div>
@@ -26,85 +37,87 @@
 </template>
 
 <script>
-import NavMusic from './HomeComponent/NavMusic.vue';
-import Login from './HomeComponent/Login.vue';
-import UserMessage from './HomeComponent/UserMessage.vue';
-import { postAutoLogin } from '@/assets/api/index'
+import NavMusic from "./HomeComponent/NavMusic.vue";
+import Login from "./HomeComponent/Login.vue";
+import UserMessage from "./HomeComponent/UserMessage.vue";
+import { postAutoLogin } from "@/assets/api/index";
 export default {
-    name: "NavBar",
-    data() {
-      return {
-          // nav的数据
-          navtitle: [
-            {
-              path:'/',
-              title: '首页'
-            },
-            {
-              path:'/article',
-              title: '文章'
-            },
-            // {
-            //   path:'/message',
-            //   title: '留言'
-            // },
-            {
-              path:'/onlineEdit',
-              title: '开发'
-            },{
-              path:'/link',
-              title: '友链'
-            },{
-              path:'/hanabi',
-              title: 'Canvas'
-            },
-            {
-              path:'/qrCode',
-              title: '生成二维码'
-            }
-          ],
-          // 控制登录表单的隐藏显示
-          isShowLogin: false,
-          // 控制信息表单的隐藏显示
-          isShowUserMessage: false,
-          // 验证码：
-          isSvg: ''
-        }
+  name: "NavBar",
+  data() {
+    return {
+      // nav的数据
+      navtitle: [
+        {
+          path: "/",
+          title: "首页",
+        },
+        {
+          path: "/article",
+          title: "文章",
+        },
+        {
+          path: "/music",
+          title: "音乐",
+        },
+        {
+          path: "/onlineEdit",
+          title: "开发",
+        },
+        {
+          path: "/link",
+          title: "友链",
+        },
+        {
+          path: "/hanabi",
+          title: "Canvas",
+        },
+        {
+          path: "/qrCode",
+          title: "生成二维码",
+        },
+      ],
+      // 控制登录表单的隐藏显示
+      isShowLogin: false,
+      // 控制信息表单的隐藏显示
+      isShowUserMessage: false,
+      // 验证码：
+      isSvg: "",
+    };
+  },
+  mounted() {
+    this.autoLogin();
+  },
+  methods: {
+    // 收起登录表单
+    changeLoginState() {
+      this.isShowLogin = false;
+      this.isShowUserMessage = true;
     },
-    mounted() {
-      this.autoLogin()
+    // 收起用户信息表单
+    hideUsermessage() {
+      this.isShowUserMessage = false;
+      this.isShowLogin = true;
     },
-    methods: {
-      // 收起登录表单
-      changeLoginState() {
-        this.isShowLogin = false
-        this.isShowUserMessage =true
-      },
-      // 收起用户信息表单
-      hideUsermessage() {
-        this.isShowUserMessage = false
-        this.isShowLogin = true
-      },
-      // 点击右上角图标控制展示的内容
-      showState() {
-        if(this.$store.state.userInfo.username) {
-          this.isShowLogin = false
-          this.isShowUserMessage = !this.isShowUserMessage
-        } else {
-          this.isShowUserMessage = false
-          this.isShowLogin = !this.isShowLogin
-        }
-      },
-      // 自动登录功能
-      async autoLogin() {
-        const {data} = await postAutoLogin()
-        if(data) {
-          this.$store.commit('setUserInfo', data)
-        }
+    // 点击右上角图标控制展示的内容
+    showState() {
+      if (this.$store.state.userInfo.username) {
+        this.isShowLogin = false;
+        this.isShowUserMessage = !this.isShowUserMessage;
+      } else {
+        this.isShowUserMessage = false;
+        this.isShowLogin = !this.isShowLogin;
       }
     },
-    components: { NavMusic, Login, UserMessage }
-}
+    // 自动登录功能
+    async autoLogin() {
+      const { data } = await postAutoLogin();
+      if (data) {
+        this.$store.commit("setUserInfo", data);
+      }
+    },
+  },
+  components: { NavMusic, Login, UserMessage },
+};
 </script>
 
 <style lang="scss" scoped>
@@ -161,7 +174,7 @@ a {
         }
         &:hover::after {
           transform: scale(1.25);
-          transition: all ease-out .5s;
+          transition: all ease-out 0.5s;
           border: 1px solid #96f3e0;
           border-radius: 10px;
           opacity: 0;
@@ -196,10 +209,10 @@ a {
 }
 // 表单的隐藏显示动画
 .login-enter-active {
-  animation: enter .5s;
+  animation: enter 0.5s;
 }
 .login-leave-active {
-  animation: leave .5s;
+  animation: leave 0.5s;
 }
 @keyframes enter {
   0% {
