@@ -54,10 +54,12 @@
           class="avatar-uploader"
           drag
           ref="image"
+          :auto-upload="false"
           :limit="1"
           action="/node/music/coverImg"
           :on-success="updateCoverImg"
           :on-remove="deleteChoosedImg"
+          :on-change="handleCrop"
         >
           <img v-if="imageUrl" :src="'/node/' + imageUrl" class="avatar" />
           <i v-else class="el-icon-plus avatar-uploader-icon"></i>
@@ -69,13 +71,20 @@
         >
       </el-form-item>
     </el-form>
+    <ImgCropper
+      ref="ImgCropper"
+      :cropImgUrl="cropImgUrl"
+      :fileContent="fileContent"
+    />
   </div>
 </template>
 
 <script>
 import { publishMusic } from "@/assets/api/index";
+import ImgCropper from "../Common/ImgCropper.vue";
 export default {
   name: "ArticleBase",
+  components: { ImgCropper },
   data() {
     return {
       ruleForm: {
@@ -94,6 +103,12 @@ export default {
         ],
         m_url: [{ required: true, message: "请上传歌曲文件", trigger: "blur" }],
       },
+      fileContent: {
+        name: "",
+        type: "",
+      },
+      cropImgUrl: "",
+      showCropper: false,
     };
   },
   beforeDestory() {},
@@ -111,6 +126,16 @@ export default {
           console.log("error submit!!");
           return false;
         }
+      });
+    },
+    handleCrop(file) {
+      // 点击弹出剪裁框
+      console.log(file);
+      this.cropImgUrl = window.URL.createObjectURL(file.raw); // 将图片转化为路径
+      this.fileContent.name = file.name;
+      this.fileContent.type = file.raw.type;
+      this.$nextTick(() => {
+        this.$refs.ImgCropper.dialogVisible = true;
       });
     },
     // 上传成功后的事件
