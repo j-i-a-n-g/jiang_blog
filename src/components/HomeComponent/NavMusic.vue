@@ -1,51 +1,105 @@
 <template>
-  <div class="music">
-    <aplayer fixed 
+  <aplayer
+    fixed
+    :autoplay="true"
+    :float="true"
+    :listFolded="true"
+    repeat="list"
+    v-if="audio.length"
+    ref="aplayer"
+    :list="audio"
     :music="{
-      title: '有心人',
-      artist: '邓紫棋',
-      src: 'https://dl.stream.qqmusic.qq.com/C400001zF1FS1Hzstk.m4a?guid=140044668&vkey=FB27C9B066EEDE11509AACBE18975472470513C5424628D21CD910ABBED5721A5B0D7597E99A382E9172A3B7D3EF0DF9A4B48DEEE6F12268&uin=&fromtag=120032',
-      pic: 'https://y.qq.com/music/photo_new/T002R300x300M000000FyZ4M1bYVm8_1.jpg?max_age=2592000'
+      title: audio[0].title,
+      artist: audio[0].artist,
+      src: audio[0].url,
+      pic: audio[0].pic,
+      lrc: audio[0].lrc,
     }"
+    @play="changePlayMusic"
   />
-  </div>
 </template>
 
 <script>
-import aplayer from "vue-aplayer"
+import aplayer from "vue-aplayer";
+import { getMusicList } from "@/assets/api/index";
 export default {
-  name: 'NavMusic',
+  components: { aplayer },
   data() {
     return {
-    }
+      audio: [],
+    };
   },
-  created() {
+  async created() {
+    let result = await getMusicList();
+    if (result.data.code == 200) {
+      let list = result.data.data;
+      list.forEach((item) => {
+        this.audio.push({
+          title: item.m_name,
+          artist: item.m_author,
+          url: "/node" + item.m_url,
+          pic: "/node" + item.m_coverImg_url,
+          lrc: "/node" + item.m_lyrics,
+          language: item.m_language,
+          createTime: item.createTime,
+          desc: item.m_desc,
+        });
+      });
+      this.$store.commit("musicSongsList", this.audio);
+      this.$nextTick(() => {
+        let listHtml = document.querySelector(".aplayer-list");
+        // 动态设置列表高度
+        listHtml.style.setProperty(
+          "--h",
+          this.audio.length > 10 ? "330px" : this.audio.length * 33 + "px"
+        );
+        listHtml.style.setProperty(
+          "--b",
+          this.audio.length > 10
+            ? "-334px"
+            : (this.audio.length * 33 + 4) * -1 + "px"
+        );
+      });
+    }
   },
   methods: {
+    /**
+     * 请求歌词文件,并放置到页面
+     */
+    requestLyrics() {
+      const xhr = new XMLHttpRequest();
+      xhr.open("GET", this.rightNowPlay.lrc, true);
+      xhr.onreadystatechange = () => {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+          const content = xhr.responseText;
+          let html = document.querySelector(".detail_lyrics");
+          html.innerHTML = content;
+          this.LyricsAutoScroll();
+        }
+      };
+      xhr.send();
+    },
+    changePlayMusic() {
+      let index = this.$refs.aplayer.playIndex;
+      this.$store.commit("setCurrentSingIndex", index == -1 ? 0 : index);
+    },
   },
-  components: { aplayer }
-}
+};
 </script>
 
-<style lang="scss">
-.music {
-  height: 50px;
-  width: 300px;
-  margin: 0;
-  .aplayer {
-    margin: 0;
-    height: 50px;
-    .aplayer-body {
-      height: 50px !important; 
-      .aplayer-pic {
-        width: 50px;
-        height: 50px;
-      }
-      .aplayer-info {
-        padding: 0 7px 0 10px;
-        height: 50px;
-      }
-    }
-  }
+<style lang="scss" scoped>
+.aplayer {
+  overflow: unset !important;
+  top: 10px !important;
+  width: 500px;
+}
+.aplayer ::v-deep .aplayer-list {
+  background-color: #fff;
+  height: var(--h) !important;
+  width: 300px !important;
+  position: absolute !important;
+  right: 0px !important;
+  bottom: var(--b) !important;
+  overflow-y: auto;
 }
 </style>

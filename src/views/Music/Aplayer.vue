@@ -26,16 +26,7 @@ export default {
   },
   methods: {
     changePlayMusic() {
-      // console.log(this.$refs.aplayer);
       let index = this.$refs.aplayer.playIndex;
-      // this.rightNowPlay = this.$refs.aplayer.internalMusic;
-      // this.isPlaying = true;
-      // this.rightNowPlay = JSON.parse(
-      //   JSON.stringify(this.$refs.aplayer.currentMusic)
-      // );
-      // let value = this.$refs.aplayer._computedWatchers.currentMusic.value;
-      // let value = this.$refs.aplayer.internalMusic;
-      // this.rightNowPlay = JSON.parse(JSON.stringify(value));
       this.$emit("changeRightNowPlay", index);
     },
   },

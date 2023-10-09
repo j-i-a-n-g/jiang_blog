@@ -11,7 +11,7 @@
         </li>
       </ul>
       <!-- 音乐播放器 -->
-      <!-- <NavMusic /> -->
+      <NavMusic />
       <div class="nav-bar-content-login">
         <div @click="showState">
           <i class="el-icon-key"></i>
@@ -43,6 +43,7 @@ import UserMessage from "./HomeComponent/UserMessage.vue";
 import { postAutoLogin } from "@/assets/api/index";
 export default {
   name: "NavBar",
+  components: { NavMusic },
   data() {
     return {
       // nav的数据

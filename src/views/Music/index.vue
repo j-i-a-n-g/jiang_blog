@@ -1,7 +1,7 @@
 <template>
   <div class="music">
     <TopicTitle topic="来点音乐" iconClass="el-icon-headset" />
-    <div class="main" v-if="audio.length">
+    <div class="main" v-if="rightNowPlay">
       <div class="music_data">
         <span class="music_cover">
           <img :src="rightNowPlay.pic" alt="" />
@@ -32,69 +32,88 @@
         <!-- 推荐 -->
         <div class="detail_layout_other"></div>
       </div>
-      <div class="footer">
+      <!-- <div class="footer">
         <player :audio="audio" @changeRightNowPlay="changeRightNowPlay" />
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
 
 <script>
-import player from "./Aplayer.vue";
-import { getMusicList } from "@/assets/api/index";
+import { mapState } from "vuex";
+// import player from "./Aplayer.vue";
+// import { getMusicList } from "@/assets/api/index";
 export default {
   name: "Music",
   data() {
     return {
-      audio: [],
-      rightNowPlay: {},
       scrollTimer: null,
     };
   },
-  components: { player },
-  async created() {
-    let result = await getMusicList();
-    if (result.data.code == 200) {
-      let list = result.data.data;
-      list.forEach((item) => {
-        this.audio.push({
-          title: item.m_name,
-          artist: item.m_author,
-          url: "/node" + item.m_url,
-          pic: "/node" + item.m_coverImg_url,
-          lrc: "/node" + item.m_lyrics,
-          language: item.m_language,
-          createTime: item.createTime,
-          desc: item.m_desc,
-        });
-      });
-      this.$nextTick(() => {
-        let listHtml = document.querySelector(".aplayer-list");
-        // 动态设置列表高度
-        listHtml.style.setProperty(
-          "--h",
-          this.audio.length > 10 ? "320px" : this.audio.length * 32 + "px"
-        );
-      });
-    }
+  // components: { player },
+  computed: {
+    ...mapState({
+      rightNowPlay: function (state) {
+        return state.musicSongsList[state.currentSingIndex];
+      },
+    }),
+  },
+  watch: {
+    rightNowPlay: {
+      deep: true,
+      immediate: true,
+      handler(val) {
+        if (val.lrc) {
+          this.requestLyrics(val.lrc);
+        }
+      },
+    },
+  },
+  created() {
+    // let result = await getMusicList();
+    // if (result.data.code == 200) {
+    //   let list = result.data.data;
+    //   list.forEach((item) => {
+    //     this.audio.push({
+    //       title: item.m_name,
+    //       artist: item.m_author,
+    //       url: "/node" + item.m_url,
+    //       pic: "/node" + item.m_coverImg_url,
+    //       lrc: "/node" + item.m_lyrics,
+    //       language: item.m_language,
+    //       createTime: item.createTime,
+    //       desc: item.m_desc,
+    //     });
+    //   });
+    //   this.$nextTick(() => {
+    //     let listHtml = document.querySelector(".aplayer-list");
+    //     // 动态设置列表高度
+    //     listHtml.style.setProperty(
+    //       "--h",
+    //       this.audio.length > 10 ? "320px" : this.audio.length * 32 + "px"
+    //     );
+    //   });
+    // }
   },
   beforeDestroy() {
-    clearInterval(this.scrollTimer);
-    this.scrollTimer = null;
+    this.resetScroll();
   },
   methods: {
     /**
      * 请求歌词文件,并放置到页面
      */
-    requestLyrics() {
+    requestLyrics(lrc) {
+      this.resetScroll();
       const xhr = new XMLHttpRequest();
-      xhr.open("GET", this.rightNowPlay.lrc, true);
+      xhr.open("GET", lrc ? lrc : this.rightNowPlay.lrc, true);
       xhr.onreadystatechange = () => {
         if (xhr.readyState === 4 && xhr.status === 200) {
           const content = xhr.responseText;
-          let html = document.querySelector(".detail_lyrics");
-          html.innerHTML = content;
-          this.LyricsAutoScroll();
+          this.$nextTick(() => {
+            let html = document.querySelector(".detail_lyrics");
+            html.innerHTML = content;
+            this.LyricsAutoScroll();
+          });
         }
       };
       xhr.send();
@@ -103,7 +122,7 @@ export default {
      * 歌词自动滚动
      */
     LyricsAutoScroll() {
-      const pElement = document.querySelector("p");
+      const pElement = document.querySelector(".detail_lyrics");
       const textHeight = pElement.scrollHeight;
       const pHeight = pElement.offsetHeight;
       if (textHeight > pHeight) {
@@ -121,18 +140,25 @@ export default {
           // }
         }, 60);
       } else {
-        clearInterval(this.scrollTimer);
-        this.scrollTimer = null;
+        this.resetScroll();
       }
     },
-    changeRightNowPlay(index) {
-      if (index == -1) {
-        this.rightNowPlay = this.audio[0];
-      } else {
-        this.rightNowPlay = this.audio[index];
+    resetScroll() {
+      clearInterval(this.scrollTimer);
+      this.scrollTimer = null;
+      const pElement = document.querySelector(".detail_lyrics");
+      if (pElement) {
+        pElement.scrollTop = 0;
       }
-      this.requestLyrics();
     },
+  },
+  changeRightNowPlay(index) {
+    if (index == -1) {
+      this.rightNowPlay = this.audio[0];
+    } else {
+      this.rightNowPlay = this.audio[index];
+    }
+    this.requestLyrics();
   },
 };
 </script>
