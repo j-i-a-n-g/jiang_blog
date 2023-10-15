@@ -1,149 +1,152 @@
 <template>
   <div class="link">
-    <TopicTitle topic="友情链接" iconClass="el-icon-link" />
+    <TopicTitle topic="友情链接" iconClass="el-icon-link">
       <el-tabs v-model="activeName">
-      <!-- 申请友链 -->
-      <el-tab-pane label="申请友链" name="first">
-        <el-alert title="友链申请-请符合规范😊" type="warning" show-icon>
-        </el-alert>
-        <el-form
-          :model="ruleForm"
-          :rules="rules"
-          ref="ruleForm"
-          label-width="100px"
-        >
-          <el-form-item label="博客名称" prop="blogName">
-            <el-input
-              type="text"
-              v-model="ruleForm.blogName"
-              autocomplete="off"
-            ></el-input>
-          </el-form-item>
-          <el-form-item label="博客地址" prop="blogOrigin">
-            <el-input
-              type="text"
-              v-model="ruleForm.blogOrigin"
-              autocomplete="off"
-            ></el-input>
-          </el-form-item>
-          <el-form-item label="logo地址" prop="blogLogo">
-            <el-input
-              type="text"
-              placeholder="若该项不填，则使用系统默认logo"
-              v-model="ruleForm.blogLogo"
-              autocomplete="off"
-            ></el-input>
-          </el-form-item>
-          <el-form-item label="博客描述" prop="blogMessage">
-            <el-input
-              type="text"
-              v-model="ruleForm.blogMessage"
-              autocomplete="off"
-            ></el-input>
-          </el-form-item>
-          <el-form-item>
-            <el-button type="primary" @click="submitForm('ruleForm')"
-              >申请</el-button
+        <!-- 申请友链 -->
+        <el-tab-pane label="申请友链" name="first">
+          <el-alert title="友链申请-请符合规范😊" type="warning" show-icon>
+          </el-alert>
+          <el-form
+            :model="ruleForm"
+            :rules="rules"
+            ref="ruleForm"
+            label-width="100px"
+          >
+            <el-form-item label="博客名称" prop="blogName">
+              <el-input
+                type="text"
+                v-model="ruleForm.blogName"
+                autocomplete="off"
+              ></el-input>
+            </el-form-item>
+            <el-form-item label="博客地址" prop="blogOrigin">
+              <el-input
+                type="text"
+                v-model="ruleForm.blogOrigin"
+                autocomplete="off"
+              ></el-input>
+            </el-form-item>
+            <el-form-item label="logo地址" prop="blogLogo">
+              <el-input
+                type="text"
+                placeholder="若该项不填，则使用系统默认logo"
+                v-model="ruleForm.blogLogo"
+                autocomplete="off"
+              ></el-input>
+            </el-form-item>
+            <el-form-item label="博客描述" prop="blogMessage">
+              <el-input
+                type="text"
+                v-model="ruleForm.blogMessage"
+                autocomplete="off"
+              ></el-input>
+            </el-form-item>
+            <el-form-item>
+              <el-button type="primary" @click="submitForm('ruleForm')"
+                >申请</el-button
+              >
+              <el-button @click="resetForm('ruleForm')">重置</el-button>
+            </el-form-item>
+          </el-form>
+        </el-tab-pane>
+        <!--友链展示  -->
+        <el-tab-pane label="友链展示" name="second">
+          <ul class="link-friend">
+            <li
+              class="link-friend-list"
+              v-for="(item, index) in links"
+              :key="index"
+              @click="toBlogLink(item)"
             >
-            <el-button @click="resetForm('ruleForm')">重置</el-button>
-          </el-form-item>
-        </el-form>
-      </el-tab-pane>
-      <!--友链展示  -->
-      <el-tab-pane label="友链展示" name="second">
-        <ul class="link-friend">
-          <li
-            class="link-friend-list"
-            v-for="(item, index) in links"
-            :key="index"
-            @click="toBlogLink(item)"
-          >
-            <div class="link-friend-list-avatar">
-              <img :src=" item.blogLogo || require('@img/logo.png')" alt="" />
-            </div>
-            <div class="link-friend-list-content">
-              <p class="link-friend-list-content-name">{{ item.blogName }}</p>
-              <p class="link-friend-list-content-desc">
-                {{ item.blogMessage }}
-              </p>
-            </div>
-          </li>
-        </ul>
-      </el-tab-pane>
-      <el-tab-pane label="推荐友链" name="third">
-        <ul class="link-friend">
-          <li
-            class="link-friend-list"
-            v-for="(item, index) in hotLinks"
-            :key="index"
-            @click="toBlogLink(item)"
-          >
-            <div class="link-friend-list-avatar">
-              <img :src=" item.blogLogo || require('@img/logo.png')" alt="" />
-            </div>
-            <div class="link-friend-list-content">
-              <p class="link-friend-list-content-name">{{ item.blogName }}</p>
-              <p class="link-friend-list-content-desc">
-                {{ item.blogMessage }}
-              </p>
-            </div>
-          </li>
-        </ul>
-      </el-tab-pane>
-      <el-tab-pane label="个人友链" name="fourth">
-        <el-form :model="blogForm" label-width="100px">
-          <el-form-item label="博客名称" prop="blogName">
-            <el-input
-              type="text"
-              v-model="blogForm.blogName"
-              disabled
-              autocomplete="off"
-            ></el-input>
-          </el-form-item>
-          <el-form-item label="博客地址" prop="blogOrigin">
-            <el-input
-              type="text"
-              v-model="blogForm.blogOrigin"
-              disabled
-              autocomplete="off"
-            ></el-input>
-          </el-form-item>
-          <el-form-item label="logo地址" prop="blogLogo">
-            <el-input
-              type="text"
-              v-model="blogForm.blogLogo"
-              disabled
-              autocomplete="off"
-            ></el-input>
-          </el-form-item>
-          <el-form-item label="博客描述" prop="blogMessage">
-            <el-input
-              type="text"
-              v-model="blogForm.blogMessage"
-              disabled
-              autocomplete="off"
-            ></el-input>
-          </el-form-item>
-          <el-form-item label="创建时间" prop="blogDate">
-            <el-input
-              type="text"
-              v-model="blogForm.blogDate"
-              disabled
-              autocomplete="off"
-            ></el-input>
-          </el-form-item>
-          <el-form-item>
-            <el-button type="primary" @click="activeName = 'first'">修改友链</el-button>
-          </el-form-item>
-        </el-form>
-      </el-tab-pane>
-    </el-tabs>
-    </div>
+              <div class="link-friend-list-avatar">
+                <img :src="item.blogLogo || require('@img/logo.png')" alt="" />
+              </div>
+              <div class="link-friend-list-content">
+                <p class="link-friend-list-content-name">{{ item.blogName }}</p>
+                <p class="link-friend-list-content-desc">
+                  {{ item.blogMessage }}
+                </p>
+              </div>
+            </li>
+          </ul>
+        </el-tab-pane>
+        <el-tab-pane label="推荐友链" name="third">
+          <ul class="link-friend">
+            <li
+              class="link-friend-list"
+              v-for="(item, index) in hotLinks"
+              :key="index"
+              @click="toBlogLink(item)"
+            >
+              <div class="link-friend-list-avatar">
+                <img :src="item.blogLogo || require('@img/logo.png')" alt="" />
+              </div>
+              <div class="link-friend-list-content">
+                <p class="link-friend-list-content-name">{{ item.blogName }}</p>
+                <p class="link-friend-list-content-desc">
+                  {{ item.blogMessage }}
+                </p>
+              </div>
+            </li>
+          </ul>
+        </el-tab-pane>
+        <el-tab-pane label="个人友链" name="fourth">
+          <el-form :model="blogForm" label-width="100px">
+            <el-form-item label="博客名称" prop="blogName">
+              <el-input
+                type="text"
+                v-model="blogForm.blogName"
+                disabled
+                autocomplete="off"
+              ></el-input>
+            </el-form-item>
+            <el-form-item label="博客地址" prop="blogOrigin">
+              <el-input
+                type="text"
+                v-model="blogForm.blogOrigin"
+                disabled
+                autocomplete="off"
+              ></el-input>
+            </el-form-item>
+            <el-form-item label="logo地址" prop="blogLogo">
+              <el-input
+                type="text"
+                v-model="blogForm.blogLogo"
+                disabled
+                autocomplete="off"
+              ></el-input>
+            </el-form-item>
+            <el-form-item label="博客描述" prop="blogMessage">
+              <el-input
+                type="text"
+                v-model="blogForm.blogMessage"
+                disabled
+                autocomplete="off"
+              ></el-input>
+            </el-form-item>
+            <el-form-item label="创建时间" prop="blogDate">
+              <el-input
+                type="text"
+                v-model="blogForm.blogDate"
+                disabled
+                autocomplete="off"
+              ></el-input>
+            </el-form-item>
+            <el-form-item>
+              <el-button type="primary" @click="activeName = 'first'"
+                >修改友链</el-button
+              >
+            </el-form-item>
+          </el-form>
+        </el-tab-pane>
+      </el-tabs>
+    </TopicTitle>
+  </div>
 </template>
 
 <script>
-import { DateFilter } from '@js/dateFilter.js'
-import TopicTitle from '@/components/TopicTitle.vue'
+import { DateFilter } from "@js/dateFilter.js";
+import TopicTitle from "@/components/TopicTitle.vue";
 import { postUserLink, getLinkList, getLinkById } from "@/assets/api/index";
 export default {
   name: "Link",
@@ -205,7 +208,8 @@ export default {
           blogHotLink: false,
         },
         {
-          blogName: "CSS在线格式化工具- 功能强大的CSS编辑器（系统自带友链，无法删除）",
+          blogName:
+            "CSS在线格式化工具- 功能强大的CSS编辑器（系统自带友链，无法删除）",
           blogOrigin: "https://lightly.teamcode.com",
           blogLogo: "https://lightly.teamcode.com/assets/logo.3daf54a7.svg",
           blogMessage:
@@ -228,13 +232,13 @@ export default {
         blogOrigin: "",
         blogLogo: "",
         blogMessage: "",
-        blogDate: ""
+        blogDate: "",
       },
     };
   },
   created() {
-    this.getAllLink()
-    this.getUserLink()
+    this.getAllLink();
+    this.getUserLink();
   },
   methods: {
     submitForm(formName) {
@@ -255,7 +259,7 @@ export default {
           console.log("error submit!!");
           return false;
         }
-      })
+      });
     },
     // 打开博客链接
     toBlogLink(item) {
@@ -315,25 +319,24 @@ export default {
     },
     // 获取当前账号的友链信息
     async getUserLink() {
-      const {data} = await getLinkById()
-      if(data.data) {
-        this.blogForm.blogName = data.data.blogName,
-        this.blogForm.blogOrigin = data.data.blogOrigin,
-        this.blogForm.blogLogo = data.data.blogLogo,
-        this.blogForm.blogMessage = data.data.blogMessage,
-        this.blogForm.blogDate = DateFilter(data.data.blogDate)
+      const { data } = await getLinkById();
+      if (data.data) {
+        (this.blogForm.blogName = data.data.blogName),
+          (this.blogForm.blogOrigin = data.data.blogOrigin),
+          (this.blogForm.blogLogo = data.data.blogLogo),
+          (this.blogForm.blogMessage = data.data.blogMessage),
+          (this.blogForm.blogDate = DateFilter(data.data.blogDate));
       } else {
-        return
+        return;
       }
-    }
+    },
   },
-  components: { TopicTitle }
+  components: { TopicTitle },
 };
 </script>
 
 <style lang="scss" scoped>
 .link {
-  padding: 10px;
   h2 {
     font-size: 24px;
     font-weight: 800;

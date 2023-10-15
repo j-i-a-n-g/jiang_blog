@@ -1,48 +1,53 @@
 <template>
   <div id="online-edit">
-    <TopicTitle topic="开发" iconClass="el-icon-s-comment" />
-    <div class="main">
-      <div class="main-edit">
-        <el-button
-          type="primary"
-          plain
-          size="small"
-          style="position: absolute; right: 10px; top: 5px; z-index: 10"
-          @click="saveCode"
-          >保存</el-button
-        >
-        <el-tabs type="border-card">
-          <el-tab-pane label="html">
-            <monica
-              @setCode="setCode"
-              ref="monica1"
-              :code="code.html"
-              language="html"
-            />
-          </el-tab-pane>
-          <el-tab-pane label="js">
-            <monica
-              @setCode="setCode"
-              language="javascript"
-              ref="monica2"
-              :code="code.js"
-            />
-          </el-tab-pane>
-          <el-tab-pane label="css">
-            <monica
-              @setCode="setCode"
-              language="css"
-              ref="monica3"
-              :code="code.css"
-            />
-          </el-tab-pane>
-          <el-tab-pane style="background-color: black;padding: 10px;" label="更多">尚在开发中...</el-tab-pane>
-        </el-tabs>
+    <TopicTitle topic="开发" iconClass="el-icon-s-comment">
+      <div class="main">
+        <div class="main-edit">
+          <el-button
+            type="primary"
+            plain
+            size="small"
+            style="position: absolute; right: 10px; top: 5px; z-index: 10"
+            @click="saveCode"
+            >保存</el-button
+          >
+          <el-tabs type="border-card">
+            <el-tab-pane label="html">
+              <monica
+                @setCode="setCode"
+                ref="monica1"
+                :code="code.html"
+                language="html"
+              />
+            </el-tab-pane>
+            <el-tab-pane label="js">
+              <monica
+                @setCode="setCode"
+                language="javascript"
+                ref="monica2"
+                :code="code.js"
+              />
+            </el-tab-pane>
+            <el-tab-pane label="css">
+              <monica
+                @setCode="setCode"
+                language="css"
+                ref="monica3"
+                :code="code.css"
+              />
+            </el-tab-pane>
+            <el-tab-pane
+              style="background-color: black; padding: 10px"
+              label="更多"
+              >尚在开发中...</el-tab-pane
+            >
+          </el-tabs>
+        </div>
+        <div class="main-render">
+          <onlineRender ref="onlineRender" :code="code" />
+        </div>
       </div>
-      <div class="main-render">
-        <onlineRender ref="onlineRender" :code="code" />
-      </div>
-    </div>
+    </TopicTitle>
   </div>
 </template>
 
@@ -96,7 +101,7 @@ export default {
   height: calc(100vh - 100px);
   display: flex;
   flex-wrap: nowrap;
-  &-edit {
+  .main-edit {
     position: relative;
     flex: 1;
     ::v-deep .el-tabs {

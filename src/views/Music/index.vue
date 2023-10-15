@@ -1,41 +1,42 @@
 <template>
   <div class="music">
-    <TopicTitle topic="来点音乐" iconClass="el-icon-headset" />
-    <div class="main" v-if="rightNowPlay">
-      <div class="music_data">
-        <span class="music_cover">
-          <img :src="rightNowPlay.pic" alt="" />
-        </span>
-        <div class="music_desc">
-          <h2 class="title">
-            {{ rightNowPlay.title }} [ {{ rightNowPlay.artist }} ]
-          </h2>
-          <div class="content">
-            <span>语种：{{ rightNowPlay.language }}</span>
-            <span>上传时间：{{ rightNowPlay.createTime }}</span>
-          </div>
-          <div class="desc">
-            <span>歌曲详情：</span>
-            <span>{{ rightNowPlay.desc }}</span>
+    <TopicTitle topic="来点音乐" iconClass="el-icon-headset">
+      <div class="main" v-if="rightNowPlay">
+        <div class="music_data">
+          <span class="music_cover">
+            <img :src="rightNowPlay.pic" alt="" />
+          </span>
+          <div class="music_desc">
+            <h2 class="title">
+              {{ rightNowPlay.title }} [ {{ rightNowPlay.artist }} ]
+            </h2>
+            <div class="content">
+              <span>语种：{{ rightNowPlay.language }}</span>
+              <span>上传时间：{{ rightNowPlay.createTime }}</span>
+            </div>
+            <div class="desc">
+              <span>歌曲详情：</span>
+              <span>{{ rightNowPlay.desc }}</span>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="detail_layout">
-        <!-- 歌词 -->
-        <div class="detail_layout_main">
-          <div class="detail_title">
-            <span>歌词</span>
-            <i class="el-icon-document-copy"></i>
+        <div class="detail_layout">
+          <!-- 歌词 -->
+          <div class="detail_layout_main">
+            <div class="detail_title">
+              <span>歌词</span>
+              <i class="el-icon-document-copy"></i>
+            </div>
+            <p class="detail_lyrics"></p>
           </div>
-          <p class="detail_lyrics"></p>
+          <!-- 推荐 -->
+          <div class="detail_layout_other"></div>
         </div>
-        <!-- 推荐 -->
-        <div class="detail_layout_other"></div>
-      </div>
-      <!-- <div class="footer">
+        <!-- <div class="footer">
         <player :audio="audio" @changeRightNowPlay="changeRightNowPlay" />
       </div> -->
-    </div>
+      </div>
+    </TopicTitle>
   </div>
 </template>
 
@@ -164,63 +165,57 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.music {
-  height: calc(100vh - 90px);
-  overflow: hidden;
-  width: 100%;
-  padding: 20px;
-  .main {
-    height: calc(100% - 50px);
-    margin: 40px 50px 0;
-    .music_data {
-      position: relative;
+.music .main {
+  height: calc(100% - 50px);
+  margin: 40px 50px 0;
+  .music_data {
+    position: relative;
+    height: 200px;
+    .music_cover {
+      position: absolute;
+    }
+    .music_cover img {
+      width: 200px;
       height: 200px;
-      .music_cover {
-        position: absolute;
+    }
+    .music_desc {
+      position: absolute;
+      padding-left: 305px;
+      height: 200px;
+      width: 500px;
+      h2 {
+        font-size: 28px;
+        line-height: 32px;
       }
-      .music_cover img {
-        width: 200px;
-        height: 200px;
+      .content {
+        display: flex;
+        align-items: center;
+        margin: 10px 0;
       }
-      .music_desc {
-        position: absolute;
-        padding-left: 305px;
-        height: 200px;
-        width: 500px;
-        h2 {
-          font-size: 28px;
-          line-height: 32px;
-        }
-        .content {
-          display: flex;
-          align-items: center;
-          margin: 10px 0;
-        }
-        .content span:first-child {
-          margin-right: 30px;
-        }
-        .desc {
-          line-height: 24px;
+      .content span:first-child {
+        margin-right: 30px;
+      }
+      .desc {
+        line-height: 24px;
+      }
+    }
+  }
+  .detail_layout {
+    margin-top: 50px;
+    height: calc(100vh - 500px);
+    display: flex;
+    .detail_layout_main {
+      flex: 7;
+      .detail_title {
+        font-size: 24px;
+        padding-bottom: 20px;
+        span:first-child {
+          margin-right: 20px;
         }
       }
     }
-    .detail_layout {
-      margin-top: 50px;
-      height: calc(100vh - 500px);
-      display: flex;
-      .detail_layout_main {
-        flex: 7;
-        .detail_title {
-          font-size: 24px;
-          padding-bottom: 20px;
-          span:first-child {
-            margin-right: 20px;
-          }
-        }
-      }
-      .detail_layout_other {
-        flex: 3;
-      }
+    .detail_layout_other {
+      flex: 3;
     }
   }
 }

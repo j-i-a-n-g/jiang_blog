@@ -1,140 +1,152 @@
 <template>
   <div class="about">
-    <TopicTitle topic="关于" iconClass="el-icon-edit" />
-    <div class="about-content">
-      <!-- 自述 -->
-    <div class="about-text">
-      <h3 :class="['border_left', 'readme']">自述</h3>
-      <span>这个人很神秘，什么都没有写</span>
-    </div>
-    <!-- 技能 -->
-    <div class="about-text">
-      <h3 class="border_left">技能</h3>
-      <h4 v-for="(item, index) in skill" :key="index"><span>·</span>{{item}}</h4>
-    </div>
-    <div class="about-text">
-      <h3 class="border_left">联系方式</h3>
-      <span>手机号码：188****9609</span>
-    </div>
-    <div class="about-form">
-      <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-      <el-form-item label="贵姓" prop="Uname">
-        <el-input type="text" v-model.trim="ruleForm.Uname" autocomplete="off"></el-input>
-      </el-form-item>
-      <el-form-item label="邮箱" prop="address">
-        <el-input type="text" v-model.trim="ruleForm.address" autocomplete="off"></el-input>
-      </el-form-item>
-      <el-form-item label="邮箱主题" prop="topic">
-        <el-input type="text" v-model.trim="ruleForm.topic"></el-input>
-      </el-form-item>
-      <el-form-item label="邮箱内容" prop="content">
-        <el-input type="text" v-model.trim="ruleForm.content"></el-input>
-      </el-form-item>
-      <el-form-item>
-        <el-button type="primary" @click="submitForm('ruleForm')">发送</el-button>
-        <el-button @click="resetForm('ruleForm')">重置</el-button>
-      </el-form-item>
-    </el-form>
-    </div>
-    <div class="about-img">
-      <img src="@/assets/img/misaka.jpg" alt="">
-    </div>
-    </div>
+    <TopicTitle topic="关于" iconClass="el-icon-edit">
+      <div class="about-content">
+        <!-- 自述 -->
+        <div class="about-text">
+          <h3 :class="['border_left', 'readme']">自述</h3>
+          <span>这个人很神秘，什么都没有写</span>
+        </div>
+        <!-- 技能 -->
+        <div class="about-text">
+          <h3 class="border_left">技能</h3>
+          <h4 v-for="(item, index) in skill" :key="index">
+            <span>·</span>{{ item }}
+          </h4>
+        </div>
+        <div class="about-text">
+          <h3 class="border_left">联系方式</h3>
+          <span>手机号码：188****9609</span>
+        </div>
+        <div class="about-form">
+          <el-form
+            :model="ruleForm"
+            status-icon
+            :rules="rules"
+            ref="ruleForm"
+            label-width="100px"
+            class="demo-ruleForm"
+          >
+            <el-form-item label="贵姓" prop="Uname">
+              <el-input
+                type="text"
+                v-model.trim="ruleForm.Uname"
+                autocomplete="off"
+              ></el-input>
+            </el-form-item>
+            <el-form-item label="邮箱" prop="address">
+              <el-input
+                type="text"
+                v-model.trim="ruleForm.address"
+                autocomplete="off"
+              ></el-input>
+            </el-form-item>
+            <el-form-item label="邮箱主题" prop="topic">
+              <el-input type="text" v-model.trim="ruleForm.topic"></el-input>
+            </el-form-item>
+            <el-form-item label="邮箱内容" prop="content">
+              <el-input type="text" v-model.trim="ruleForm.content"></el-input>
+            </el-form-item>
+            <el-form-item>
+              <el-button type="primary" @click="submitForm('ruleForm')"
+                >发送</el-button
+              >
+              <el-button @click="resetForm('ruleForm')">重置</el-button>
+            </el-form-item>
+          </el-form>
+        </div>
+        <div class="about-img">
+          <img src="@/assets/img/misaka.jpg" alt="" />
+        </div>
+      </div>
+    </TopicTitle>
   </div>
 </template>
 
 <script>
-import TopicTitle from '@/components/TopicTitle.vue'
-import { postEmailMessage } from '@/assets/api/index'
+import TopicTitle from "@/components/TopicTitle.vue";
+import { postEmailMessage } from "@/assets/api/index";
 export default {
-  name: 'About',
+  name: "About",
   data() {
-      let topic = (rule, value, callback) => {
-        if (!value) {
-          return callback(new Error('主题不能为空'));
-        }
-        callback()
+    let topic = (rule, value, callback) => {
+      if (!value) {
+        return callback(new Error("主题不能为空"));
       }
-      let content = (rule, value, callback) => {
-        if (!value) {
-          return callback(new Error('内容不能为空'));
-        }
-        callback()
+      callback();
+    };
+    let content = (rule, value, callback) => {
+      if (!value) {
+        return callback(new Error("内容不能为空"));
       }
-      let Uname = (rule, value, callback) => {
-        if (value === '') {
-          callback(new Error('麻烦留下贵姓，方便后续联系'));
-        }
-          callback();
+      callback();
+    };
+    let Uname = (rule, value, callback) => {
+      if (value === "") {
+        callback(new Error("麻烦留下贵姓，方便后续联系"));
       }
-      let address = (rule, value, callback) => {
-        let reg = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/
-        if (value === '') {
-          callback(new Error('邮箱不能为空'));
-        } else if (!reg.test(value)) {
-          callback(new Error('邮箱格式错误，请重新输入'));
-        } else {
-          callback();
-        }
+      callback();
+    };
+    let address = (rule, value, callback) => {
+      let reg = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
+      if (value === "") {
+        callback(new Error("邮箱不能为空"));
+      } else if (!reg.test(value)) {
+        callback(new Error("邮箱格式错误，请重新输入"));
+      } else {
+        callback();
       }
+    };
     return {
       skill: [
-        'JavaScript',
-        'ES6',
-        'JQuery',
-        'Nodejs',
-        'mongodb数据库',
-        'MySQL数据库',
-        'Vue2.0全家桶',
-        'Github',
-        'Vue3.0',
-        'PhotoShop'
+        "JavaScript",
+        "ES6",
+        "JQuery",
+        "Nodejs",
+        "mongodb数据库",
+        "MySQL数据库",
+        "Vue2.0全家桶",
+        "Github",
+        "Vue3.0",
+        "PhotoShop",
       ],
-       ruleForm: {
-          Uname: '',
-          address: '',
-          topic: '',
-          content: ''
-        },
-        rules: {
-          Uname: [
-            { validator: Uname, trigger: 'blur' }
-          ],
-          address: [
-            { validator: address, trigger: 'blur' }
-          ],
-          topic: [
-            { validator: topic, trigger: 'blur' }
-          ],
-          content: [
-            { validator: content, trigger: 'blur' }
-          ]
-        }
-    }
+      ruleForm: {
+        Uname: "",
+        address: "",
+        topic: "",
+        content: "",
+      },
+      rules: {
+        Uname: [{ validator: Uname, trigger: "blur" }],
+        address: [{ validator: address, trigger: "blur" }],
+        topic: [{ validator: topic, trigger: "blur" }],
+        content: [{ validator: content, trigger: "blur" }],
+      },
+    };
   },
   methods: {
     submitForm(formName) {
       this.$refs[formName].validate(async (valid) => {
         if (valid) {
           this.$message({
-            message: '发送成功！',
-            type: 'success'
-          })
+            message: "发送成功！",
+            type: "success",
+          });
           // ajax请求
-          const data = await postEmailMessage(this.ruleForm)
-          console.log(data)
+          const data = await postEmailMessage(this.ruleForm);
+          console.log(data);
         } else {
-          this.$message.error('发送失败，待发送信息有误，请按提示补充或修改')
+          this.$message.error("发送失败，待发送信息有误，请按提示补充或修改");
           return false;
         }
       });
     },
     resetForm(formName) {
       this.$refs[formName].resetFields();
-    }
+    },
   },
-  components: { TopicTitle }
-}
+  components: { TopicTitle },
+};
 </script>
 
 <style lang="scss" scoped>

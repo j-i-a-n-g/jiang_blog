@@ -1,42 +1,58 @@
 <template>
   <div class="article">
-    <TopicTitle topic="文章列表" iconClass="el-icon-document" />
-    <div class="article-tag">
-      <el-tag class="article-tag-all" @click="getAllArticle">全部</el-tag>
-      <el-tag class="article-tag-item" v-for="item in tagList" :key="item._id" @click="selectArticleByTag(item)" type="success">{{ item.tagName }}</el-tag>
-    </div>
-    <div class="article-content">
-      <el-row v-for=" (item, index) in articleListByTag" :key="index">
-        <el-col :span="24">
-          <el-card :body-style="{ padding: '0px' }">
-            <div class="article-content-img">
-              <img
-                :src="'/node' + item.articleImgUrl"
-                class="image"
-              />
-              <span class="article-content-img-desc"
-                >{{item.articleDesc}}</span
-              >
-            </div>
-            <div class="article-content-title">
-              <div style="display:flex; flex-wrap: nowrap;">
-                <p class="article-content-title-name">{{item.articleTitle}}</p>
-              <ul class="article-content-title-group">
-                <li style="padding-left:10px" v-for="tag in item.articleTagList" :key="tag.id" @click="selectTags(tag)">
-                  <el-tag>{{ tag.tagName }}</el-tag>
-                </li>
-              </ul>
+    <TopicTitle topic="文章列表" iconClass="el-icon-document">
+      <div class="article-tag">
+        <el-tag class="article-tag-all" @click="getAllArticle">全部</el-tag>
+        <el-tag
+          class="article-tag-item"
+          v-for="item in tagList"
+          :key="item._id"
+          @click="selectArticleByTag(item)"
+          type="success"
+          >{{ item.tagName }}</el-tag
+        >
+      </div>
+      <div class="article-content">
+        <el-row v-for="(item, index) in articleListByTag" :key="index">
+          <el-col :span="24">
+            <el-card :body-style="{ padding: '0px' }">
+              <div class="article-content-img">
+                <img :src="'/node' + item.articleImgUrl" class="image" />
+                <span class="article-content-img-desc">{{
+                  item.articleDesc
+                }}</span>
               </div>
-              <div class="bottom clearfix">
-                <time class="time">{{ item.articleDate | timer }}</time>
-                <el-button type="text" class="button" @click="watchFullText(item._id,item.articleFileUrl)">查看全文</el-button>
+              <div class="article-content-title">
+                <div style="display: flex; flex-wrap: nowrap">
+                  <p class="article-content-title-name">
+                    {{ item.articleTitle }}
+                  </p>
+                  <ul class="article-content-title-group">
+                    <li
+                      style="padding-left: 10px"
+                      v-for="tag in item.articleTagList"
+                      :key="tag.id"
+                      @click="selectTags(tag)"
+                    >
+                      <el-tag>{{ tag.tagName }}</el-tag>
+                    </li>
+                  </ul>
+                </div>
+                <div class="bottom clearfix">
+                  <time class="time">{{ item.articleDate | timer }}</time>
+                  <el-button
+                    type="text"
+                    class="button"
+                    @click="watchFullText(item._id, item.articleFileUrl)"
+                    >查看全文</el-button
+                  >
+                </div>
               </div>
-            </div>
-          </el-card>
-        </el-col>
-      </el-row>
-    </div>
-    <!-- <el-pagination
+            </el-card>
+          </el-col>
+        </el-row>
+      </div>
+      <!-- <el-pagination
       :page-size="pageSize"
       :page-sizes="[8, 10, 15, 20]"
       @current-change="handleCurrentChange"
@@ -44,12 +60,13 @@
       :total="total"
       class="blog-pagination">
     </el-pagination> -->
-    <!-- <blog-paggination style="margin-left:15px;" :total="articleList.length" :pageSize="8" /> -->
+      <!-- <blog-paggination style="margin-left:15px;" :total="articleList.length" :pageSize="8" /> -->
+    </TopicTitle>
   </div>
 </template>
 
 <script>
-import TopicTitle from '@/components/TopicTitle.vue'
+import TopicTitle from "@/components/TopicTitle.vue";
 import { getArticleList, getTagList } from "@/assets/api/index";
 // import BlogPagination from '@/components/basic/Blog-Pagination.vue';
 export default {
@@ -64,33 +81,35 @@ export default {
       // 分页器相关变量
       // pageSize: 8,
       // total: 0
-    }
+    };
   },
   async created() {
-    const { data } = await getTagList()
-    this.tagList = data.data
-    if(!this.articleList.length) {
-      this.getAllArticle()
+    const { data } = await getTagList();
+    this.tagList = data.data;
+    if (!this.articleList.length) {
+      this.getAllArticle();
     }
   },
   methods: {
-    watchFullText(id,url) {
-      this.$router.push({path: '/article/' + id , query:{id:url}})
+    watchFullText(id, url) {
+      this.$router.push({ path: "/article/" + id, query: { id: url } });
     },
-      // 获取文章数据
+    // 获取文章数据
     async getAllArticle() {
       const { data } = await getArticleList();
       this.articleList = data.data.list;
-      this.articleListByTag = data.data.list
-      this.total = data.data.pagination.total
+      this.articleListByTag = data.data.list;
+      this.total = data.data.pagination.total;
       this.$store.commit("setArticleList", this.articleList);
     },
     selectArticleByTag(item) {
-      this.articleListByTag = []
-      this.articleList.forEach(it => {
-        const result = it.articleTagList.filter(tag => tag.tagName === item.tagName)
-        if(!result.length) return
-        this.articleListByTag.push(it)
+      this.articleListByTag = [];
+      this.articleList.forEach((it) => {
+        const result = it.articleTagList.filter(
+          (tag) => tag.tagName === item.tagName
+        );
+        if (!result.length) return;
+        this.articleListByTag.push(it);
       });
     },
     // 分页器
@@ -98,23 +117,23 @@ export default {
     //   this.getAllArticle(num)
     // }
   },
-  components: { TopicTitle }
+  components: { TopicTitle },
 };
 </script>
 
 <style
     BlogPagination lang="scss" scoped>
 .article {
-  padding: 20px;
+  /* padding: 20px; */
   ::v-deep .el-row {
     max-width: 800px;
     transform: scale(0.95);
     box-shadow: 0 0 0 #fff;
-    transition: all .3s;
+    transition: all 0.3s;
     &:hover {
       transform: scale(0.98);
       box-shadow: 0 0 5px #fff;
-      transition: all .5s;
+      transition: all 0.5s;
     }
     .el-card__body {
       margin: 10px 20px;
@@ -206,7 +225,7 @@ export default {
   ::v-deep .number,
   ::v-deep .btn-next {
     background-color: transparent !important;
-    color: #fff ;
+    color: #fff;
   }
   ::v-deep .el-pagination__total {
     padding-left: 15px;

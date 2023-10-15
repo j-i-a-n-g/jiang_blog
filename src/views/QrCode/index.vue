@@ -1,41 +1,42 @@
 <template>
   <div class="qrCode">
-    <TopicTitle topic="制作二维码" iconClass="el-icon-document" />
-    <div class="main">
-      <div class="left">
-        <Setting :formData="formData" />
+    <TopicTitle topic="制作二维码" iconClass="el-icon-document">
+      <div class="main">
+        <div class="left">
+          <Setting :formData="formData" />
+        </div>
+        <div class="right">
+          <vue-qr
+            :autoColor="formData.qrAutoColor"
+            :text="formData.qrText"
+            :correctLevel="formData.qrCorrectLevel"
+            :size="formData.qrSize"
+            :margin="formData.qrMargin"
+            :colorDark="formData.qrColorDark"
+            :colorLight="formData.qrColorLight"
+            :bgSrc="formData.qrBgSrc"
+            :gifBgSrc="formData.qrGifBgSrc"
+            :backgroundColor="formData.qrBackgroundColor"
+            :logoSrc="formData.qrLogoSrc"
+            :logoScale="formData.qrLogoScale"
+            :logoMargin="formData.qrLogoMargin"
+            :logoBackgroundColor="formData.qrLogoBackgroundColor"
+            :logoCornerRadius="formData.qrLogoCornerRadius"
+            :whiteMargin="formData.qrWhiteMargin"
+            :dotScale="formData.qrDotScale"
+          ></vue-qr>
+        </div>
       </div>
-      <div class="right">
-        <vue-qr
-        :autoColor="formData.qrAutoColor"
-        :text="formData.qrText"
-        :correctLevel="formData.qrCorrectLevel"
-        :size="formData.qrSize"
-        :margin="formData.qrMargin"
-        :colorDark="formData.qrColorDark"
-        :colorLight="formData.qrColorLight"
-        :bgSrc="formData.qrBgSrc"
-        :gifBgSrc="formData.qrGifBgSrc"
-        :backgroundColor="formData.qrBackgroundColor"
-        :logoSrc="formData.qrLogoSrc"
-        :logoScale="formData.qrLogoScale"
-        :logoMargin="formData.qrLogoMargin"
-        :logoBackgroundColor="formData.qrLogoBackgroundColor"
-        :logoCornerRadius="formData.qrLogoCornerRadius"
-        :whiteMargin="formData.qrWhiteMargin"
-        :dotScale="formData.qrDotScale"
-        ></vue-qr>
-      </div>
-    </div>
+    </TopicTitle>
   </div>
 </template>
 
 <script>
-import TopicTitle from '@/components/TopicTitle.vue'
-import Setting from './setting.vue'
-import VueQr from 'vue-qr'
+import TopicTitle from "@/components/TopicTitle.vue";
+import Setting from "./setting.vue";
+import VueQr from "vue-qr";
 export default {
-  components: {TopicTitle, VueQr, Setting},
+  components: { TopicTitle, VueQr, Setting },
   data() {
     return {
       formData: {
@@ -47,39 +48,34 @@ export default {
         qrColorLight: "#fff", // 二维码空白区颜色
         qrBgSrc: null, // 要嵌入的背景图地址
         qrGifBgSrc: null, // 要嵌入的Gif背景图地址
-        qrBackgroundColor: "#fff",// 背景色
-        qrBackgroundDimming: "#ccc",//叠加在背景图上的颜色
-        qrLogoSrc: null,// logo图
+        qrBackgroundColor: "#fff", // 背景色
+        qrBackgroundDimming: "#ccc", //叠加在背景图上的颜色
+        qrLogoSrc: null, // logo图
         qrLogoScale: 0.2, // logo大小
         qrLogoMargin: 0, // logo周围的留白
         qrLogoBackgroundColor: "transparent", // logo的背景颜色
         qrLogoCornerRadius: 0, //logo边框的圆角半径
         qrWhiteMargin: true, // 背景图外将绘制白色边框
         qrDotScale: 1, //数据区域点缩小
-        qrAutoColor: true
-      }
-    }
+        qrAutoColor: true,
+      },
+    };
   },
   methods: {
     savingSetting(data) {
       this.formData = data;
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
-.qrCode {
-  padding: 20px;
-  width: 100%;
-  box-sizing: border-box;
-}
-.main {
+.qrCode .main {
   height: 100%;
   display: flex;
   .left {
     height: calc(100vh - 120px);
-    background-color: rgba(225, 225, 225, .2);
+    background-color: rgba(225, 225, 225, 0.2);
     overflow: scroll;
     flex: 2;
   }
