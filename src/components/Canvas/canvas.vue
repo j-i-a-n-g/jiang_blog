@@ -1,14 +1,18 @@
 <template>
   <div class="canvas" ref="picture" v-if="isShow">
-    <canvas class="canvas_content" v-for="(cvs, idx) in canvasNum" :key="idx"></canvas>
+    <canvas
+      class="canvas_content"
+      v-for="(cvs, idx) in canvasNum"
+      :key="idx"
+    ></canvas>
   </div>
 </template>
 
 <script>
-import GIF from '@/components/GIFjs/dist/gif'
-import { getGifWorker } from './gif.worker'
-import html2canvas from 'html2canvas';
-import Whammy from './whammy';
+import GIF from "@/components/GIFjs/dist/gif";
+import { getGifWorker } from "./gif.worker";
+import html2canvas from "html2canvas";
+import Whammy from "./whammy";
 // HELPER FUNCTIONS
 function lerp(a, b, t) {
   return Math.abs(b - a) > 0.1 ? a + t * (b - a) : b;
@@ -30,17 +34,17 @@ class Shard {
     this.target = getTarget();
     this.ttl = 100;
     this.timer = 0;
-    this.color = color
+    this.color = color;
   }
   draw(cvs, isColorful) {
     //cvs5
-    if(isColorful) {
+    if (isColorful) {
       // HSL色彩的表述方式是：H(hue)色相，S(saturation)饱和度，以及L(lightness)亮度
       cvs.fillStyle = `hsl(${this.hue}, 100%, ${this.lightness}%)`;
     } else {
-      cvs.fillStyle = this.color
+      cvs.fillStyle = this.color;
     }
-    
+
     // 起始一条路径，或重置当前路径。
     cvs.beginPath();
     /**
@@ -128,12 +132,12 @@ class Rocket {
     // rotate 旋转当前的绘图
     cvs.rotate(Math.atan2(this.ySpeed, this.xSpeed) + Math.PI / 2);
     // fillStyle 设置或返回用于填充绘画的颜色、渐变或模式。
-    if(isColorful) {
+    if (isColorful) {
       cvs.fillStyle = `hsl(${this.hue}, 100%, 50%)`; // 色相 饱和度 亮度
     } else {
-      let index = Math.floor(Math.random() * fireColorArr.length)
-      cvs.fillStyle = fireColorArr[index]
-      this.color = fireColorArr[index]
+      let index = Math.floor(Math.random() * fireColorArr.length);
+      cvs.fillStyle = fireColorArr[index];
+      this.color = fireColorArr[index];
     }
     // fillRect 绘制"被填充"的矩形。这里填充的就是烟花飞上来动态的那个“烟火”
     cvs.fillRect(0, 0, 5, 15);
@@ -173,15 +177,15 @@ export default {
     fontSetting: {
       type: Object,
       default: () => {
-        return {}
-      }
+        return {};
+      },
     },
     fireFlowerData: {
       type: Object,
       default: () => {
-        return {}
-      }
-    }
+        return {};
+      },
+    },
   },
   data() {
     return {
@@ -209,32 +213,39 @@ export default {
       gifCom: null,
       outsideCanvas: null,
       mediaRecorder: null, // 存放录制视频的对象
+      canvasWidth: null,
+      canvasHeight: null,
     };
   },
   created() {
-    this.shard= {};
-    this.rocket= {};
-    this.cvsDocus= [];
-    this.cvss= [];
-    this.rockets= [];
-    this.shards= [];
-    this.textTargetsO= [];
-    this.textTargetsT= [];
-    this.fidelity= 3;
-    this.counter= 0;
-    this.textWidth= 9999;
-    this.textWidth2= 9999;
-    this.fontStyle= {};
-    this.fireFlower= {};
-    this.exportTimer= null; // 定时器
-    this.gifCom= null;
-    this.outsideCanvas= null;
-    this.mediaRecorder= null; // 存放录制视频的对象
+    this.shard = {};
+    this.rocket = {};
+    this.cvsDocus = [];
+    this.cvss = [];
+    this.rockets = [];
+    this.shards = [];
+    this.textTargetsO = [];
+    this.textTargetsT = [];
+    this.fidelity = 3;
+    this.counter = 0;
+    this.textWidth = 9999;
+    this.textWidth2 = 9999;
+    this.fontStyle = {};
+    this.fireFlower = {};
+    this.exportTimer = null; // 定时器
+    this.gifCom = null;
+    this.outsideCanvas = null;
+    this.mediaRecorder = null; // 存放录制视频的对象
   },
   mounted() {
-    this.initCVS();
-    this.loop();
     // console.log(GIF);
+    let cavasDom = document.querySelector(".canvas");
+    this.canvasWidth = cavasDom.offsetWidth;
+    this.canvasHeight = cavasDom.offsetHeight;
+    this.$nextTick(() => {
+      this.initCVS();
+      this.loop();
+    });
   },
   methods: {
     // 初始化
@@ -253,22 +264,27 @@ export default {
       this.cvsDocus[2].height = this.cvsDocus[3].height = box[0].offsetHeight;
       this.cvsDocus[4].width = this.cvsDocus[3].width = box[0].offsetWidth;
       this.cvsDocus[4].height = this.cvsDocus[3].height = box[0].offsetHeight;
-      const bgImage = new Image();  
-      bgImage.src = this.BgImg;  
-      bgImage.onload = function() {
+      const bgImage = new Image();
+      bgImage.src = this.BgImg;
+      bgImage.onload = function () {
         const canvasWidth = c5.width;
         const canvasHeight = c5.height;
         const imgWidth = bgImage.width;
         const imgHeight = bgImage.height;
-        const scaleX = canvasWidth / imgWidth;  
+        const scaleX = canvasWidth / imgWidth;
         const scaleY = canvasHeight / imgHeight;
-        console.log(imgWidth * scaleX, imgHeight * scaleY, 
-        0, 0, canvasWidth, canvasHeight)
-        ctx5.drawImage(bgImage, 0, 0, canvasWidth, canvasHeight);  // 在 (0,0) 位置绘制背景图
-      }
+        console.log(
+          imgWidth * scaleX,
+          imgHeight * scaleY,
+          0,
+          0,
+          canvasWidth,
+          canvasHeight
+        );
+        ctx5.drawImage(bgImage, 0, 0, canvasWidth, canvasHeight); // 在 (0,0) 位置绘制背景图
+      };
       // 根据屏幕宽度调整大小
       this.resize();
-      
     },
     resize() {
       // 屏幕宽度小于99999999，fontSetting.textFontSize开始自减，调整字体大小，适应屏幕宽度
@@ -277,41 +293,61 @@ export default {
         // 在画布上写一段900粗细 fontSetting.textFontSize像素的文本，使用的字体是 "Arial"
         this.cvss[0].font = `900 ${this.fontSetting.textFontSize}px '宋体'`;
         // measureText 返回包含指定文本宽度的对象。
-        this.textWidth = this.cvss[0].measureText(this.fontSetting.textArr[0]).width;
+        this.textWidth = this.cvss[0].measureText(
+          this.fontSetting.textArr[0]
+        ).width;
       }
       while (this.textWidth2 > window.innerWidth) {
         this.cvss[1].font = `900 ${this.fontSetting.textFontSize}px '宋体'`;
-        this.textWidth2 = this.cvss[1].measureText(this.fontSetting.textArr[1]).width;
+        this.textWidth2 = this.cvss[1].measureText(
+          this.fontSetting.textArr[1]
+        ).width;
       }
-      let maxWidth = this.textWidth > this.textWidth2 ? this.textWidth : this.textWidth2
+      let maxWidth =
+        this.textWidth > this.textWidth2 ? this.textWidth : this.textWidth2;
       this.cvsDocus[0].width = maxWidth;
       this.cvsDocus[1].width = maxWidth;
       this.cvsDocus[0].height = this.fontSetting.textFontSize * 3;
       this.cvsDocus[1].height = this.fontSetting.textFontSize * 3;
-      
+
       this.cvss[0].font = `${this.fontSetting.textWeight} ${this.fontSetting.textFontSize}px 'UnifrakturCook-Bold'`;
       this.cvss[1].font = `${this.fontSetting.textWeight} ${this.fontSetting.textFontSize}px 'UnifrakturCook-Bold'`;
       this.cvsDocus[0].textAlign = "right";
       this.cvsDocus[1].textAlign = "right";
       // this.cvsDocus[0].textBaseline = "middle";
       // this.cvsDocus[1].textBaseline = "middle";
-      this.cvss[0].translate(0, 200)
+      this.cvss[0].translate(0, 200);
       // this.cvss[1].translate(0, -50)
       if (this.fontSetting.StrokeOrFill2 == "fill") {
         // fillStyle 设置或返回用于填充绘画的颜色、渐变或模式。
         // this.cvss[0].fillStyle = "red";
-        this.cvss[0].fillText(this.fontSetting.textArr[0], 0, this.fontSetting.textFontSize); // hello
+        this.cvss[0].fillText(
+          this.fontSetting.textArr[0],
+          0,
+          this.fontSetting.textFontSize
+        ); // hello
       } else {
         // this.cvss[0].strokeStyle = "red";
-        this.cvss[0].strokeText(this.fontSetting.textArr[0], 0, this.fontSetting.textFontSize);
-
+        this.cvss[0].strokeText(
+          this.fontSetting.textArr[0],
+          0,
+          this.fontSetting.textFontSize
+        );
       }
       if (this.fontSetting.StrokeOrFill1 == "fill") {
         // this.cvss[1].fillStyle = "red";
-        this.cvss[1].fillText(this.fontSetting.textArr[1], 0, this.fontSetting.textFontSize);
+        this.cvss[1].fillText(
+          this.fontSetting.textArr[1],
+          0,
+          this.fontSetting.textFontSize
+        );
       } else {
         // this.cvss[1].strokeStyle = "red";
-        this.cvss[1].strokeText(this.fontSetting.textArr[1], 0 , this.fontSetting.textFontSize);
+        this.cvss[1].strokeText(
+          this.fontSetting.textArr[1],
+          0,
+          this.fontSetting.textFontSize
+        );
       }
       this.getPosition();
     },
@@ -345,20 +381,23 @@ export default {
       }
       for (let i = 0, max = imgData2.data.length; i < max; i += 4) {
         const alpha = imgData2.data[i + 3];
-        const x = (Math.floor(i / 4) % imgData2.width);
+        const x = Math.floor(i / 4) % imgData2.width;
         const y = Math.floor(i / 4 / imgData2.width);
         if (alpha && x % this.fidelity === 0 && y % this.fidelity === 0) {
           this.textTargetsT.push({ x, y: y - 150 }); // Canvas
         }
       }
-      if(this.fontSetting.isLinearColor) {
+      if (this.fontSetting.isLinearColor) {
         var gradient = this.cvss[4].createLinearGradient(200, 0, 800, 0);
         //从0到整个区域的一半由黄渐变到蓝
         //从中间到最后由蓝渐变到红
-        for(let i = 0; i < this.fontSetting.linearColorArr.length; i++) {
-          gradient.addColorStop((i / (this.fontSetting.linearColorArr.length - 1)) + "", this.fontSetting.linearColorArr[i]);
+        for (let i = 0; i < this.fontSetting.linearColorArr.length; i++) {
+          gradient.addColorStop(
+            i / (this.fontSetting.linearColorArr.length - 1) + "",
+            this.fontSetting.linearColorArr[i]
+          );
         }
-        this.cvss[4].fillStyle = gradient
+        this.cvss[4].fillStyle = gradient;
       } else {
         // 设置或返回用于填充绘画的颜色、渐变或模式。
         this.cvss[3].fillStyle = "#FFF";
@@ -399,7 +438,11 @@ export default {
         this.rockets.push(new Rocket(this.cvsDocus[2]));
       }
       this.rockets.forEach((r, i) => {
-        r.draw(this.cvss[2], this.fireFlowerData.isColorful, this.fireFlowerData.fireColorArr);
+        r.draw(
+          this.cvss[2],
+          this.fireFlowerData.isColorful,
+          this.fireFlowerData.fireColorArr
+        );
         r.update();
         if (r.ySpeed > 0) {
           // 烟花绽放的方法
@@ -468,18 +511,18 @@ export default {
       this.$nextTick(() => {
         this.isShow = true;
         this.$nextTick(() => {
-          this.shard = {}
-          this.rocket = {}
-          this.cvsDocus = []
-          this.cvss = []
-          this.rockets = []
-          this.shards = []
-          this.textTargetsO = []
-          this.textTargetsT = []
-          this.fidelity = 3
-          this.counter = 0
-          this.textWidth = 9999
-          this.textWidth2 = 9999
+          this.shard = {};
+          this.rocket = {};
+          this.cvsDocus = [];
+          this.cvss = [];
+          this.rockets = [];
+          this.shards = [];
+          this.textTargetsO = [];
+          this.textTargetsT = [];
+          this.fidelity = 3;
+          this.counter = 0;
+          this.textWidth = 9999;
+          this.textWidth2 = 9999;
           this.initCVS();
           this.loop();
         });
@@ -494,23 +537,23 @@ export default {
     // },
     // 导出图片
     exportPicture(link, name = "未命名文件") {
-        const file = document.createElement("a");
-        file.style.display = "none";
-        file.href = link;
-        file.download = decodeURI(name);
-        document.body.appendChild(file);
-        file.click();
-        document.body.removeChild(file);
+      const file = document.createElement("a");
+      file.style.display = "none";
+      file.href = link;
+      file.download = decodeURI(name);
+      document.body.appendChild(file);
+      file.click();
+      document.body.removeChild(file);
     },
     startRecordGif() {
-      html2canvas(this.$refs.picture, {useCORS: true}).then((canvas) => {
-          this.$message.success("开始录制gif");
-          document.body.appendChild(canvas); // 自动在下方显示绘制的canvas图片
-          this.outsideCanvas = canvas;
-          this.initGIF(canvas, this.$refs.picture)
-          // const link = canvas.toDataURL("image/jpg");
-          // this.exportPicture(link, "文件名");
-      })
+      html2canvas(this.$refs.picture, { useCORS: true }).then((canvas) => {
+        this.$message.success("开始录制gif");
+        document.body.appendChild(canvas); // 自动在下方显示绘制的canvas图片
+        this.outsideCanvas = canvas;
+        this.initGIF(canvas, this.$refs.picture);
+        // const link = canvas.toDataURL("image/jpg");
+        // this.exportPicture(link, "文件名");
+      });
     },
     initGIF(canvas, html) {
       this.gifCom = new GIF({
@@ -520,112 +563,116 @@ export default {
         debug: true,
         framerate: 30,
       });
-      const ctx = canvas.getContext('2d');
-      
+      const ctx = canvas.getContext("2d");
+
       // 设定时间间隔
       const delay = 30;
       // 设置时间函数
       this.exportTimer = setInterval(() => {
-          // 画布的宽高与视频宽高保持一致，延迟取上面定义的延迟时间
-          canvas.width = 1165;
-          canvas.height = 870;
-          canvas.delay = delay
-          // canvas.getContext('2d').drawImage(this.$refs.picture, 0, 0, canvas.width, canvas.height); 
-          ctx.drawImage(this.cvsDocus[0], 0, 0, canvas.width, canvas.height);
-          ctx.drawImage(this.cvsDocus[1], 0, 0, canvas.width, canvas.height);
-          ctx.drawImage(this.cvsDocus[2], 0, 0, canvas.width, canvas.height);
-          ctx.drawImage(this.cvsDocus[3], 0, 0, canvas.width, canvas.height);
-          ctx.drawImage(this.cvsDocus[4], 0, 0, canvas.width, canvas.height);
-          // 将当前画面帧追加到 gif中
-          const imgImage = new Image();
-          imgImage.src = canvas.toDataURL("image/jpg");
-          
-          imgImage.onload = (e) => {
-            // 绘制底色  
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            
-            // 绘制当前帧
-            ctx.drawImage(imgImage, 0, 0, canvas.width, canvas.height);
-            
-            // 当前帧追加到gif中
-            this.gifCom.addFrame(canvas, {copy: true, delay: canvas.delay});
-          }
-          // 调用 requestAnimationFrame() 函数渲染下一帧
-          // requestAnimationFrame(renderFrame);
-          // 使用 Whammy.js 将 Canvas 帧转换为 WebM 视频帧
-          // const videoFrames = [];
-          // const whammy = new Whammy.Video(15);
-          // whammy.add(ctx);
-          // let output = whammy.compile(false, function(output1){
-          //   var url = webkitURL.createObjectURL(output);
-          //   // console.log("url:"+url);
-          //   return url;
-          //   // document.getElementById('download').style.display = '';
-          //   // document.getElementById('download').href = url;
-          // });
-          // console.log(output)
-          // const mediaChunks = [];
-          // const mediaRecorder = new MediaRecorder(output, { mimeType: 'video/webm' });
-          // mediaRecorder.ondataavailable = function (event) {
-          //   if (event.data.size > 0) {
-          //     mediaChunks.push(event.data);
-          //   }
-          // };
-          // mediaRecorder.onstop = function () {
-          //   const blob = new Blob(mediaChunks, { type: 'video/mp4' });
-          //   const url = URL.createObjectURL(blob);
-          //   const link = document.createElement('a');
-          //   link.href = url;
-          //   link.download = 'animation.mp4';
-          //   link.click();
-          // };
-          // setTimeout(function () {
-          //   mediaRecorder.stop();
-          // }, 5000); // 捕获 5 秒钟的视频
-      }, delay)
+        // 画布的宽高与视频宽高保持一致，延迟取上面定义的延迟时间
+        canvas.width = this.canvasWidth;
+        canvas.height = this.canvasHeight;
+        canvas.delay = delay;
+        // canvas.getContext('2d').drawImage(this.$refs.picture, 0, 0, canvas.width, canvas.height);
+        ctx.drawImage(this.cvsDocus[0], 0, 0, canvas.width, canvas.height);
+        ctx.drawImage(this.cvsDocus[1], 0, 0, canvas.width, canvas.height);
+        ctx.drawImage(this.cvsDocus[2], 0, 0, canvas.width, canvas.height);
+        ctx.drawImage(this.cvsDocus[3], 0, 0, canvas.width, canvas.height);
+        ctx.drawImage(this.cvsDocus[4], 0, 0, canvas.width, canvas.height);
+        // 将当前画面帧追加到 gif中
+        const imgImage = new Image();
+        imgImage.src = canvas.toDataURL("image/jpg");
+
+        imgImage.onload = (e) => {
+          // 绘制底色
+          ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+          // 绘制当前帧
+          ctx.drawImage(imgImage, 0, 0, canvas.width, canvas.height);
+
+          // 当前帧追加到gif中
+          this.gifCom.addFrame(canvas, { copy: true, delay: canvas.delay });
+        };
+        // 调用 requestAnimationFrame() 函数渲染下一帧
+        // requestAnimationFrame(renderFrame);
+        // 使用 Whammy.js 将 Canvas 帧转换为 WebM 视频帧
+        // const videoFrames = [];
+        // const whammy = new Whammy.Video(15);
+        // whammy.add(ctx);
+        // let output = whammy.compile(false, function(output1){
+        //   var url = webkitURL.createObjectURL(output);
+        //   // console.log("url:"+url);
+        //   return url;
+        //   // document.getElementById('download').style.display = '';
+        //   // document.getElementById('download').href = url;
+        // });
+        // console.log(output)
+        // const mediaChunks = [];
+        // const mediaRecorder = new MediaRecorder(output, { mimeType: 'video/webm' });
+        // mediaRecorder.ondataavailable = function (event) {
+        //   if (event.data.size > 0) {
+        //     mediaChunks.push(event.data);
+        //   }
+        // };
+        // mediaRecorder.onstop = function () {
+        //   const blob = new Blob(mediaChunks, { type: 'video/mp4' });
+        //   const url = URL.createObjectURL(blob);
+        //   const link = document.createElement('a');
+        //   link.href = url;
+        //   link.download = 'animation.mp4';
+        //   link.click();
+        // };
+        // setTimeout(function () {
+        //   mediaRecorder.stop();
+        // }, 5000); // 捕获 5 秒钟的视频
+      }, delay);
     },
     recordMedia() {
-      html2canvas(this.$refs.picture, {useCORS: true}).then((canvas) => {
+      html2canvas(this.$refs.picture, { useCORS: true }).then((canvas) => {
         this.exportTimer = setInterval(() => {
           this.outsideCanvas = canvas;
-          const ctx = canvas.getContext('2d');
-          canvas.width = 1165;
-          canvas.height = 870;
+          const ctx = canvas.getContext("2d");
+          canvas.width = this.canvasWidth;
+          canvas.height = this.canvasHeight;
           ctx.drawImage(this.cvsDocus[0], 0, 0, canvas.width, canvas.height);
           ctx.drawImage(this.cvsDocus[1], 0, 0, canvas.width, canvas.height);
           ctx.drawImage(this.cvsDocus[2], 0, 0, canvas.width, canvas.height);
           ctx.drawImage(this.cvsDocus[3], 0, 0, canvas.width, canvas.height);
           ctx.drawImage(this.cvsDocus[4], 0, 0, canvas.width, canvas.height);
-        }, 0)
-          var stream = canvas.captureStream(120);
-          console.log(stream)
-          this.mediaRecorder = new MediaRecorder(stream, { mimeType: 'video/webm;codecs=vp9' });
-          console.log("开始录制");
-          let data = [];
-          this.mediaRecorder.ondataavailable = (event) => {
-            console.log(event.data)
-              // if (event.data && event.data.size) {
-                  data.push(event.data);
-              // }
-          };
-          this.mediaRecorder.onerror = (err) => {
-            console.log(err)
-          }
-          this.mediaRecorder.onstop = () => {
+        }, 0);
+        var stream = canvas.captureStream(120);
+        console.log(stream);
+        this.mediaRecorder = new MediaRecorder(stream, {
+          mimeType: "video/webm;codecs=vp9",
+        });
+        console.log("开始录制");
+        let data = [];
+        this.mediaRecorder.ondataavailable = (event) => {
+          console.log(event.data);
+          // if (event.data && event.data.size) {
+          data.push(event.data);
+          // }
+        };
+        this.mediaRecorder.onerror = (err) => {
+          console.log(err);
+        };
+        this.mediaRecorder.onstop = () => {
           //结束录制时下载视频
-              const url = URL.createObjectURL(new Blob(data, { type: 'video/webm' }));
-              var element = document.createElement('a');
-              element.setAttribute('href', url);
-              element.setAttribute('download', "");
-              element.style.display = 'none';
-              document.body.appendChild(element);
-              element.click();
-              document.body.removeChild(element);
-          };
-          //录制开始
-          this.mediaRecorder.start();
-          this.$message.success("开始录制");
-      })
+          const url = URL.createObjectURL(
+            new Blob(data, { type: "video/webm" })
+          );
+          var element = document.createElement("a");
+          element.setAttribute("href", url);
+          element.setAttribute("download", "");
+          element.style.display = "none";
+          document.body.appendChild(element);
+          element.click();
+          document.body.removeChild(element);
+        };
+        //录制开始
+        this.mediaRecorder.start();
+        this.$message.success("开始录制");
+      });
     },
     stopRecordMedia() {
       this.mediaRecorder.stop();
@@ -637,13 +684,13 @@ export default {
       this.$message.success("gif生成中，时间可能较久，请稍后...");
       this.gifCom.render();
       // 监听渲染完成，返回 blob 文件流
-      this.gifCom.on('finished', function(blob) {
+      this.gifCom.on("finished", function (blob) {
         const url = URL.createObjectURL(blob);
-        console.log(url, "渲染完成")
-        const aLink = document.createElement('a');
-        aLink.setAttribute('download', 'img')
-        aLink.setAttribute('href', url)
-        aLink.click()
+        console.log(url, "渲染完成");
+        const aLink = document.createElement("a");
+        aLink.setAttribute("download", "img");
+        aLink.setAttribute("href", url);
+        aLink.click();
       });
     },
   },
