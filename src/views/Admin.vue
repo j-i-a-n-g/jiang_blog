@@ -33,6 +33,7 @@
 
 <script>
 import { postRootPassword } from "@/assets/api/index";
+import { toggleLeftSiderMixin } from "@/common/toggleLeftSiderMixin";
 import LinkBase from "@/components/HomeComponent/Root/LinkBase.vue";
 import ArticleBase from "@/components/HomeComponent/Root/ArticleBase.vue";
 import MusicBase from "@/components/HomeComponent/Root/MusicBase.vue";
@@ -43,23 +44,16 @@ export default {
     return {
       activeName: "fourth",
       rootPass: "",
+      dialogTableVisible: true,
     };
   },
+  mixins: [toggleLeftSiderMixin],
   methods: {
     // 修改密码
     async changeRootPassword() {
       const { data } = await postRootPassword({ rootPass: this.rootPass });
       this.$message.success(data.message);
     },
-  },
-  beforeRouteEnter(to, from, next) {
-    next((vm) => {
-      vm.$store.commit("hideLeftSider", false);
-    });
-  },
-  beforeRouteLeave(to, from, next) {
-    this.$store.commit("hideLeftSider", true);
-    next();
   },
   components: { LinkBase, ArticleBase, ArticleManager, MusicBase },
 };

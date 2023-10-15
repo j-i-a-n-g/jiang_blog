@@ -11,10 +11,16 @@
       />
     </div>
     <span @click="drawerShow = true" class="setting">设置属性</span>
-    <span @click="startRecordGif" style="top: 0px;" class="record">开始导出gif</span>
-    <span @click="stopRecordGif" style="top: 40px;" class="record">结束导出gif</span>
-    <span @click="recordMedia" style="top: 80px;" class="record">开始录制</span>
-    <span @click="stopRecordMedia" style="top: 120px;" class="record">结束录制</span>
+    <span @click="startRecordGif" style="top: 0px" class="record"
+      >开始导出gif</span
+    >
+    <span @click="stopRecordGif" style="top: 40px" class="record"
+      >结束导出gif</span
+    >
+    <span @click="recordMedia" style="top: 80px" class="record">开始录制</span>
+    <span @click="stopRecordMedia" style="top: 120px" class="record"
+      >结束录制</span
+    >
     <el-drawer title="设置" :visible.sync="drawerShow">
       <div class="drawer-main">
         <el-button
@@ -107,12 +113,24 @@
                 >
                 </el-color-picker>
               </el-form-item>
-              <el-form-item v-if="fontSetting.isLinearColor" label="字体渐变颜色">
-                <el-color-picker v-model="fontSetting.linearColorArr[0]" show-alpha>
+              <el-form-item
+                v-if="fontSetting.isLinearColor"
+                label="字体渐变颜色"
+              >
+                <el-color-picker
+                  v-model="fontSetting.linearColorArr[0]"
+                  show-alpha
+                >
                 </el-color-picker>
-                <el-color-picker v-model="fontSetting.linearColorArr[1]" show-alpha>
+                <el-color-picker
+                  v-model="fontSetting.linearColorArr[1]"
+                  show-alpha
+                >
                 </el-color-picker>
-                <el-color-picker v-model="fontSetting.linearColorArr[2]" show-alpha>
+                <el-color-picker
+                  v-model="fontSetting.linearColorArr[2]"
+                  show-alpha
+                >
                 </el-color-picker>
               </el-form-item>
               <el-form-item label="是否设置文字阴影">
@@ -131,14 +149,20 @@
                 <el-color-picker v-model="fontSetting.shadowColor2" show-alpha>
                 </el-color-picker>
               </el-form-item>
-              <el-form-item v-if="fontSetting.showShadow" label="主段文字阴影模糊">
+              <el-form-item
+                v-if="fontSetting.showShadow"
+                label="主段文字阴影模糊"
+              >
                 <el-input-number
                   v-model="fontSetting.shadowBlur1"
                   :min="0"
                   :max="25"
                 ></el-input-number>
               </el-form-item>
-              <el-form-item v-if="fontSetting.showShadow" label="副段文字阴影模糊">
+              <el-form-item
+                v-if="fontSetting.showShadow"
+                label="副段文字阴影模糊"
+              >
                 <el-input-number
                   v-model="fontSetting.shadowBlur2"
                   :min="0"
@@ -175,13 +199,18 @@
                 >
                 </el-switch>
               </el-form-item>
-              <el-form-item v-show="!fireFlowerData.isColorful" label="自定义颜色：">
+              <el-form-item
+                v-show="!fireFlowerData.isColorful"
+                label="自定义颜色："
+              >
                 <el-color-picker
-                v-for="(item, index) in fireFlowerData.fireColorArr"
-                :key="index"
-                  @active-change="(e) => (fireFlowerData.fireColorArr[index] = e)"
+                  v-for="(item, index) in fireFlowerData.fireColorArr"
+                  :key="index"
+                  @active-change="
+                    (e) => (fireFlowerData.fireColorArr[index] = e)
+                  "
                   v-model="fireFlowerData.fireColorArr[index]"
-                  color-format='hsl'
+                  color-format="hsl"
                 >
                 </el-color-picker>
               </el-form-item>
@@ -211,8 +240,10 @@
 
 <script>
 import canvasPaint from "@/components/Canvas/canvas.vue";
+import { toggleLeftSiderMixin } from "@/common/toggleLeftSiderMixin";
 export default {
   components: { canvasPaint },
+  mixins: [toggleLeftSiderMixin],
   data() {
     return {
       drawerShow: false,
@@ -232,11 +263,21 @@ export default {
         offsetTop1: 0,
         offsetTop2: 0,
         isLinearColor: false, // 是否设置渐变颜色
-        linearColorArr:['rgba(232, 244, 8, 1)', 'rgba(10, 158, 249, 1)', 'rgba(249, 34, 10, 1)']
+        linearColorArr: [
+          "rgba(232, 244, 8, 1)",
+          "rgba(10, 158, 249, 1)",
+          "rgba(249, 34, 10, 1)",
+        ],
       },
       fireFlowerData: {
         isColorful: true,
-        fireColorArr: ["rgba(255, 255, 255, 0)", "rgba(255, 255, 255, 0)", "rgba(255, 255, 255, 0)", "rgba(255, 255, 255, 0)", "rgba(255, 255, 255, 0)"]
+        fireColorArr: [
+          "rgba(255, 255, 255, 0)",
+          "rgba(255, 255, 255, 0)",
+          "rgba(255, 255, 255, 0)",
+          "rgba(255, 255, 255, 0)",
+          "rgba(255, 255, 255, 0)",
+        ],
       },
       imgs: [
         {
@@ -256,15 +297,20 @@ export default {
     };
   },
   created() {
-    if(localStorage.getItem('font_Setting')) {
-      this.fontSetting = JSON.parse(localStorage.getItem('font_Setting'))
+    if (localStorage.getItem("font_Setting")) {
+      this.fontSetting = JSON.parse(localStorage.getItem("font_Setting"));
     }
-    if(localStorage.getItem('fireFlower_Setting')) {
-      this.fireFlowerData = JSON.parse(localStorage.getItem('fireFlower_Setting'))
+    if (localStorage.getItem("fireFlower_Setting")) {
+      this.fireFlowerData = JSON.parse(
+        localStorage.getItem("fireFlower_Setting")
+      );
     }
-    if(localStorage.getItem('canvas_bgImgIndex') || localStorage.getItem('canvas_bgImgIndex') == 0) {
-      this.bgImgIndex = localStorage.getItem('canvas_bgImgIndex')
-      this.BgImg = this.imgs[this.bgImgIndex].url;      
+    if (
+      localStorage.getItem("canvas_bgImgIndex") ||
+      localStorage.getItem("canvas_bgImgIndex") == 0
+    ) {
+      this.bgImgIndex = localStorage.getItem("canvas_bgImgIndex");
+      this.BgImg = this.imgs[this.bgImgIndex].url;
     }
   },
   methods: {
@@ -273,22 +319,25 @@ export default {
     },
     saveSetting(flag) {
       // this.$refs.canvasPaint.resetCanvas();
-      localStorage.setItem('font_Setting', JSON.stringify(this.fontSetting))
-      localStorage.setItem('fireFlower_Setting', JSON.stringify(this.fireFlowerData))
-      localStorage.setItem('canvas_bgImgIndex', this.bgImgIndex)
+      localStorage.setItem("font_Setting", JSON.stringify(this.fontSetting));
+      localStorage.setItem(
+        "fireFlower_Setting",
+        JSON.stringify(this.fireFlowerData)
+      );
+      localStorage.setItem("canvas_bgImgIndex", this.bgImgIndex);
       this.drawerShow = false;
       this.reloadCanvas = false;
       this.$nextTick(() => {
         setTimeout(() => {
           this.reloadCanvas = true;
-          if(flag == "media") {
+          if (flag == "media") {
             this.$nextTick(() => {
-              this.recordMedia()
-            })
-          } else if(flag == "gif") {
+              this.recordMedia();
+            });
+          } else if (flag == "gif") {
             this.$nextTick(() => {
               this.startRecordGif();
-            })
+            });
           }
         }, 50);
       });
@@ -298,20 +347,20 @@ export default {
       this.imgs.forEach((item) => (item.isActive = false));
       this.imgs[index].isActive = true;
       this.BgImg = this.imgs[index].url;
-      this.bgImgIndex = index
+      this.bgImgIndex = index;
     },
     startRecordGif() {
       this.$refs.canvasPaint.startRecordGif();
     },
     stopRecordGif() {
-      this.$refs.canvasPaint.stopRecordGif()
+      this.$refs.canvasPaint.stopRecordGif();
     },
     recordMedia() {
-      this.$refs.canvasPaint.recordMedia()
+      this.$refs.canvasPaint.recordMedia();
     },
     stopRecordMedia() {
-      this.$refs.canvasPaint.stopRecordMedia()
-    }
+      this.$refs.canvasPaint.stopRecordMedia();
+    },
   },
 };
 </script>

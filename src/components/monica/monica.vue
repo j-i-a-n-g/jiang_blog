@@ -98,10 +98,10 @@ export default {
         tokenTheme: {
           html: {
             "document.html": {
-              "foreign.name.html": "606266"  // 设置 html 标签名颜色
-            }  
-          }
-        }
+              "foreign.name.html": "606266", // 设置 html 标签名颜色
+            },
+          },
+        },
       });
       this.editer = MonacoEditor.editor.create(
         this.$refs.monacoEditor,

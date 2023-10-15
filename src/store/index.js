@@ -480,7 +480,7 @@ export default new Vuex.Store({
       }
     },
     // 隐藏侧边栏
-    hideLeftSider(state, val) {
+    toggleLeftSider(state, val) {
       state.showLeftSider = val
     },
     // 设置文章列表数据

@@ -54,11 +54,13 @@
 <script>
 import monica from "@/components/monica/monica.vue";
 import onlineRender from "@/components/monica/render.vue";
+import { toggleLeftSiderMixin } from "@/common/toggleLeftSiderMixin";
 export default {
   components: {
     monica,
     onlineRender,
   },
+  mixins: [toggleLeftSiderMixin],
   data() {
     return {
       code: {

@@ -1,5 +1,5 @@
 <template>
-  <div class="root-login" v-show="isShow" >
+  <div class="root-login" v-show="isShow">
     <h4>管理员登录入口</h4>
     <el-form
       :model="ruleForm"
@@ -9,41 +9,54 @@
       label-width="100px"
       class="demo-ruleForm"
     >
-     <el-form-item label="账号:" prop="rootName">
+      <el-form-item label="账号:" prop="rootName">
         <el-input v-model="ruleForm.rootName"></el-input>
       </el-form-item>
-      
+
       <el-form-item label="密码:" prop="pass">
         <el-input
           type="password"
           v-model="ruleForm.rootPass"
-          autocomplete="off"></el-input>
+          autocomplete="off"
+        ></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
+        <el-button type="primary" @click="submitForm('ruleForm')"
+          >提交</el-button
+        >
         <el-button @click="resetForm('ruleForm')">重置</el-button>
       </el-form-item>
     </el-form>
+    <el-dialog
+      title=""
+      fullscreen
+      append-to-body
+      :visible.sync="dialogTableVisible"
+    >
+      <Admin />
+    </el-dialog>
   </div>
 </template>
 
 <script>
-import { rootLogin, initializeAccount } from '@/assets/api/index'
+import { rootLogin, initializeAccount } from "@/assets/api/index";
+import Admin from "@/views/Admin.vue";
 export default {
   name: "RootLogin",
-  props: ['isShow'],
+  props: ["isShow"],
+  components: { Admin },
   data() {
     var rootName = (rule, value, callback) => {
       if (!value) {
         return callback(new Error("年龄不能为空"));
       }
-       callback();
+      callback();
     };
     var validatePass = (rule, value, callback) => {
       if (value === "") {
         callback(new Error("请输入密码"));
-      } 
-        callback();
+      }
+      callback();
     };
     return {
       ruleForm: {
@@ -54,6 +67,7 @@ export default {
         rootPass: [{ validator: validatePass, trigger: "blur" }],
         rootName: [{ validator: rootName, trigger: "blur" }],
       },
+      dialogTableVisible: false,
     };
   },
   methods: {
@@ -61,22 +75,23 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate(async (valid) => {
         if (valid) {
-          const {data} = await rootLogin(this.ruleForm)
-          this.$store.commit('setRootName', data.data.rootName)
-          this.$message.success(data.message)
-          this.$store.commit('hideLeftSider', false)
-          this.$emit('hideRootLogin')
-          this.$router.push('/admin')
+          const { data } = await rootLogin(this.ruleForm);
+          this.$store.commit("setRootName", data.data.rootName);
+          this.$message.success(data.message);
+          this.$store.commit("toggleLeftSider", false);
+          this.$emit("hideRootLogin");
+          this.$router.push("/admin");
+          // this.dialogTableVisible = true;
         } else {
           console.log("error submit!!");
           return false;
         }
-      })
+      });
     },
     async resetForm(formName) {
       this.$refs[formName].resetFields();
-      await initializeAccount()
-      this.$message.success('初始化账号成功')
+      await initializeAccount();
+      this.$message.success("初始化账号成功");
     },
   },
 };

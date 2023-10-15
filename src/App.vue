@@ -3,11 +3,14 @@
     <MaskCanvas class="globle"></MaskCanvas>
     <NavBar />
     <div class="app-content">
-      <div :class="['app-content-left','hidden-xs-only']"  v-show="$store.state.showLeftSider">
+      <div
+        :class="['app-content-left', 'hidden-xs-only']"
+        v-show="$store.state.showLeftSider"
+      >
         <LeftSider></LeftSider>
       </div>
       <div class="app-content-right">
-        <keep-alive :include="['Home','About']">
+        <keep-alive :include="['Home', 'About']">
           <router-view></router-view>
         </keep-alive>
       </div>
@@ -63,12 +66,10 @@ export default {
       // box-shadow: 0 0 2px 1px #ccc;
     }
   }
-  
 }
 .globle {
   width: 100%;
   height: 100%;
 }
-
 </style>
 
