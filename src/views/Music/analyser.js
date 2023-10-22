@@ -42,7 +42,7 @@ function update() {
   // 取一小段时间的数据分析，分析结果保存到数组
   // 频域数据
   analyser.getByteFrequencyData(buffer)
-  let offset = Math.floor(buffer.length / 3)
+  let offset = Math.floor((buffer.length * 2) / 3)
   // let num = Math.floor(offset / 2)
   let datas = new Array(offset)
   for (let i = 0; i < offset; i++) {
