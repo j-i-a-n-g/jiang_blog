@@ -557,8 +557,8 @@ export default {
     },
     initGIF(canvas, html) {
       this.gifCom = new GIF({
-        workers: 2,
-        quality: 1,
+        workers: 7,
+        quality: 5,
         workerScript: getGifWorker(),
         debug: true,
         framerate: 30,
