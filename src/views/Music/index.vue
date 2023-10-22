@@ -37,7 +37,7 @@
       </div> -->
       </div>
       <div class="canvas_box">
-        <canvas ref="canvas" width="1000px" height="300px"></canvas>
+        <canvas ref="canvas" width="1000px" height="200px"></canvas>
       </div>
     </TopicTitle>
   </div>
@@ -227,5 +227,6 @@ export default {
   position: absolute;
   right: 0;
   bottom: 0;
+  left: 0;
 }
 </style>

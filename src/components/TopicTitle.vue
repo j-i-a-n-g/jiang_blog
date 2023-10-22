@@ -38,5 +38,6 @@ h2 {
 .main-design-content {
   height: calc(100% - 50px);
   margin: 40px 50px 0;
+  position: relative;
 }
 </style>

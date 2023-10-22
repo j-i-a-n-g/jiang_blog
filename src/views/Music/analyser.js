@@ -46,7 +46,7 @@ function update() {
   // let num = Math.floor(offset / 2)
   let datas = new Array(offset)
   for (let i = 0; i < offset; i++) {
-    datas[i] = buffer[i]
+    datas[i] = buffer[i] / 2
   }
   initCanvas(datas, offset)
 }
