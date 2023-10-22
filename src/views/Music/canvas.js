@@ -26,11 +26,11 @@ export const initCanvas = function (buffer) {
     // canvas.fillRect(x, y, 2, 10)
     // canvas.rotate(0)
     // canvas.fillStyle = '#fff'
-    canvas.fillStyle = gradient;
     let x = i * 5;
     canvas.moveTo(x, 0);
     canvas.fillRect(x, dom.height - 20, -3, buffer[i] ? -buffer[i] : 2);
     // canvas.rotate(180)
   }
+  canvas.fillStyle = gradient;
   canvas.fill()
 }

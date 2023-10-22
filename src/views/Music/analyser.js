@@ -6,7 +6,7 @@ let isInit = false
 
 export default function () {
   let audio = document.querySelector("audio")
-  audio.onplay = function () {
+  function playCanvas() {
     if (isInit) {
       return
     }
@@ -27,6 +27,10 @@ export default function () {
     isInit = true
     update()
   }
+  if (!audio.paused) {
+    playCanvas()
+  }
+  audio.onplay = playCanvas()
 }
 
 function update() {

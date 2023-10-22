@@ -23,6 +23,9 @@ export default {
   data() {
     return {};
   },
+  mounted() {
+    this.$refs.aplayer.pause();
+  },
   methods: {
     changePlayMusic() {
       let index = this.$refs.aplayer.playIndex;
