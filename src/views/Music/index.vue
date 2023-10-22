@@ -36,12 +36,16 @@
         <player :audio="audio" @changeRightNowPlay="changeRightNowPlay" />
       </div> -->
       </div>
+      <div class="canvas_box">
+        <canvas ref="canvas" width="600px" height="300px"></canvas>
+      </div>
     </TopicTitle>
   </div>
 </template>
 
 <script>
 import { mapState } from "vuex";
+import analyserAudio from "./analyser";
 // import player from "./Aplayer.vue";
 // import { getMusicList } from "@/assets/api/index";
 export default {
@@ -70,31 +74,8 @@ export default {
       },
     },
   },
-  created() {
-    // let result = await getMusicList();
-    // if (result.data.code == 200) {
-    //   let list = result.data.data;
-    //   list.forEach((item) => {
-    //     this.audio.push({
-    //       title: item.m_name,
-    //       artist: item.m_author,
-    //       url: "/node" + item.m_url,
-    //       pic: "/node" + item.m_coverImg_url,
-    //       lrc: "/node" + item.m_lyrics,
-    //       language: item.m_language,
-    //       createTime: item.createTime,
-    //       desc: item.m_desc,
-    //     });
-    //   });
-    //   this.$nextTick(() => {
-    //     let listHtml = document.querySelector(".aplayer-list");
-    //     // 动态设置列表高度
-    //     listHtml.style.setProperty(
-    //       "--h",
-    //       this.audio.length > 10 ? "320px" : this.audio.length * 32 + "px"
-    //     );
-    //   });
-    // }
+  mounted() {
+    analyserAudio();
   },
   beforeDestroy() {
     this.resetScroll();
@@ -240,5 +221,11 @@ export default {
   right: 0px !important;
   bottom: 51px !important;
   overflow: scroll;
+}
+// 右下角canvas动画
+.canvas_box {
+  position: absolute;
+  right: 0;
+  bottom: 0;
 }
 </style>

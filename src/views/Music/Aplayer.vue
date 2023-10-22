@@ -1,7 +1,6 @@
 <template>
   <aplayer
     fixed
-    :autoplay="true"
     v-if="audio.length"
     ref="aplayer"
     :list="audio"
