@@ -2,14 +2,6 @@ export const initCanvas = function (buffer) {
   let dom = document.querySelector('canvas')
   let canvas = dom.getContext('2d')
   canvas.lineWidth = 2;
-  // 创建线性渐变对象
-  let gradient = canvas.createLinearGradient(0, 0, 200, 0)
-  gradient.addColorStop(0, '#fff')
-  gradient.addColorStop(0.25, 'red')
-  gradient.addColorStop(0.5, 'green')
-  gradient.addColorStop(0.75, 'blueviolet')
-  gradient.addColorStop(1, 'blue')
-  let het = 0
 
   // let radius = 100;
   let centerX = dom.width / 2;
@@ -31,6 +23,13 @@ export const initCanvas = function (buffer) {
     canvas.fillRect(x, dom.height - 20, -3, buffer[i] ? -buffer[i] : 2);
     // canvas.rotate(180)
   }
+  // 创建线性渐变对象
+  let gradient = canvas.createLinearGradient(0, 0, buffer.length * 5, 0)
+  gradient.addColorStop(0, '#fff')
+  gradient.addColorStop(0.25, 'red')
+  gradient.addColorStop(0.5, 'green')
+  gradient.addColorStop(0.75, 'blueviolet')
+  gradient.addColorStop(1, 'blue')
   canvas.fillStyle = gradient;
   canvas.fill()
 }
