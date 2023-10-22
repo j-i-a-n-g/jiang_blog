@@ -73,7 +73,7 @@ export const rootLogin = (data) => axios.post('/node/user/rootLogin', data)
 // export const deleteLink = (data) => axios.delete(`/node/root/deleteLink`, data)
 
 // 删除选中上传的文件
-export const deleteFile = (data) => axios.post('/node/article/deleteFile', data)
+export const deleteFile = (fileUrl) => axios.delete('/node/deleteFile?fileUrl=' + fileUrl,)
 
 export const uploadFile = (data) => axios.post('/node/article/uploadFile', data)
 

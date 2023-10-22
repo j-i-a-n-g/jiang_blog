@@ -27,29 +27,29 @@
           :limit="1"
           action="/node/music"
           :on-success="updateFile"
-          :before-upload="judgeFileType"
-          :on-remove="deleteChoosedFile"
+          accept="mp3, m4a"
+          :on-remove="() => deleteChoosedFile(ruleForm.m_url)"
         >
           <i class="el-icon-upload"></i>
           <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
         </el-upload>
       </el-form-item>
-      <el-form-item label="上传歌词" prop="type">
+      <el-form-item label="上传歌词">
         <el-upload
           class="upload-demo"
           ref="file"
           drag
           :limit="1"
           action="/node/music/lyrics"
+          accept="irc, txt"
           :on-success="updateLyricsFile"
-          :before-upload="judgeFileType"
-          :on-remove="deleteChoosedFile"
+          :on-remove="() => deleteChoosedFile(ruleForm.m_lyrics)"
         >
           <i class="el-icon-upload"></i>
           <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
         </el-upload>
       </el-form-item>
-      <el-form-item label="上传封面" prop="resource">
+      <el-form-item label="上传封面">
         <el-upload
           class="avatar-uploader"
           drag
@@ -57,8 +57,9 @@
           :auto-upload="false"
           :limit="1"
           action="/node/music/coverImg"
+          accept="png, jpg, jpeg"
           :on-success="updateCoverImg"
-          :on-remove="deleteChoosedImg"
+          :on-remove="() => deleteChoosedFile(ruleForm.m_coverImg_url, 'img')"
           :on-change="handleCrop"
         >
           <img v-if="imageUrl" :src="'/node/' + imageUrl" class="avatar" />
@@ -81,7 +82,7 @@
 </template>
 
 <script>
-import { publishMusic } from "@/assets/api/index";
+import { publishMusic, deleteFile } from "@/assets/api/index";
 import ImgCropper from "../Common/ImgCropper.vue";
 export default {
   name: "ArticleBase",
@@ -165,16 +166,6 @@ export default {
         this.$message.error(response.message);
       }
     },
-    // 添加文件时判断文件类型
-    judgeFileType(file) {
-      // if(!file.name.endsWith('.txt') || !file.name.endsWith('.md')) {
-      // const f = new File([file], JSON.stringify(str2charcode(file.name)))
-      // uploadFile({ file: f }).then((res) => {
-      //     console.log(res);
-      //     // 调用上传接口成功后执行后续操作
-      // })
-      // }
-    },
     str2charcode(str) {
       const arr = [];
       for (const key of str) {
@@ -183,12 +174,12 @@ export default {
       return arr;
     },
     // 删除文件
-    async deleteChoosedFile() {
-      console.log(this.fileUrl.path);
-      const { data } = await deleteFile({
-        fileUrl: this.fileUrl.path,
-      });
+    async deleteChoosedFile(url, flag) {
+      const { data } = await deleteFile(url);
       this.$message.success(data.message);
+      if (flag) {
+        this.imageUrl = "";
+      }
     },
     // 上传图片成功后的事件
     updateCoverImg(response, file, fileList) {

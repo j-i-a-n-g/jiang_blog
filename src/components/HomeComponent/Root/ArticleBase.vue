@@ -22,7 +22,7 @@
           action="/node/article/uploadFile"
           :on-success="updateFile"
           :before-upload="judgeFileType"
-          :on-remove="deleteChoosedFile"
+          :on-remove="() => deleteChoosedFile(fileUrl)"
         >
           <i class="el-icon-upload"></i>
           <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
@@ -36,7 +36,7 @@
           :limit="1"
           action="/node/article/uploadArticleImg"
           :on-success="updateActicleImg"
-          :on-remove="deleteChoosedImg"
+          :on-remove="() => deleteChoosedFile(articleImgUrl, 'img')"
         >
           <img v-if="imageUrl" :src="'/node/' + imageUrl" class="avatar" />
           <i v-else class="el-icon-plus avatar-uploader-icon"></i>
@@ -81,8 +81,8 @@ export default {
         ],
       },
       imageUrl: "",
-      fileUrl: {},
-      articleImgUrl: {},
+      fileUrl: "",
+      articleImgUrl: "",
     };
   },
   beforeDestory() {},
@@ -101,8 +101,8 @@ export default {
           this.$message.success(data.message);
           this.$refs.file.clearFiles();
           this.$refs.image.clearFiles();
-          this.fileUrl = {};
-          this.articleImgUrl = {};
+          this.fileUrl = "";
+          this.articleImgUrl = "";
           this.imageUrl = "";
         } else {
           console.log("error submit!!");
@@ -136,30 +136,23 @@ export default {
       }
       return arr;
     },
-    // 删除文件
-    async deleteChoosedFile() {
-      console.log(this.fileUrl.path);
-      const { data } = await deleteFile({
-        fileUrl: this.fileUrl.path,
-      });
-      this.$message.success(data.message);
-    },
     // 上传图片成功后的事件
     updateActicleImg(response, file, fileList) {
       if (response.code) {
         this.$message.success(response.message);
         this.articleImgUrl = response.data;
-        this.imageUrl = response.data.url;
+        this.imageUrl = response.data;
       } else {
         this.$message.error(response.message);
       }
     },
-    // 删除图片
-    async deleteChoosedImg() {
-      const { data } = await deleteArticleImg({
-        path: this.articleImgUrl.path,
-      });
+    // 删除文件
+    async deleteChoosedFile(url, flag) {
+      const { data } = await deleteFile(url);
       this.$message.success(data.message);
+      if (flag) {
+        this.imageUrl = "";
+      }
     },
   },
 };
