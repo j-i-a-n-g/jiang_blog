@@ -107,6 +107,10 @@ export default {
           .then((response) => {
             // 处理响应
             this.$message.success("上传封面成功");
+            return response.json();
+          })
+          .then((data) => {
+            this.$emit("setImgUrl", data.data);
             this.dialogVisible = false;
           })
           .catch((error) => {

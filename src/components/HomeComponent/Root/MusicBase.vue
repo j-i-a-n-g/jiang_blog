@@ -75,6 +75,7 @@
       ref="ImgCropper"
       :cropImgUrl="cropImgUrl"
       :fileContent="fileContent"
+      @setImgUrl="setImgUrl"
     />
   </div>
 </template>
@@ -122,6 +123,15 @@ export default {
           this.$refs.file.clearFiles();
           this.$refs.image.clearFiles();
           this.imageUrl = "";
+          this.ruleForm = {
+            m_name: "",
+            m_language: "",
+            m_author: "",
+            m_desc: "",
+            m_url: "",
+            m_coverImg_url: "",
+            m_lyrics: "",
+          };
         } else {
           console.log("error submit!!");
           return false;
@@ -190,12 +200,17 @@ export default {
         this.$message.error(response.message);
       }
     },
+    setImgUrl(url) {
+      this.imageUrl = url;
+      this.ruleForm.m_coverImg_url = url;
+    },
     // 删除图片
     async deleteChoosedImg() {
-      const { data } = await deleteArticleImg({
-        path: this.articleImgUrl.path,
-      });
-      this.$message.success(data.message);
+      this.imageUrl = "";
+      // const { data } = await deleteArticleImg({
+      //   path: this.articleImgUrl.path,
+      // });
+      // this.$message.success(data.message);
     },
   },
 };
@@ -230,5 +245,9 @@ export default {
   ::v-deep .el-form-item__label {
     color: #fff;
   }
+}
+.avatar-uploader ::v-deep .el-upload-dragger {
+  width: 180px;
+  height: 180px;
 }
 </style>

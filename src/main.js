@@ -3,7 +3,7 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import ElementUI from 'element-ui'
-import {Message} from 'element-ui'
+import { Message } from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import '@css/reset.css'
 import 'element-ui/lib/theme-chalk/display.css';
@@ -16,8 +16,8 @@ Vue.use(components)
 Vue.config.productionTip = false
 Vue.use(ElementUI)
 Vue.filter('timer', (val) => {
-  const addZero = function(value) {
-    if(value < 10) return `0${value}`
+  const addZero = function (value) {
+    if (value < 10) return `0${value}`
     return value
   }
   const y = addZero(new Date(val).getFullYear())
@@ -29,8 +29,8 @@ Vue.filter('timer', (val) => {
   return `${y}-${m}-${d} ${hh}:${mm}:${ss}`
 })
 Vue.filter('timer2', (val) => {
-  const addZero = function(value) {
-    if(value < 10) return `0${value}`
+  const addZero = function (value) {
+    if (value < 10) return `0${value}`
     return value
   }
   const y = addZero(new Date(val).getFullYear())
@@ -38,10 +38,10 @@ Vue.filter('timer2', (val) => {
   const d = addZero(new Date(val).getDate())
   return `${y}-${m}-${d}`
 })
-Vue.prototype.$message = function(msg){
+Vue.prototype.$message = function (msg) {
   return Message({
-    message:msg,
-    duration:1500,
+    message: msg,
+    duration: 1500,
     showClose: true,
     offset: 40
   })
